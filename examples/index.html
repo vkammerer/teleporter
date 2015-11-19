@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+			div {
+				position: absolute;
+				left: 20px;
+				width: 500px;
+				height: 50px;
+				background: blue;
+			}
+			.initial {
+				top: 200px;
+				width: 300px;
+				height: 600px;
+			}
+			.final {
+				top: auto;
+				left: 300px;
+				width: 500px;
+				height: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="example" onClick="transitionIt()"></div>
+		<script type="text/javascript" src="../dist/flipper.js"></script>
+		<script type="text/javascript">
+			var myFlipper = new Flipper({
+				selector: '#example'
+			});
+			var transitionIt = function(){
+				myFlipper.transition('initial', 'final');
+			}
+		</script>
+	</body>
+</html>
