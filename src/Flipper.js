@@ -1,6 +1,21 @@
+/**
+* Provides the base Flipper class
+*
+* @module Flipper
+*/
+
 import { constructorArgument, transitionArgument } from './arguments';
 import transforms from './transforms';
 
+/**
+* Main class
+*
+* @class Flipper
+* @constructor:
+* - Normalizes arguments
+* - Sets this.element
+* - Sets this.dimensionsClass
+*/
 export default class Flipper {
 	constructor(options) {
 		let formattedArg = constructorArgument(options)
@@ -21,13 +36,14 @@ export default class Flipper {
 		}
 	}
 
-	/*
-		Static methods
-	*/
-
-	/*
-		Get rect for a specific class
-		(as returned by 'getBoundingClientRect')
+	/**
+	* Gets size and position of the element when applied a certain class.
+	*
+	* @method getRect
+	* @param {String} className The name of the class to apply
+	* to the element. Not required.
+	* @return {Object} Returns a 'rect' object as returned by Element.getBoundingClientRect()
+	* (https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
 	*/
 	getRect(className) {
 		let rect;
@@ -44,29 +60,39 @@ export default class Flipper {
 		}
 		return rect;
 	}
-	/*
-		Modify style modification to render a node
-		with other position and dimension attributes
+
+	/**
+	* Applies inline style attributes to modify the element
+	* from the state of the original rasterized node to the current state. 
+	*
+	* @method setModificationStyles
+	* @param {Object} rect Contains the size and position
+	* of the element as it should be displayed on the page.
+	* @param {Object} dimensionsRect Contains the size of the element
+	* that should be used to create the original rasterized node.
 	*/
-	setModificationStyles(initialRect, dimensionsRect) {
+	setModificationStyles(rect, dimensionsRect) {
 		Object.assign(this.element.style, {
 			width: `${dimensionsRect.width}px`,
 			height: `${dimensionsRect.height}px`
 		})
 		let afterDimensionsRect = this.element.getBoundingClientRect();
 		Object.assign(this.element.style, {
-			marginLeft: `${initialRect.left - afterDimensionsRect.left}px`,
-			marginRight: `${initialRect.right - afterDimensionsRect.right}px`,
-			marginTop: `${initialRect.top - afterDimensionsRect.top}px`,
-			marginBottom: `${initialRect.bottom - afterDimensionsRect.bottom}px`
+			marginLeft: `${rect.left - afterDimensionsRect.left}px`,
+			marginRight: `${rect.right - afterDimensionsRect.right}px`,
+			marginTop: `${rect.top - afterDimensionsRect.top}px`,
+			marginBottom: `${rect.bottom - afterDimensionsRect.bottom}px`
 		})
-		let afterMarginsRect = this.element.getBoundingClientRect();
+		let afterDimensionsAndMarginsRect = this.element.getBoundingClientRect();
 		Object.assign(this.element.style, {
-			transform: transforms(initialRect, afterMarginsRect)
+			transform: transforms(rect, afterDimensionsAndMarginsRect)
 		})
 	}
-	/*
-		Reset modified node style attributes
+
+	/**
+	* Removes inline style attributes potentially set previously. 
+	*
+	* @method resetModificationStyles
 	*/
 	resetModificationStyles() {
 		Object.assign(this.element.style, {
@@ -79,35 +105,43 @@ export default class Flipper {
 			marginBottom: null
 		})			
 	}
-	/*
-		Public API: sets dimensions of the node and transforms its style
+
+	/**
+	* Public API Method.
+	* Sets the class to be used for the original rasterized node,
+	* and applies the styles modification for the current state. 
+	*
+	* @method setDimensionsClass
+	* @param {String} className Name of the class to apply. Required.
 	*/
-	setDimensionsClass(arg) {
-		if (typeof arg !== 'string') {
+	setDimensionsClass(className) {
+		if (typeof className !== 'string') {
 			console.error(`Flipper.js: No valid argument passed to method 'setDimensionClass'`);
 			return;
 		}
-		this.dimensionsClass = arg;
+		this.dimensionsClass = className;
 		this.resetModificationStyles();
 		this.setModificationStyles(this.getRect(), this.getRect(this.dimensionsClass))
 	}
 
-	/*
-		Transition methods
-	*/
-
-	/*
-		Define rect for each step of the transition
+	/**
+	* Measures the size and position for all steps of the transition. 
+	*
+	* @method setTransitStepsRects
 	*/
 	setTransitStepsRects() {
 		this.transit.steps.forEach((obj) => {
 			obj.rect = this.getRect(obj.class)
 		})
 	}
-	/*
-		Define rect for the dimensions during the transition:
-		either the rect of the dimensionsClass,
-		or a rect of a node with maximal dimensions
+
+	/**
+	* Measures the size of the original rasterized node for the transition:
+	* - if 'this.dimensionsClass' is defined, use its size. 
+	* - otherwise, create a node with the maximal width
+	* and height of all steps of the transition. 
+	*
+	* @method setTransitDimensionsRect
 	*/
 	setTransitDimensionsRect() {
 		let width, height;
@@ -133,8 +167,12 @@ export default class Flipper {
 			height: height
 		};
 	}
-	/*
-		Animate from one step to the next until the transition end
+
+	/**
+	* Animates the element from one step to the next until the transition end.
+	*
+	* @method animate
+	* @param {Integer} index Index of the step from which to apply the animation.
 	*/
 	animate(index) {
 		let animation = Object.assign({}, this.animation, this.transit.steps[index + 1].animation);
@@ -156,34 +194,40 @@ export default class Flipper {
 			}
 		});
 	}
-	/*
-		Public API: starts transition between each class
+
+	/**
+	* Public API method.
+	* Initiates transition between each states.
+	*
+	* @method transition
+	* @param {String|Object|Array} arg Steps of the transition to perform.
+	* Can be of various types (see 'transitionArgument' method in './arguments').
 	*/
 	transition(arg) {
-		// Check arguments format
+		// Checks arguments format
 		let formattedArg = transitionArgument(arg);
 		if (!formattedArg) {
 			console.error(`Flipper.js: No valid argument passed to method 'transition'`);
 			return;
 		}
 
-		// Clean up potential ongoing transition
+		// Cleans up potential ongoing transition
 		if (this.transit && this.transit.player) {
 			this.transit.player.cancel();
 		}
 		this.resetModificationStyles();
 
 
-		// Build the transit attribute for the upcoming transition
+		// Builds the transit attribute for the upcoming transition
 		this.transit = { steps: formattedArg };
 		this.setTransitStepsRects();
 		this.setTransitDimensionsRect();
 
-		// Set styles and launch animation
+		// Sets styles and launch animation
 		this.setModificationStyles(this.transit.steps[0].rect, this.transit.dimensionsRect);
 		this.animate(0);
 
-		// return a promise that will resolve on transition end
+		// Returns a promise that will resolve on transition end
 		return new Promise((resolve, reject) => {
 			Object.assign(this.transit, {
 				resolve: resolve,

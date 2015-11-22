@@ -1,3 +1,14 @@
+/**
+* Measures the value of the CSS 'transform' property to apply
+* to a node to give it the size and the position of another node.
+*
+* @method transforms
+* @param {Object} rect Contains the size and position of the node
+* as should be rendered on the page
+* @param {Object} dimensionsRect Contains the size and position
+* of the original rasterized node 
+* @return {String} CSS 'transform' property to apply
+*/
 export default function transforms(rect, dimensionsRect) {
 	let scX = rect.width / dimensionsRect.width;
 	let scY = rect.height / dimensionsRect.height;

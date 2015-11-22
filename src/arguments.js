@@ -1,8 +1,27 @@
+/**
+* Checks and normalizes the arguments passed to the constructor.
+*
+* @method constructorArgument
+* @param {String|Object} arg:
+* - if type if 'String', it refers to the selector of the DOM element
+* (as should be passed to document.querySelector).
+* - if type if 'Object', it must include a selector attribute,
+* and can include additional options.
+* @return {Object} Normalized object with the following format:
+* {
+* 	selector: '#myid',
+* 	dimensionsClass: 'myclass',
+* 	animation: {
+* 		duration: 800,
+* 		easing: 'linear'
+* 	}
+* }
+*/
 export const constructorArgument = (arg) => {
 	let returnVal;
 	let defaults = {
 		animation: {
-			duration: 1000,
+			duration: 800,
 			easing: 'linear'
 		}
 	}
@@ -34,6 +53,25 @@ export const constructorArgument = (arg) => {
 	return returnVal
 }
 
+/**
+* Checks and normalizes the arguments passed to the 'transition' method.
+*
+* @method transitionArgument
+* @param {String|Object|Array} arg Transition steps:
+* - if type if 'String', it defines the class of the final state,
+* and implicitly sets the default state as the initial state
+* - if type if 'Object', it defines the options of the final state,
+* and implicitly sets the default state as the initial state
+* - if type if 'Array', it defines all steps of the transition.
+* @return {Array} Normalized array of objects with the following format:
+* {
+* 	class: 'myclass',
+* 	animation: {
+* 		duration: 800,
+* 		easing: 'linear'
+* 	}
+* }
+*/
 export const transitionArgument = (arg) => {
 	let returnVal;
 	if (typeof arg === 'string') {

@@ -17,7 +17,8 @@
 				width: 400px;
 				height: 300px;
 				position: relative;
-				background: blue;
+				background: url('chateau.png') center center;
+				background-size: cover;
 				margin: 0 auto;
 			}
 			#example.state1 {
@@ -52,7 +53,7 @@
 				height: 100px;
 			}
 		</style>
-		<script type="text/javascript" src="../dist/flipper.js"></script>
+		<script type="text/javascript" src="../dist/flipper-global.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -69,18 +70,18 @@
 				selector: '#example',
 				dimensionsClass: 'state2',
 				animation: {
-					duration: 800,
+					duration: 600,
 					easing: "cubic-bezier(0,0,0.32,1)"
 				}
 			});
-			var sayHi = function(){
+			var sayTransitionFinished = function(){
 				console.log('Transition finished');
 			}
 			var transitionMyFlipper = function(){
 				myFlipper.transition(['', 'state1', {
 					class: 'state2',
-					animation: {duration: 300}
-				}, '', 'state1', 'state2', '']).then(sayHi);
+					animation: {duration: 2000}
+				}, '', 'state1', 'state2', '']).then(sayTransitionFinished);
 			}
 		</script>
 	</body>

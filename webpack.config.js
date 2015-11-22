@@ -3,11 +3,11 @@ import webpack from 'webpack';
 
 module.exports = {
 	entry: [
-		path.join(__dirname, 'src', 'Flipper.js')
+		path.join(__dirname, 'src', 'flipper.js')
 	],
 	output: {
 		path: path.join(__dirname, 'dist'),
-		filename: 'flipper.js',
+		filename: 'flipper-global.js',
 		publicPath: '/dist/',
     library: ['Flipper']
 	},
