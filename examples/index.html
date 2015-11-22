@@ -2,35 +2,85 @@
 	<head>
 		<meta charset="utf-8">
 		<style type="text/css">
-			div {
-				position: absolute;
-				left: 20px;
-				width: 500px;
-				height: 50px;
-				background: blue;
+			body {
+				margin: 0;
+				overflow-y: scroll;
+				font-family: arial;
 			}
-			.initial {
+			.container {
+				width: 600px;
+				margin: 0 auto;
+				background: rgba(0,255,0,0.2);
+				text-align: center;
+			}
+			#example {
+				width: 400px;
+				height: 300px;
+				position: relative;
+				background: blue;
+				margin: 0 auto;
+			}
+			#example.state1 {
 				top: 200px;
 				width: 300px;
 				height: 600px;
 			}
-			.final {
-				top: auto;
-				left: 300px;
-				width: 500px;
-				height: 200px;
+			#example.state2 {
+				position: absolute;
+				width: auto;
+				height: auto;
+				top: 10px;
+				left: 10px;
+				bottom: 10px;
+				right: 10px;
+			}
+			header {
+				background: red;
+				height: 100px;
+			}
+			#content {
+				font-size: 48px;
+				color: white;
+				font-weight: bold;
+			}
+			footer {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background: purple;
+				height: 100px;
 			}
 		</style>
+		<script type="text/javascript" src="../dist/flipper.js"></script>
 	</head>
 	<body>
-		<div id="example" onClick="transitionIt()"></div>
-		<script type="text/javascript" src="../dist/flipper.js"></script>
+		<div class="container">
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<div id="example" onClick="transitionMyFlipper()">
+				<header>Header</header>
+				<div id="content">Content</div>
+				<footer>Footer</header>
+			</div>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
 		<script type="text/javascript">
 			var myFlipper = new Flipper({
-				selector: '#example'
+				selector: '#example',
+				dimensionsClass: 'state2',
+				animation: {
+					duration: 800,
+					easing: "cubic-bezier(0,0,0.32,1)"
+				}
 			});
-			var transitionIt = function(){
-				myFlipper.transition('initial', 'final');
+			var sayHi = function(){
+				console.log('Transition finished');
+			}
+			var transitionMyFlipper = function(){
+				myFlipper.transition(['', 'state1', {
+					class: 'state2',
+					animation: {duration: 300}
+				}, '', 'state1', 'state2', '']).then(sayHi);
 			}
 		</script>
 	</body>

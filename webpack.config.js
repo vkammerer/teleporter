@@ -3,7 +3,7 @@ import webpack from 'webpack';
 
 module.exports = {
 	entry: [
-		path.join(__dirname, 'src', 'main.js')
+		path.join(__dirname, 'src', 'Flipper.js')
 	],
 	output: {
 		path: path.join(__dirname, 'dist'),
