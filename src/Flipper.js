@@ -53,13 +53,16 @@ export default class Flipper {
 			width: `${dimensionsRect.width}px`,
 			height: `${dimensionsRect.height}px`
 		})
-		let newRect = this.element.getBoundingClientRect();
+		let afterDimensionsRect = this.element.getBoundingClientRect();
 		Object.assign(this.element.style, {
-			transform: transforms(initialRect, newRect),
-			marginLeft: `${initialRect.left - newRect.left}px`,
-			marginRight: `${initialRect.right - newRect.right}px`,
-			marginTop: `${initialRect.top - newRect.top}px`,
-			marginBottom: `${initialRect.bottom - newRect.bottom}px`
+			marginLeft: `${initialRect.left - afterDimensionsRect.left}px`,
+			marginRight: `${initialRect.right - afterDimensionsRect.right}px`,
+			marginTop: `${initialRect.top - afterDimensionsRect.top}px`,
+			marginBottom: `${initialRect.bottom - afterDimensionsRect.bottom}px`
+		})
+		let afterMarginsRect = this.element.getBoundingClientRect();
+		Object.assign(this.element.style, {
+			transform: transforms(initialRect, afterMarginsRect)
 		})
 	}
 	/*
@@ -149,7 +152,6 @@ export default class Flipper {
 				this.animate(index + 1);
 			}
 			else {
-				console.log(this.transit.steps[index + 1].rect, this.transit.dimensionsRect)
 				this.transit.resolve();
 			}
 		});
@@ -171,12 +173,11 @@ export default class Flipper {
 		}
 		this.resetModificationStyles();
 
+
 		// Build the transit attribute for the upcoming transition
 		this.transit = { steps: formattedArg };
 		this.setTransitStepsRects();
 		this.setTransitDimensionsRect();
-
-		console.log(this.transit)
 
 		// Set styles and launch animation
 		this.setModificationStyles(this.transit.steps[0].rect, this.transit.dimensionsRect);
