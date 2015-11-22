@@ -1,7 +1,7 @@
 /**
-* Provides the base Flipper class
+* Provides the base Haa class
 *
-* @module Flipper
+* @module Haa
 */
 
 import { constructorArgument, transitionArgument } from './arguments';
@@ -10,25 +10,25 @@ import transforms from './transforms';
 /**
 * Main class
 *
-* @class Flipper
+* @class Haa
 * @constructor:
 * - Normalizes arguments
 * - Sets this.element
 * - Sets this.dimensionsClass
 */
-export default class Flipper {
+export default class Haa {
 	constructor(options) {
 		let formattedArg = constructorArgument(options)
 		if (formattedArg) {
 			Object.assign(this, formattedArg);
 		}
 		else {
-			console.error(`Flipper.js: No valid argument passed to the constructor 'Flipper'`);
+			console.error(`Haa.js: No valid argument passed to the constructor 'Haa'`);
 			return;
 		};
 		this.element = document.querySelector(this.selector);
 		if (!this.element) {
-			console.error(`Flipper.js: No element found with the selector '${this.selector}'`);
+			console.error(`Haa.js: No element found with the selector '${this.selector}'`);
 			return;
 		};
 		if (this.dimensionsClass) {
@@ -116,7 +116,7 @@ export default class Flipper {
 	*/
 	setDimensionsClass(className) {
 		if (typeof className !== 'string') {
-			console.error(`Flipper.js: No valid argument passed to method 'setDimensionClass'`);
+			console.error(`Haa.js: No valid argument passed to method 'setDimensionClass'`);
 			return;
 		}
 		this.dimensionsClass = className;
@@ -207,7 +207,7 @@ export default class Flipper {
 		// Checks arguments format
 		let formattedArg = transitionArgument(arg);
 		if (!formattedArg) {
-			console.error(`Flipper.js: No valid argument passed to method 'transition'`);
+			console.error(`Haa.js: No valid argument passed to method 'transition'`);
 			return;
 		}
 

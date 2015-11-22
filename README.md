@@ -1,36 +1,48 @@
-Easily animate position and dimension properties with the GPU.  
-Inspired by [FLIP Your Animations](https://aerotwist.com/blog/flip-your-animations/)
+Hardware Accelerated Animations with boring CSS properties.  
 
-# Usage
-The library is written is ES2015, so you can import its module:
+## Huh?
+- CSS sizing and positioning properties are a great way to define a web layout. Unfortunately, their performance is terrible with animations.  
+- CSS transform properties are a great way to smoothly animate an element's position and size. Unfortunately, it can be very challenging or even impossible to compute the value to apply between two states.  
+
+Haa is a small utility that enables you to animate elements with 'transform', while defining their size and position with usual CSS properties.
+
+Original inspiration comes from the hack explained by Paul Lewis: [FLIP Your Animations](https://aerotwist.com/blog/flip-your-animations/).
+
+## Example
+[Codepen demo](http://codepen.io/vkammerer/pen/ZbPdmN)
+
+## Installation
 ```javascript
-import Flipper from 'flipper';
-let myFlipper = new Flipper('#myid');
+npm install haa --save
 ```
-It is also compiled to ES5 via babel and attached to the global object, so you can also use it directly in the browser:
+
+## Usage
+The library is written is ES2015 so you can import its module:
+```javascript
+import Haa from 'haa';
+let myHaa = new Haa('#myid');
+```
+It is also compiled to ES5 via babel and attached to the global object, so you can use it directly in the browser:
 ```html
-<script src="flipper-global.js"></script>
+<script src="haa-global.js"></script>
 <script>
-	var myFlipper = new Flipper('#myid');
+	var myHaa = new Haa('#myid');
 </script>
 ```
 
-# Example
-[Codepen demo](http://codepen.io/vkammerer/pen/ZbPdmN)
-
-# API
-### Basic
+## API
+#### Basic
 ```
-var myFlipper = new Flipper('#myid');
-myFlipper.transition('myclass');
+var myHaa = new Haa('#myid');
+myHaa.transition('myclass');
 ```
 This will transition your element from its current state to the state corresponding to the 'myclass' class.
 
-### Constructor options
+#### Options
 
-###### 'animation'
+**'animation'**
 ```
-var myFlipper = new Flipper({
+var myHaa = new Haa({
   selector: '#myid',
   animation: {
     duration: 800, // default animation time
@@ -40,9 +52,9 @@ var myFlipper = new Flipper({
 ```
 The 'animation' attribute will be used by default for all upcoming transitions, and will ultimately be passed to the [Element.animate](https://developers.google.com/web/updates/2014/05/Web-Animations-element.animate-is-now-in-Chrome-36) options object.
 
-###### 'dimensionsClass'
+**'dimensionsClass'**
 ```javascript
-var myFlipper = new Flipper({
+var myHaa = new Haa({
   selector: '#myid',
   dimensionsClass: 'maximalClass'
 });
@@ -70,20 +82,20 @@ and then transformed to be given the size and position of the steps in your tran
 The 'dimensionsClass' attribute allows you to overwrite that behaviour, by specifying the class that will be used to compute the size of the rasterized image.  
 Note that the transformation is applied immediately, even if you do not transition the element.
 
-### Methods
-###### 'transition'
+#### Methods
+**'transition'**
 The argument passed to the 'transition' method can be a String, an Object, or an Array.
 It will be normalized to an Array, so that:
 ```javascript
-myFlipper.transition('myclass')
+myHaa.transition('myclass')
 ```
 is equivalent to:
 ```javascript
-myFlipper.transition({class: 'myclass'})
+myHaa.transition({class: 'myclass'})
 ```
 which is equivalent to:
 ```javascript
-myFlipper.transition([{{class: ''}}, {class: 'myclass'}]);
+myHaa.transition([{{class: ''}}, {class: 'myclass'}]);
 ```  
 Each object in the array represents a step of the transition. If only one String or Object is passed, it is assumed that the first step is the current step.  
 The objects of the Array have the following format:
@@ -98,20 +110,20 @@ The objects of the Array have the following format:
 ```
 The method returns a Promise object, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:
 ```javascript
-myFlipper.transition('myclass').then(function(){
+myHaa.transition('myclass').then(function(){
 	var myElement = document.querySelector('#myid');
 	myElement.classList.add('finalStateClass');
 	myElement.innerHtml = '<div>finalStateContent</div>';
 })
 ```
 
-###### 'setDimensionsClass'
+**'setDimensionsClass'**
 ```javascript
-myFlipper.setDimensionsClass('maximalClass');
+myHaa.setDimensionsClass('maximalClass');
 ```
 Sets the 'dimensionsClass' attribute (see 'Constructor options' > 'dimensionsClass' above) and applies transformation to the element.
 
-### License
+## License
 The MIT License (MIT)
 
 Copyright (c) 2015 Vincent Kammerer

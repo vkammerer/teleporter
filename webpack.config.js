@@ -3,19 +3,19 @@ import webpack from 'webpack';
 
 module.exports = {
 	entry: [
-		path.join(__dirname, 'src', 'flipper.js')
+		path.join(__dirname, 'src', 'haa.js')
 	],
 	output: {
 		path: path.join(__dirname, 'dist'),
-		filename: 'flipper-global.js',
+		filename: 'haa-global.js',
 		publicPath: '/dist/',
-    library: ['Flipper']
+    library: ['Haa']
 	},
 	plugins: [
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.UglifyJsPlugin({
 			mangle: {
-				except: ['Flipper']
+				except: ['Haa']
 			}
 		})
 	],
