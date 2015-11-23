@@ -31,25 +31,28 @@
             <pre><code class="lang-javascript">npm install teleporter --save
 </code></pre>
             <h2 id="usage">Usage</h2>
-            <p>The library is written in ES2015 so you can import its module:</p>
-            <pre><code class="lang-javascript">import Teleporter from &#39;teleporter&#39;;
-let myTeleporter = new Teleporter(&#39;#myid&#39;);
+            <p>As module:</p>
+            <pre><code class="lang-javascript">// As ES2015 module
+import Teleporter from &#39;teleporter&#39;;
+// or as Commonjs module
+var Teleporter = require(&#39;teleporter&#39;);
 </code></pre>
-            <p>It is also compiled to ES5 via babel and attached to the global object, so you can use it directly in the browser:</p>
+            <p>A global version is also available:</p>
             <pre><code class="lang-html">&lt;script src=&quot;teleporter-global.js&quot;&gt;&lt;/script&gt;
-&lt;script&gt;
-    var myTeleporter = new Teleporter(&#39;#myid&#39;);
-&lt;/script&gt;
+</code></pre>
+            <p>If you have to support all browsers, you will need to install the <a href="https://github.com/jakearchibald/es6-promise">Promise</a> and <a href="https://github.com/web-animations/web-animations-js">Web Animations</a> pollyfills.
+                <br>A version of teleporter also includes them:</p>
+            <pre><code class="lang-html">&lt;script src=&quot;teleporter-global-pollyfilled.js&quot;&gt;&lt;/script&gt;
 </code></pre>
             <h2 id="api">API</h2>
             <h4 id="basic">Basic</h4>
-            <pre><code>var myTeleporter = new Teleporter(&#39;#myid&#39;);
-myTeleporter.transition(&#39;myclass&#39;);
+            <pre><code>var myTelement = new Teleporter(&#39;#myid&#39;);
+myTelement.teleport(&#39;myclass&#39;);
 </code></pre>
-            <p>This will transition your element from its current state to the state corresponding to the &#39;myclass&#39; class.</p>
+            <p>This will teleport your element from its current state to the state corresponding to the &#39;myclass&#39; class.</p>
             <h4 id="options">Options</h4>
             <p><strong>&#39;animation&#39;</strong> </p>
-            <pre><code>var myTeleporter = new Teleporter({
+            <pre><code>var myTelement = new Teleporter({
   selector: &#39;#myid&#39;,
   animation: {
     duration: 800, // default animation time
@@ -57,14 +60,14 @@ myTeleporter.transition(&#39;myclass&#39;);
   }
 });
 </code></pre>
-            <p>The &#39;animation&#39; attribute will be used by default for all upcoming transitions, and will ultimately be passed to the <a href="http://w3c.github.io/web-animations/">Element.animate</a> options object.</p>
+            <p>The &#39;animation&#39; attribute will be used by default for all upcoming teleportations, and will ultimately be passed to the <a href="http://w3c.github.io/web-animations/">Element.animate</a> options.</p>
             <p><strong>&#39;dimensionsClass&#39;</strong> </p>
-            <pre><code class="lang-javascript">var myTeleporter = new Teleporter({
+            <pre><code class="lang-javascript">var myTelement = new Teleporter({
   selector: &#39;#myid&#39;,
   dimensionsClass: &#39;maximalClass&#39;
 });
 </code></pre>
-            <p>By default, the library will calculate the maximal width and height that the element will have for all steps of the transition, and use it to create the rasterized image that will be displayed.
+            <p>By default, the library will calculate the maximal width and height that the element will have for all steps of the teleportation, and use it to create the rasterized image that will be displayed.
                 <br>So, if you have set the following CSS rules:</p>
             <pre><code class="lang-css">#example {
   width: 400px;
@@ -81,21 +84,21 @@ myTeleporter.transition(&#39;myclass&#39;);
   height: 300px;
 }
 </code></pre>
-            <p>and then transformed to be given the size and position of the steps in your transition.
+            <p>and then transformed to be given the size and position of the steps in your teleportation.
                 <br>The &#39;dimensionsClass&#39; attribute allows you to overwrite that behaviour, by specifying the class that will be used to compute the size of the rasterized image.
-                <br>Note that the transformation is applied immediately, even if you do not transition the element.</p>
+                <br>Note that the transformation is applied immediately, even if you do not teleport the element.</p>
             <h4 id="methods">Methods</h4>
-            <p><strong>&#39;transition&#39;</strong>
-                <br>The argument passed to the &#39;transition&#39; method can be a String, an Object, or an Array. It will be normalized to an Array, so that:</p>
-            <pre><code class="lang-javascript">myTeleporter.transition(&#39;myclass&#39;)
+            <p><strong>&#39;teleport&#39;</strong>
+                <br>The argument passed to the &#39;teleport&#39; method can be a String, an Object, or an Array. It will be normalized to an Array, so that:</p>
+            <pre><code class="lang-javascript">myTelement.teleport(&#39;myclass&#39;)
 </code></pre>
             <p>is equivalent to:</p>
-            <pre><code class="lang-javascript">myTeleporter.transition({class: &#39;myclass&#39;})
+            <pre><code class="lang-javascript">myTelement.teleport({class: &#39;myclass&#39;})
 </code></pre>
             <p>which is equivalent to:</p>
-            <pre><code class="lang-javascript">myTeleporter.transition([{{class: &#39;&#39;}}, {class: &#39;myclass&#39;}]);
+            <pre><code class="lang-javascript">myTelement.teleport([{{class: &#39;&#39;}}, {class: &#39;myclass&#39;}]);
 </code></pre>
-            <p>Each object in the array represents a step of the transition. If only one String or Object is passed, it is assumed that the first step is the current step.
+            <p>Each object in the array represents a step of the teleportation. If only one String or Object is passed, it is assumed that the first step is the current step.
                 <br>The objects of the array have the following format:</p>
             <pre><code class="lang-javascript">{
   class: &#39;myclass&#39;, // class of the step
@@ -106,14 +109,14 @@ myTeleporter.transition(&#39;myclass&#39;);
 }
 </code></pre>
             <p>The method returns a Promise object, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:</p>
-            <pre><code class="lang-javascript">myTeleporter.transition(&#39;myclass&#39;).then(function(){
-    var myElement = document.querySelector(&#39;#myid&#39;);
-    myElement.classList.add(&#39;finalStateClass&#39;);
-    myElement.innerHtml = &#39;&lt;div&gt;finalStateContent&lt;/div&gt;&#39;;
+            <pre><code class="lang-javascript">myTelement.teleport(&#39;myclass&#39;).then(function(){
+    var myTelement = document.querySelector(&#39;#myid&#39;);
+    myTelement.classList.add(&#39;finalStateClass&#39;);
+    myTelement.innerHtml = &#39;&lt;div&gt;finalStateContent&lt;/div&gt;&#39;;
 })
 </code></pre>
             <p><strong>&#39;setDimensionsClass&#39;</strong> </p>
-            <pre><code class="lang-javascript">myTeleporter.setDimensionsClass(&#39;maximalClass&#39;);
+            <pre><code class="lang-javascript">myTelement.setDimensionsClass(&#39;maximalClass&#39;);
 </code></pre>
             <p>Sets the &#39;dimensionsClass&#39; attribute (see &#39;Constructor options&#39; &gt; &#39;dimensionsClass&#39; above) and applies transformation to the element.</p>
             <h2 id="license">License</h2>
