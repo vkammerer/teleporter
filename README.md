@@ -50,7 +50,7 @@ var myHaa = new Haa({
   }
 });
 ```
-The 'animation' attribute will be used by default for all upcoming transitions, and will ultimately be passed to the [Element.animate](https://developers.google.com/web/updates/2014/05/Web-Animations-element.animate-is-now-in-Chrome-36) options object.
+The 'animation' attribute will be used by default for all upcoming transitions, and will ultimately be passed to the [Element.animate](http://w3c.github.io/web-animations/) options object.
 
 **'dimensionsClass'**  
 ```javascript
