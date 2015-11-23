@@ -54,15 +54,15 @@ export const constructorArgument = (arg) => {
 }
 
 /**
-* Checks and normalizes the arguments passed to the 'transition' method.
+* Checks and normalizes the arguments passed to the 'teleport' method.
 *
-* @method transitionArgument
-* @param {String|Object|Array} arg Transition steps:
+* @method teleportArgument
+* @param {String|Object|Array} arg Teleportation steps:
 * - if type if 'String', it defines the class of the final state,
 * and implicitly sets the default state as the initial state
 * - if type if 'Object', it defines the options of the final state,
 * and implicitly sets the default state as the initial state
-* - if type if 'Array', it defines all steps of the transition.
+* - if type if 'Array', it defines all steps of the teleportation.
 * @return {Array} Normalized array of objects with the following format:
 * {
 * 	class: 'myclass',
@@ -72,7 +72,7 @@ export const constructorArgument = (arg) => {
 * 	}
 * }
 */
-export const transitionArgument = (arg) => {
+export const teleportArgument = (arg) => {
 	let returnVal;
 	if (typeof arg === 'string') {
 		returnVal = [{ class: '' }, { class: arg } ]

@@ -4,7 +4,7 @@
 * @module Teleporter
 */
 
-import { constructorArgument, transitionArgument } from './arguments';
+import { constructorArgument, teleportArgument } from './arguments';
 import transforms from './transforms';
 
 /**
@@ -125,7 +125,7 @@ export default class Teleporter {
 	}
 
 	/**
-	* Measures the size and position for all steps of the transition. 
+	* Measures the size and position for all steps of the teleportation. 
 	*
 	* @method setTransitStepsRects
 	*/
@@ -136,10 +136,10 @@ export default class Teleporter {
 	}
 
 	/**
-	* Measures the size of the original rasterized node for the transition:
+	* Measures the size of the original rasterized node for the teleportation:
 	* - if 'this.dimensionsClass' is defined, use its size. 
 	* - otherwise, create a node with the maximal width
-	* and height of all steps of the transition. 
+	* and height of all steps of the teleportation. 
 	*
 	* @method setTransitDimensionsRect
 	*/
@@ -169,7 +169,7 @@ export default class Teleporter {
 	}
 
 	/**
-	* Animates the element from one step to the next until the transition end.
+	* Animates the element from one step to the next until the teleportation end.
 	*
 	* @method animate
 	* @param {Integer} index Index of the step from which to apply the animation.
@@ -197,28 +197,28 @@ export default class Teleporter {
 
 	/**
 	* Public API method.
-	* Initiates transition between each state.
+	* Initiates teleportation between each state.
 	*
-	* @method transition
-	* @param {String|Object|Array} arg Steps of the transition to perform.
-	* Can be of various types (see 'transitionArgument' method in './arguments').
+	* @method teleport
+	* @param {String|Object|Array} arg Steps of the teleportation to perform.
+	* Can be of various types (see 'teleportArgument' method in './arguments').
 	*/
-	transition(arg) {
+	teleport(arg) {
 		// Checks arguments format
-		let formattedArg = transitionArgument(arg);
+		let formattedArg = teleportArgument(arg);
 		if (!formattedArg) {
-			console.error(`Teleporter.js: No valid argument passed to method 'transition'`);
+			console.error(`Teleporter.js: No valid argument passed to method 'teleport'`);
 			return;
 		}
 
-		// Cleans up potential ongoing transition
+		// Cleans up potential ongoing teleportation
 		if (this.transit && this.transit.player) {
 			this.transit.player.cancel();
 		}
 		this.resetModificationStyles();
 
 
-		// Builds the transit attribute for the upcoming transition
+		// Builds the transit attribute for the upcoming teleportation
 		this.transit = { steps: formattedArg };
 		this.setTransitStepsRects();
 		this.setTransitDimensionsRect();
@@ -227,7 +227,7 @@ export default class Teleporter {
 		this.setModificationStyles(this.transit.steps[0].rect, this.transit.dimensionsRect);
 		this.animate(0);
 
-		// Returns a promise that will resolve on transition end
+		// Returns a promise that will resolve on teleportation end
 		return new Promise((resolve, reject) => {
 			Object.assign(this.transit, {
 				resolve: resolve,

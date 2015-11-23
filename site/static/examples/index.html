@@ -78,7 +78,7 @@
 				console.log('Transition finished');
 			}
 			var transitionMyTeleporter = function(){
-				myTeleporter.transition(['', 'state1', {
+				myTeleporter.teleport(['', 'state1', {
 					class: 'state2',
 					animation: {duration: 2000}
 				}, '', 'state1', 'state2', '']).then(sayTransitionFinished);
