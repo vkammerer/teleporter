@@ -1,0 +1,16 @@
+.container {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+pre {
+	background: #EEE;
+	padding: 20px;
+}
+
+h1 {
+	font-size: 72px
+}
+h2 {
+	margin-top: 50px
+}
