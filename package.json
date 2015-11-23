@@ -1,12 +1,13 @@
 {
   "name": "teleporter",
   "version": "0.0.1",
-  "description": "Easily animate position and dimension properties with the GPU",
+  "description": "Hardware Accelerated Animations with boring CSS properties",
   "main": "./dist/teleporter.js",
   "scripts": {
     "site": "node ./tasks/site.es5",
     "build": "node ./tasks/build.es5"
   },
+  "homepage": "http://vkammerer.github.io/teleporter/",
   "repository": {
     "type": "git",
     "url": "git@github.com:vkammerer/teleporter.git"
@@ -15,7 +16,11 @@
     "url": "https://github.com/vkammerer/teleporter/issues"
   },
   "keywords": [],
-  "author": "Vincent Kammerer <vkammerer@gmail.com> (http://vincent-kammerer.com)",
+  "author": {
+    "name": "Vincent Kammerer",
+    "email": "vkammerer@gmail.com",
+    "url": "http://vincent-kammerer.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^5.8.25",
