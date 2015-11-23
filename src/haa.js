@@ -103,7 +103,7 @@ export default class Haa {
 			marginRight: null,
 			marginTop: null,
 			marginBottom: null
-		})			
+		})
 	}
 
 	/**
@@ -197,7 +197,7 @@ export default class Haa {
 
 	/**
 	* Public API method.
-	* Initiates transition between each states.
+	* Initiates transition between each state.
 	*
 	* @method transition
 	* @param {String|Object|Array} arg Steps of the transition to perform.

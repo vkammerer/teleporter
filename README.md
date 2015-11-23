@@ -2,7 +2,7 @@ Hardware Accelerated Animations with boring CSS properties.
 
 ## Huh?
 - CSS sizing and positioning properties are a great way to define a web layout. Unfortunately, their performance is terrible with animations.  
-- CSS transform properties are a great way to smoothly animate an element's position and size. Unfortunately, it can be very challenging or even impossible to compute the value to apply between two states.  
+- CSS transform properties are a great way to smoothly animate an element's size and position. Unfortunately, it can be very challenging to compute the value to apply between two states.  
 
 Haa is a small utility that enables you to animate elements with 'transform', while defining their size and position with usual CSS properties.
 
@@ -17,7 +17,7 @@ npm install haa --save
 ```
 
 ## Usage
-The library is written is ES2015 so you can import its module:
+The library is written in ES2015 so you can import its module:
 ```javascript
 import Haa from 'haa';
 let myHaa = new Haa('#myid');
@@ -40,7 +40,7 @@ This will transition your element from its current state to the state correspond
 
 #### Options
 
-**'animation'**
+**'animation'**  
 ```
 var myHaa = new Haa({
   selector: '#myid',
@@ -52,7 +52,7 @@ var myHaa = new Haa({
 ```
 The 'animation' attribute will be used by default for all upcoming transitions, and will ultimately be passed to the [Element.animate](https://developers.google.com/web/updates/2014/05/Web-Animations-element.animate-is-now-in-Chrome-36) options object.
 
-**'dimensionsClass'**
+**'dimensionsClass'**  
 ```javascript
 var myHaa = new Haa({
   selector: '#myid',
@@ -83,7 +83,7 @@ The 'dimensionsClass' attribute allows you to overwrite that behaviour, by speci
 Note that the transformation is applied immediately, even if you do not transition the element.
 
 #### Methods
-**'transition'**
+**'transition'**  
 The argument passed to the 'transition' method can be a String, an Object, or an Array.
 It will be normalized to an Array, so that:
 ```javascript
@@ -98,7 +98,7 @@ which is equivalent to:
 myHaa.transition([{{class: ''}}, {class: 'myclass'}]);
 ```  
 Each object in the array represents a step of the transition. If only one String or Object is passed, it is assumed that the first step is the current step.  
-The objects of the Array have the following format:
+The objects of the array have the following format:
 ```javascript
 {
   class: 'myclass', // class of the step
@@ -117,7 +117,7 @@ myHaa.transition('myclass').then(function(){
 })
 ```
 
-**'setDimensionsClass'**
+**'setDimensionsClass'**  
 ```javascript
 myHaa.setDimensionsClass('maximalClass');
 ```
