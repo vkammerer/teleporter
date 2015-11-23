@@ -1,7 +1,7 @@
 /**
-* Provides the base Haa class
+* Provides the base Teleporter class
 *
-* @module Haa
+* @module Teleporter
 */
 
 import { constructorArgument, transitionArgument } from './arguments';
@@ -10,25 +10,25 @@ import transforms from './transforms';
 /**
 * Main class
 *
-* @class Haa
+* @class Teleporter
 * @constructor:
 * - Normalizes arguments
 * - Sets this.element
 * - Sets this.dimensionsClass
 */
-export default class Haa {
+export default class Teleporter {
 	constructor(options) {
 		let formattedArg = constructorArgument(options)
 		if (formattedArg) {
 			Object.assign(this, formattedArg);
 		}
 		else {
-			console.error(`Haa.js: No valid argument passed to the constructor 'Haa'`);
+			console.error(`Teleporter.js: No valid argument passed to the constructor 'Teleporter'`);
 			return;
 		};
 		this.element = document.querySelector(this.selector);
 		if (!this.element) {
-			console.error(`Haa.js: No element found with the selector '${this.selector}'`);
+			console.error(`Teleporter.js: No element found with the selector '${this.selector}'`);
 			return;
 		};
 		if (this.dimensionsClass) {
@@ -116,7 +116,7 @@ export default class Haa {
 	*/
 	setDimensionsClass(className) {
 		if (typeof className !== 'string') {
-			console.error(`Haa.js: No valid argument passed to method 'setDimensionClass'`);
+			console.error(`Teleporter.js: No valid argument passed to method 'setDimensionClass'`);
 			return;
 		}
 		this.dimensionsClass = className;
@@ -207,7 +207,7 @@ export default class Haa {
 		// Checks arguments format
 		let formattedArg = transitionArgument(arg);
 		if (!formattedArg) {
-			console.error(`Haa.js: No valid argument passed to method 'transition'`);
+			console.error(`Teleporter.js: No valid argument passed to method 'transition'`);
 			return;
 		}
 

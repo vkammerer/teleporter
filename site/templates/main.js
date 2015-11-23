@@ -11,7 +11,7 @@ export default function template(content) {
 				${ribon}
 				<div class="container">
 					<header>
-						<h1>Haa.js</h1>
+						<h1>Teleporter.js</h1>
 					</header>
 					<div class="content">
 						${content}

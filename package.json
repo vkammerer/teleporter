@@ -1,18 +1,18 @@
 {
-  "name": "haa",
+  "name": "teleporter",
   "version": "0.0.1",
   "description": "Easily animate position and dimension properties with the GPU",
-  "main": "./src/haa.js",
+  "main": "./dist/teleporter.js",
   "scripts": {
     "site": "node ./tasks/site.es5",
     "build": "node ./tasks/build.es5"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/brentertz/scapegoat.git"
+    "url": "git@github.com:vkammerer/teleporter.git"
   },
   "bugs": {
-    "url": "https://github.com/brentertz/scapegoat/issues"
+    "url": "https://github.com/vkammerer/teleporter/issues"
   },
   "keywords": [],
   "author": "Vincent Kammerer <vkammerer@gmail.com> (http://vincent-kammerer.com)",

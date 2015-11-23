@@ -2,16 +2,24 @@ import fs from 'fs';
 import path from 'path';
 import webpack from 'webpack';
 import uglifyJs from 'uglify-js';
-import configs from './configs';
+import configs from './build.configs';
 
-['global', 'commonjs', 'amd'].forEach((exportType) => {
-	webpack(configs[exportType]).run((err, stats) => {});
+let webpackPromises = ['umd', 'global'].map((exportType) => {
+	return new Promise((resolve, reject) => {
+		webpack(configs[exportType]).run((err, stats) => {
+			if (!err) {
+				resolve()
+			}
+		});
+	})
 })
 
-let globalWithPollyfills = uglifyJs.minify([
-	require.resolve('es6-promise').replace('.js', '.min.js'),
-	require.resolve('web-animations-js'),
-	path.join(__dirname, '..', 'dist', 'haa-global.js')
-]).code;
+Promise.all(webpackPromises).then(()=>{
+	let globalWithPollyfills = uglifyJs.minify([
+		require.resolve('es6-promise').replace('.js', '.min.js'),
+		require.resolve('web-animations-js'),
+		path.join(__dirname, '..', 'dist', 'teleporter-global.js')
+	]).code;
 
-fs.writeFileSync(path.join(__dirname, '..', 'dist', 'haa-global-pollyfilled.js'), globalWithPollyfills);
+	fs.writeFileSync(path.join(__dirname, '..', 'dist', 'teleporter-global-pollyfilled.js'), globalWithPollyfills);
+})
