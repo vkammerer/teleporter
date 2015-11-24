@@ -26,9 +26,29 @@
         <div class="content">
             <p>Hardware Accelerated Animations with boring CSS properties. </p>
             <h2 id="what-">What?</h2>
-            <p>CSS sizing and positioning properties are great to design for the web. But their performance is terrible with animations. </p>
-            <p>CSS transform properties are great to animate elements. But they are hard to work with in the real world. </p>
-            <p>Teleporter is a small utility that enables you to animate elements with &#39;transform&#39;, while defining their size and position with usual CSS properties.</p>
+            <p>Teleporter is a small library that animates DOM elements with &#39;transform&#39;, while getting their size and position from usual CSS properties (properties that trigger the &#39;Layout&#39; or &#39;Paint&#39; phases of the <a href="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/">browser rendering pipeline</a>).</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Usual CSS properties</th>
+                        <th style="text-align:left">&#39;transform&#39; CSS property</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left">example: {left: 200px}</td>
+                        <td style="text-align:left">example: {transform:&#39;translateX(200px)&#39;}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">Easy to use for layout.</td>
+                        <td style="text-align:left">Hard to use for layout</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">Janky animations</td>
+                        <td style="text-align:left">Smooth animations</td>
+                    </tr>
+                </tbody>
+            </table>
             <p>Original inspiration comes from the hack explained by Paul Lewis: <a href="https://aerotwist.com/blog/flip-your-animations/">FLIP Your Animations</a>.</p>
             <h2 id="example">Example</h2>
             <p><a href="http://codepen.io/vkammerer/pen/ZbPdmN">Codepen demo</a></p>
