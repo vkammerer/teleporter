@@ -1,0 +1,53 @@
+/*
+
+.section {
+	width: 25%;
+	height: 140px;
+	background: white;
+}
+
+.content {
+	position: relative;
+}
+.content {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-content: stretch;
+	align-items: flex-start;
+}
+
+.section.thumbnail:nth-child(1) {
+	order: 0;
+	flex: 0 1 auto;
+	align-self: auto;
+}
+
+.section.thumbnail:nth-child(2) {
+	order: 0;
+	flex: 0 1 auto;
+	align-self: auto;
+}
+
+.section.thumbnail:nth-child(3) {
+	order: 0;
+	flex: 0 1 auto;
+	align-self: auto;
+}
+
+
+.section.normal {
+	position: absolute;
+	width: auto;
+	height: auto;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+.section.above {
+	z-index: 10;
+}
+
+
+*/
