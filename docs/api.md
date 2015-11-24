@@ -1,39 +1,3 @@
-Hardware Accelerated Animations with boring CSS properties.  
-
-## What?
-- CSS sizing and positioning properties are great to design for the web. But their performance is terrible with animations.  
-- CSS transform properties are great to animate elements. But they are hard to work with in the real world.  
-
-Teleporter is a small utility that enables you to animate elements with 'transform', while defining their size and position with usual CSS properties.
-
-Original inspiration comes from the hack explained by Paul Lewis: [FLIP Your Animations](https://aerotwist.com/blog/flip-your-animations/).
-
-## Example
-[Codepen demo](http://codepen.io/vkammerer/pen/ZbPdmN)
-
-## Installation
-Get it from npm.
-```javascript
-npm install teleporter --save
-```
-## Usage
-Import it as ES2015 module.
-```javascript
-import Teleporter from 'teleporter';
-```
-Or as commonjs module.
-```javascript
-var Teleporter = require('teleporter');
-```
-A version with a global object is also available.
-```html
-<script src="teleporter-global.js"></script>
-```
-If you have to support all browsers, you will need to install the [Promise](https://github.com/jakearchibald/es6-promise) and [Web Animations](https://github.com/web-animations/web-animations-js) polyfills. A version of teleporter bundles everything in one file.
-```html
-<script src="teleporter-global-polyfilled.js"></script>
-```
-
 ## API
 ### Basic
 ```
@@ -125,25 +89,3 @@ myElement.teleport('myclass').then(function(){
 myElement.setDimensionsClass('maximalClass');
 ```
 Sets the 'dimensionsClass' attribute (see 'Constructor options' > 'dimensionsClass' above) and applies transformation to the element.
-## License
-The MIT License (MIT)
-
-Copyright (c) 2015 Vincent Kammerer
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.

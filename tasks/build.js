@@ -20,6 +20,11 @@ Promise.all(webpackPromises).then(()=>{
 		require.resolve('web-animations-js'),
 		path.join(__dirname, '..', 'dist', 'teleporter-global.js')
 	]).code;
-
-	fs.writeFileSync(path.join(__dirname, '..', 'dist', 'teleporter-global-pollyfilled.js'), globalWithPollyfills);
+	fs.writeFileSync(path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js'), globalWithPollyfills);
 })
+
+// export default const build = () => {
+// 	return new Promise((resolve, reject) => {
+// resolve();
+// 	})
+// })

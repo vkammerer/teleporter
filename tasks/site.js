@@ -10,8 +10,8 @@ let readme = fs.readFileSync(path.join(__dirname, '..', 'README.md'), 'utf-8');
 fs.writeFileSync(path.join(siteDirPath, 'static', 'index.html'), jsBeautify.html(mainTemplate(marked(readme))));
 
 fs.copySync(
-	path.join(__dirname, '..', 'dist', 'teleporter-global-pollyfilled.js'),
-	path.join(siteDirPath, 'static', 'teleporter-global-pollyfilled.js')
+	path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js'),
+	path.join(siteDirPath, 'static', 'teleporter-global-polyfilled.js')
 );
 
 fs.copySync(
