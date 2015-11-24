@@ -3,6 +3,8 @@
 <head>
     <link rel="stylesheet" href="./normalize.css" />
     <link rel="stylesheet" href="./main.css" />
+    <link rel="stylesheet" href="./logo.css" />
+    <link href='https://fonts.googleapis.com/css?family=Timmana' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -14,45 +16,50 @@
 
     <div class="container">
         <header>
-            <h1>Teleporter.js</h1>
+            <h1>
+							
+	<div id="logo"></div>
+
+							Teleporter.js</h1>
         </header>
         <div class="content">
             <p>Hardware Accelerated Animations with boring CSS properties. </p>
-            <h2 id="huh-">Huh?</h2>
+            <h2 id="what-">What?</h2>
             <ul>
-                <li>CSS sizing and positioning properties are a great way to define a web layout. Unfortunately, their performance is terrible with animations. </li>
-                <li>CSS transform properties are a great way to smoothly animate an element&#39;s size and position. Unfortunately, it can be very challenging to compute the value to apply between two states. </li>
+                <li>CSS sizing and positioning properties are great to design for the web. But their performance is terrible with animations. </li>
+                <li>CSS transform properties are great to animate elements. But they are hard to work with in the real world. </li>
             </ul>
             <p>Teleporter is a small utility that enables you to animate elements with &#39;transform&#39;, while defining their size and position with usual CSS properties.</p>
             <p>Original inspiration comes from the hack explained by Paul Lewis: <a href="https://aerotwist.com/blog/flip-your-animations/">FLIP Your Animations</a>.</p>
             <h2 id="example">Example</h2>
             <p><a href="http://codepen.io/vkammerer/pen/ZbPdmN">Codepen demo</a></p>
             <h2 id="installation">Installation</h2>
+            <p>Get it from npm.</p>
             <pre><code class="lang-javascript">npm install teleporter --save
 </code></pre>
             <h2 id="usage">Usage</h2>
-            <p>As module:</p>
-            <pre><code class="lang-javascript">// As ES2015 module
-import Teleporter from &#39;teleporter&#39;;
-// or as Commonjs module
-var Teleporter = require(&#39;teleporter&#39;);
+            <p>Import it as ES2015 module.</p>
+            <pre><code class="lang-javascript">import Teleporter from &#39;teleporter&#39;;
 </code></pre>
-            <p>A global version is also available:</p>
+            <p>Or as commonjs module.</p>
+            <pre><code class="lang-javascript">var Teleporter = require(&#39;teleporter&#39;);
+</code></pre>
+            <p>A version with a global object is also available.</p>
             <pre><code class="lang-html">&lt;script src=&quot;teleporter-global.js&quot;&gt;&lt;/script&gt;
 </code></pre>
-            <p>If you have to support all browsers, you will need to install the <a href="https://github.com/jakearchibald/es6-promise">Promise</a> and <a href="https://github.com/web-animations/web-animations-js">Web Animations</a> pollyfills.
-                <br>A version of teleporter also includes them:</p>
-            <pre><code class="lang-html">&lt;script src=&quot;teleporter-global-pollyfilled.js&quot;&gt;&lt;/script&gt;
+            <p>If you have to support all browsers, you will need to install the <a href="https://github.com/jakearchibald/es6-promise">Promise</a> and <a href="https://github.com/web-animations/web-animations-js">Web Animations</a> polyfills. A version
+                of teleporter bundles everything in one file.</p>
+            <pre><code class="lang-html">&lt;script src=&quot;teleporter-global-polyfilled.js&quot;&gt;&lt;/script&gt;
 </code></pre>
             <h2 id="api">API</h2>
-            <h4 id="basic">Basic</h4>
-            <pre><code>var myTelement = new Teleporter(&#39;#myid&#39;);
-myTelement.teleport(&#39;myclass&#39;);
+            <h3 id="basic">Basic</h3>
+            <pre><code>var myElement = new Teleporter(&#39;#myid&#39;);
+myElement.teleport(&#39;myclass&#39;);
 </code></pre>
             <p>This will teleport your element from its current state to the state corresponding to the &#39;myclass&#39; class.</p>
-            <h4 id="options">Options</h4>
+            <h3 id="constructor">Constructor</h3>
             <p><strong>&#39;animation&#39;</strong> </p>
-            <pre><code>var myTelement = new Teleporter({
+            <pre><code>var myElement = new Teleporter({
   selector: &#39;#myid&#39;,
   animation: {
     duration: 800, // default animation time
@@ -60,15 +67,15 @@ myTelement.teleport(&#39;myclass&#39;);
   }
 });
 </code></pre>
-            <p>The &#39;animation&#39; attribute will be used by default for all upcoming teleportations, and will ultimately be passed to the <a href="http://w3c.github.io/web-animations/">Element.animate</a> options.</p>
+            <p>The &#39;animation&#39; attribute will be used by default for all upcoming teleportations, and will ultimately be passed to <a href="http://w3c.github.io/web-animations/">Element.animate</a>.</p>
             <p><strong>&#39;dimensionsClass&#39;</strong> </p>
-            <pre><code class="lang-javascript">var myTelement = new Teleporter({
+            <pre><code class="lang-javascript">var myElement = new Teleporter({
   selector: &#39;#myid&#39;,
   dimensionsClass: &#39;maximalClass&#39;
 });
 </code></pre>
             <p>By default, the library will calculate the maximal width and height that the element will have for all steps of the teleportation, and use it to create the rasterized image that will be displayed.
-                <br>So, if you have set the following CSS rules:</p>
+                <br>So for example, if you have set the following CSS rules</p>
             <pre><code class="lang-css">#example {
   width: 400px;
   height: 100px;
@@ -78,25 +85,25 @@ myTelement.teleport(&#39;myclass&#39;);
   height: 300px;
 }
 </code></pre>
-            <p>then your element will be given the following attributes:</p>
+            <p>then your element will be given the following attributes</p>
             <pre><code class="lang-css">{
   width: 400px;
   height: 300px;
 }
 </code></pre>
-            <p>and then transformed to be given the size and position of the steps in your teleportation.
+            <p>... and then transformed to be given the size and position of the steps in your teleportation.
                 <br>The &#39;dimensionsClass&#39; attribute allows you to overwrite that behaviour, by specifying the class that will be used to compute the size of the rasterized image.
                 <br>Note that the transformation is applied immediately, even if you do not teleport the element.</p>
-            <h4 id="methods">Methods</h4>
+            <h3 id="methods">Methods</h3>
             <p><strong>&#39;teleport&#39;</strong>
                 <br>The argument passed to the &#39;teleport&#39; method can be a String, an Object, or an Array. It will be normalized to an Array, so that:</p>
-            <pre><code class="lang-javascript">myTelement.teleport(&#39;myclass&#39;)
+            <pre><code class="lang-javascript">myElement.teleport(&#39;myclass&#39;)
 </code></pre>
             <p>is equivalent to:</p>
-            <pre><code class="lang-javascript">myTelement.teleport({class: &#39;myclass&#39;})
+            <pre><code class="lang-javascript">myElement.teleport({class: &#39;myclass&#39;})
 </code></pre>
             <p>which is equivalent to:</p>
-            <pre><code class="lang-javascript">myTelement.teleport([{{class: &#39;&#39;}}, {class: &#39;myclass&#39;}]);
+            <pre><code class="lang-javascript">myElement.teleport([{{class: &#39;&#39;}}, {class: &#39;myclass&#39;}]);
 </code></pre>
             <p>Each object in the array represents a step of the teleportation. If only one String or Object is passed, it is assumed that the first step is the current step.
                 <br>The objects of the array have the following format:</p>
@@ -109,14 +116,13 @@ myTelement.teleport(&#39;myclass&#39;);
 }
 </code></pre>
             <p>The method returns a Promise object, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:</p>
-            <pre><code class="lang-javascript">myTelement.teleport(&#39;myclass&#39;).then(function(){
-    var myTelement = document.querySelector(&#39;#myid&#39;);
-    myTelement.classList.add(&#39;finalStateClass&#39;);
-    myTelement.innerHtml = &#39;&lt;div&gt;finalStateContent&lt;/div&gt;&#39;;
+            <pre><code class="lang-javascript">myElement.teleport(&#39;myclass&#39;).then(function(){
+    var el = document.querySelector(&#39;#myid&#39;);
+    el.classList.add(&#39;finalStateClass&#39;);
 })
 </code></pre>
             <p><strong>&#39;setDimensionsClass&#39;</strong> </p>
-            <pre><code class="lang-javascript">myTelement.setDimensionsClass(&#39;maximalClass&#39;);
+            <pre><code class="lang-javascript">myElement.setDimensionsClass(&#39;maximalClass&#39;);
 </code></pre>
             <p>Sets the &#39;dimensionsClass&#39; attribute (see &#39;Constructor options&#39; &gt; &#39;dimensionsClass&#39; above) and applies transformation to the element.</p>
             <h2 id="license">License</h2>
