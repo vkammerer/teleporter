@@ -5,6 +5,7 @@ export default function template(content) {
 	return `
 		<html>
 			<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<link rel="stylesheet" href="./normalize.css"/>
 			<link rel="stylesheet" href="./main.css"/>
 			<link rel="stylesheet" href="./logo.css"/>
