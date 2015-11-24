@@ -1,30 +1,32 @@
 import fs from 'fs';
 import path from 'path';
+import colors from 'colors';
 import webpack from 'webpack';
 import uglifyJs from 'uglify-js';
 import configs from './build.configs';
 
-let webpackPromises = ['umd', 'global'].map((exportType) => {
+export default function build() {
 	return new Promise((resolve, reject) => {
-		webpack(configs[exportType]).run((err, stats) => {
-			if (!err) {
+		let webpackPromises = ['umd', 'global'].map((exportType) => {
+			return new Promise((resolveWebpack, reject) => {
+				webpack(configs[exportType]).run((err, stats) => {
+					resolveWebpack()
+				});
+			})
+		})
+
+
+		Promise.all(webpackPromises).then(()=>{
+			let globalWithPollyfills = uglifyJs.minify([
+				require.resolve('es6-promise').replace('.js', '.min.js'),
+				require.resolve('web-animations-js'),
+				path.join(__dirname, '..', 'dist', 'teleporter-global.js')
+			]).code;
+			fs.writeFile(path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js'), globalWithPollyfills, () => {
+				console.log('Build task complete'.cyan)
 				resolve()
-			}
-		});
+			});
+		})
+
 	})
-})
-
-Promise.all(webpackPromises).then(()=>{
-	let globalWithPollyfills = uglifyJs.minify([
-		require.resolve('es6-promise').replace('.js', '.min.js'),
-		require.resolve('web-animations-js'),
-		path.join(__dirname, '..', 'dist', 'teleporter-global.js')
-	]).code;
-	fs.writeFileSync(path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js'), globalWithPollyfills);
-})
-
-// export default const build = () => {
-// 	return new Promise((resolve, reject) => {
-// resolve();
-// 	})
-// })
+}

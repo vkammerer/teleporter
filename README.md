@@ -118,7 +118,7 @@ The method returns a Promise object, which will resolve once the animation has f
 ```javascript
 myElement.teleport('myclass').then(function(){
 	var el = document.querySelector('#myid');
-	el.classList.add('finalStateClass');
+	el.innerHTML = 'Some other content';
 })
 ```
 
