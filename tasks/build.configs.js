@@ -12,23 +12,23 @@ let commonConfig = {
 	},
 	plugins: [
 		new webpack.optimize.OccurenceOrderPlugin(),
-		new webpack.optimize.UglifyJsPlugin({
-			mangle: {
-				except: ['Teleporter']
-			}
-		})
+		new webpack.optimize.UglifyJsPlugin()
 	],
 	module: {
 		loaders: [
 			{
 				test: /\.js$/,
-				loader: 'babel'
-			}
+				loader: "babel-loader",
+				exclude: /node_modules/,
+				query: {
+					presets: ['es2015', 'stage-0']
+				},
+			},
 		]
 	}
 }
 
-module.exports.umd = objectAssignDeep({}, commonConfig, {
+let umdConfig = objectAssignDeep({}, commonConfig, {
 	output: {
 		filename: 'teleporter.js',
 		libraryTarget: 'umd'
@@ -38,21 +38,22 @@ module.exports.umd = objectAssignDeep({}, commonConfig, {
 let globalConfig = objectAssignDeep({}, commonConfig, {
 	output: {
 		filename: 'teleporter-global.js',
-    library: ['Teleporter'],
+    library: 'Teleporter',
 		libraryTarget: 'var'
 	}
 })
-module.exports.global = globalConfig;
 
 let globalPolyfilledConfig = objectAssignDeep({}, globalConfig, {
 	output: {
 		filename: 'teleporter-global-polyfilled.js'
 	}
 })
-globalPolyfilledConfig.plugins.push(
-	new webpack.ProvidePlugin({
-		'Object.assign': 'object-assign'
-	})
-)
 
-module.exports.globalPolyfilled = globalPolyfilledConfig;
+globalPolyfilledConfig.module.loaders[0].query.plugins = ['transform-object-assign'];
+
+module.exports = {
+	umd: umdConfig,
+	global: globalConfig,
+	globalPolyfilled: globalPolyfilledConfig
+}
+

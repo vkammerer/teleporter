@@ -15,12 +15,12 @@ export default function build() {
 			})
 		})
 
-
 		Promise.all(webpackPromises).then(()=>{
 			let globalWithPollyfills = uglifyJs.minify([
 				require.resolve('es6-promise').replace('.js', '.min.js'),
 				require.resolve('web-animations-js'),
-				path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js')
+				path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js'),
+				path.join(__dirname, '..', 'src', 'global.js')
 			]).code;
 			fs.writeFile(path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js'), globalWithPollyfills, () => {
 				console.log('Build task complete'.cyan)
