@@ -26,40 +26,52 @@ export default function template(introduction, installation, api, license) {
 						<div id="introduction" class="section">
 							${introduction}
 						</div>
+						<div class="section"></div>
 						<div id="installation" class="section">
 							${installation}
 						</div>
+						<div class="section"></div>
 						<div id="api" class="section">
 							${api}
 						</div>
+						<div class="section"></div>
 						<div id="license" class="section">
 							${license}
 						</div>
 					</div>
 				</div>
-			<script>
-				// ['introduction', 'installation', 'api', 'license']
-				// 	.forEach(function(section){
-				// 		console.log(section)
-				// 		var myElement = new Teleporter({
-				// 			selector: '#' + section,
-				// 			dimensionsClass: 'normal'
-				// 		});
-				// 		var normal = false;
-				// 		myElement.element.addEventListener("click",function(){
-				// 			myElement.element.classList.add('above')
-				// 			myElement
-				// 				.teleport(normal ? ['normal','thumbnail']: ['thumbnail','normal'])
-				// 				.then(function(){
-				// 					if (!normal) {
-				// 						myElement.element.classList.remove('above')
-				// 					}
-				// 				})
-				// 			normal = !normal;
-				// 		});
-				// 		console.log('over');
-				// 	});
-			</script>
+				<script>
+					var init = function(){
+						[
+							'introduction',
+							'installation',
+							'api',
+							'license'
+						].forEach(function(section){
+								var myElement = new Teleporter({
+									selector: '#' + section,
+									sizeClass: 'normal',
+									animation: {
+										duration: 400,
+										easing: 'cubic-bezier(0,0,0.32,1)'
+									}
+								});
+								var normal = false;
+								myElement.element.addEventListener("click",function(){
+									myElement.element.classList.add('above')
+									myElement
+										.teleport(normal ? ['normal','thumbnail']: ['thumbnail','normal'])
+										.then(function(){
+											if (!normal) {
+												myElement.element.classList.remove('above')
+											}
+										})
+									normal = !normal;
+								});
+							});
+					}
+					window.onload = init;
+				</script>
 			</body>
 		</html>
 	`

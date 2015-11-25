@@ -10,7 +10,7 @@
 * @return {Object} Normalized object with the following format:
 * {
 * 	selector: '#myid',
-* 	dimensionsClass: 'myclass',
+* 	sizeClass: 'myclass',
 * 	animation: {
 * 		duration: 800,
 * 		easing: 'linear'
@@ -33,8 +33,8 @@ export const constructorArgument = (arg) => {
 		(typeof arg.selector === 'string')
 	){
 		let plucked = { selector: arg.selector }
-		if (typeof arg.dimensionsClass === 'string') {
-			plucked.dimensionsClass = arg.dimensionsClass
+		if (typeof arg.sizeClass === 'string') {
+			plucked.sizeClass = arg.sizeClass
 		}
 		if (typeof arg.animation === 'object') {
 			let animation = {}

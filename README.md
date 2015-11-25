@@ -45,26 +45,17 @@ myElement.teleport('myclass');
 This will teleport your element from its current state to the state corresponding to the 'myclass' class.
 
 ### Constructor
-
-**'animation'**  
 ```
 var myElement = new Teleporter({
-  selector: '#myid',
+  selector: '#myid', // passed to document.querySelector
+  sizeClass: 'maximalClass', // to compute size of element
   animation: {
     duration: 800, // default animation time
     easing: 'linear' // default animation easing
   }
 });
 ```
-The 'animation' attribute will be used by default for all upcoming teleportations, and will ultimately be passed to [Element.animate](http://w3c.github.io/web-animations/).
-
-**'dimensionsClass'**  
-```javascript
-var myElement = new Teleporter({
-  selector: '#myid',
-  dimensionsClass: 'maximalClass'
-});
-```
+**'sizeClass'**  
 By default, the library will calculate the maximal width and height that the element will have for all steps of the teleportation, and use it to create the rasterized image that will be displayed.  
 So for example, if you have set the following CSS rules
 ```css
@@ -84,9 +75,15 @@ then your element will be given the following attributes
   height: 300px;
 }
 ```
-... and then transformed to be given the size and position of the steps in your teleportation.  
-The 'dimensionsClass' attribute allows you to overwrite that behaviour, by specifying the class that will be used to compute the size of the rasterized image.  
-Note that the transformation is applied immediately, even if you do not teleport the element.
+and then modified via 'transform' to be given the size and position of the steps in your teleportation.  
+
+The 'sizeClass' attribute allows you to overwrite that behaviour, by applying the class to compute the size of the rasterized image.Note that the transformation is applied immediately, even if you do not teleport the element.  
+
+The sizeClass property can be changed after initialization with the method 'setSizeClass' (see under).
+
+**'animation'**  
+The 'animation' attribute will be used by default for all upcoming teleportations, and will ultimately be passed to [Element.animate](http://w3c.github.io/web-animations/).
+
 
 ### Methods
 **'teleport'**  
@@ -103,7 +100,7 @@ which is equivalent to:
 ```javascript
 myElement.teleport([{{class: ''}}, {class: 'myclass'}]);
 ```  
-Each object in the array represents a step of the teleportation. If only one String or Object is passed, it is assumed that the first step is the current step.  
+Each object in the array represents a step of the teleportation. If only one String or Object is passed, it is assumed that the first step is the current state.  
 The objects of the array have the following format:
 ```javascript
 {
@@ -122,11 +119,11 @@ myElement.teleport('myclass').then(function(){
 })
 ```
 
-**'setDimensionsClass'**  
+**'setSizeClass'**  
 ```javascript
-myElement.setDimensionsClass('maximalClass');
+myElement.setSizeClass('maximalClass');
 ```
-Sets the 'dimensionsClass' attribute (see 'Constructor options' > 'dimensionsClass' above) and applies transformation to the element.
+Sets the 'sizeClass' attribute (see 'Constructor options' > 'sizeClass' above) and applies transformation to the element.
 ## License
 The MIT License (MIT)
 
