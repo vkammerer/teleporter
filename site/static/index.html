@@ -74,8 +74,7 @@
                 <p>A version with a global object is also available.</p>
                 <pre><code class="lang-html">&lt;script src=&quot;teleporter-global.js&quot;&gt;&lt;/script&gt;
 </code></pre>
-                <p>If you have to support all browsers, you need to install the <a href="https://github.com/jakearchibald/es6-promise">Promise</a> and <a href="https://github.com/web-animations/web-animations-js">Web Animations</a> polyfills. A version of
-                    teleporter bundles everything in one file.</p>
+                <p>If you have to support all browsers, you need to install the <a href="https://github.com/jakearchibald/es6-promise">Promise</a>, <a href="https://github.com/web-animations/web-animations-js">Web Animations</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign">Object.assign()</a>                    polyfills. A version of teleporter bundles everything in one file.</p>
                 <pre><code class="lang-html">&lt;script src=&quot;teleporter-global-polyfilled.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 
@@ -84,12 +83,12 @@
             <div id="api" class="section">
                 <h2 id="api">API</h2>
                 <h3 id="basic">Basic</h3>
-                <pre><code>var myElement = new Teleporter(&#39;#myid&#39;);
+                <pre><code class="lang-javascript">var myElement = new Teleporter(&#39;#myid&#39;);
 myElement.teleport(&#39;myclass&#39;);
 </code></pre>
                 <p>This will teleport your element from its current state to the state corresponding to the &#39;myclass&#39; class.</p>
                 <h3 id="constructor">Constructor</h3>
-                <pre><code>var myElement = new Teleporter({
+                <pre><code class="lang-javascript">var myElement = new Teleporter({
   selector: &#39;#myid&#39;, // passed to document.querySelector
   sizeClass: &#39;maximalClass&#39;, // to compute size of element
   animation: {

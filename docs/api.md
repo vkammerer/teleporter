@@ -1,13 +1,13 @@
 ## API
 ### Basic
-```
+```javascript
 var myElement = new Teleporter('#myid');
 myElement.teleport('myclass');
 ```
 This will teleport your element from its current state to the state corresponding to the 'myclass' class.
 
 ### Constructor
-```
+```javascript
 var myElement = new Teleporter({
   selector: '#myid', // passed to document.querySelector
   sizeClass: 'maximalClass', // to compute size of element

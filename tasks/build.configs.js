@@ -34,10 +34,25 @@ module.exports.umd = objectAssignDeep({}, commonConfig, {
 		libraryTarget: 'umd'
 	}
 })
-module.exports.global = objectAssignDeep({}, commonConfig, {
+
+let globalConfig = objectAssignDeep({}, commonConfig, {
 	output: {
 		filename: 'teleporter-global.js',
     library: ['Teleporter'],
 		libraryTarget: 'var'
 	}
 })
+module.exports.global = globalConfig;
+
+let globalPolyfilledConfig = objectAssignDeep({}, globalConfig, {
+	output: {
+		filename: 'teleporter-global-polyfilled.js'
+	}
+})
+globalPolyfilledConfig.plugins.push(
+	new webpack.ProvidePlugin({
+		'Object.assign': 'object-assign'
+	})
+)
+
+module.exports.globalPolyfilled = globalPolyfilledConfig;
