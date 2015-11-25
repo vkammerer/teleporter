@@ -58,6 +58,7 @@
                 <p><a href="http://codepen.io/vkammerer/pen/ZbPdmN">Codepen demo</a></p>
 
             </div>
+            <div class="section"></div>
             <div id="installation" class="section">
                 <h2 id="installation">Installation</h2>
                 <p>Get it from npm.</p>
@@ -79,6 +80,7 @@
 </code></pre>
 
             </div>
+            <div class="section"></div>
             <div id="api" class="section">
                 <h2 id="api">API</h2>
                 <h3 id="basic">Basic</h3>
@@ -87,23 +89,17 @@ myElement.teleport(&#39;myclass&#39;);
 </code></pre>
                 <p>This will teleport your element from its current state to the state corresponding to the &#39;myclass&#39; class.</p>
                 <h3 id="constructor">Constructor</h3>
-                <p><strong>&#39;animation&#39;</strong> </p>
                 <pre><code>var myElement = new Teleporter({
-  selector: &#39;#myid&#39;,
+  selector: &#39;#myid&#39;, // passed to document.querySelector
+  sizeClass: &#39;maximalClass&#39;, // to compute size of element
   animation: {
     duration: 800, // default animation time
     easing: &#39;linear&#39; // default animation easing
   }
 });
 </code></pre>
-                <p>The &#39;animation&#39; attribute will be used by default for all upcoming teleportations, and will ultimately be passed to <a href="http://w3c.github.io/web-animations/">Element.animate</a>.</p>
-                <p><strong>&#39;dimensionsClass&#39;</strong> </p>
-                <pre><code class="lang-javascript">var myElement = new Teleporter({
-  selector: &#39;#myid&#39;,
-  dimensionsClass: &#39;maximalClass&#39;
-});
-</code></pre>
-                <p>By default, the library will calculate the maximal width and height that the element will have for all steps of the teleportation, and use it to create the rasterized image that will be displayed.
+                <p><strong>&#39;sizeClass&#39;</strong>
+                    <br>By default, the library will calculate the maximal width and height that the element will have for all steps of the teleportation, and use it to create the rasterized image that will be displayed.
                     <br>So for example, if you have set the following CSS rules</p>
                 <pre><code class="lang-css">#example {
   width: 400px;
@@ -120,9 +116,11 @@ myElement.teleport(&#39;myclass&#39;);
   height: 300px;
 }
 </code></pre>
-                <p>... and then transformed to be given the size and position of the steps in your teleportation.
-                    <br>The &#39;dimensionsClass&#39; attribute allows you to overwrite that behaviour, by specifying the class that will be used to compute the size of the rasterized image.
-                    <br>Note that the transformation is applied immediately, even if you do not teleport the element.</p>
+                <p>and then modified via &#39;transform&#39; to be given the size and position of the steps in your teleportation. </p>
+                <p>The &#39;sizeClass&#39; attribute allows you to overwrite that behaviour, by applying the class to compute the size of the rasterized image.Note that the transformation is applied immediately, even if you do not teleport the element. </p>
+                <p>The sizeClass property can be changed after initialization with the method &#39;setSizeClass&#39; (see under).</p>
+                <p><strong>&#39;animation&#39;</strong>
+                    <br>The &#39;animation&#39; attribute will be used by default for all upcoming teleportations, and will ultimately be passed to <a href="http://w3c.github.io/web-animations/">Element.animate</a>.</p>
                 <h3 id="methods">Methods</h3>
                 <p><strong>&#39;teleport&#39;</strong>
                     <br>The argument passed to the &#39;teleport&#39; method can be a String, an Object, or an Array. It will be normalized to an Array, so that:</p>
@@ -134,7 +132,7 @@ myElement.teleport(&#39;myclass&#39;);
                 <p>which is equivalent to:</p>
                 <pre><code class="lang-javascript">myElement.teleport([{{class: &#39;&#39;}}, {class: &#39;myclass&#39;}]);
 </code></pre>
-                <p>Each object in the array represents a step of the teleportation. If only one String or Object is passed, it is assumed that the first step is the current step.
+                <p>Each object in the array represents a step of the teleportation. If only one String or Object is passed, it is assumed that the first step is the current state.
                     <br>The objects of the array have the following format:</p>
                 <pre><code class="lang-javascript">{
   class: &#39;myclass&#39;, // class of the step
@@ -150,12 +148,13 @@ myElement.teleport(&#39;myclass&#39;);
     el.innerHTML = &#39;Some other content&#39;;
 })
 </code></pre>
-                <p><strong>&#39;setDimensionsClass&#39;</strong> </p>
-                <pre><code class="lang-javascript">myElement.setDimensionsClass(&#39;maximalClass&#39;);
+                <p><strong>&#39;setSizeClass&#39;</strong> </p>
+                <pre><code class="lang-javascript">myElement.setSizeClass(&#39;maximalClass&#39;);
 </code></pre>
-                <p>Sets the &#39;dimensionsClass&#39; attribute (see &#39;Constructor options&#39; &gt; &#39;dimensionsClass&#39; above) and applies transformation to the element.</p>
+                <p>Sets the &#39;sizeClass&#39; attribute (see &#39;Constructor options&#39; &gt; &#39;sizeClass&#39; above) and applies transformation to the element.</p>
 
             </div>
+            <div class="section"></div>
             <div id="license" class="section">
                 <h2 id="license">License</h2>
                 <p>The MIT License (MIT)</p>
@@ -171,27 +170,36 @@ myElement.teleport(&#39;myclass&#39;);
         </div>
     </div>
     <script>
-        // ['introduction', 'installation', 'api', 'license']
-        // 	.forEach(function(section){
-        // 		console.log(section)
-        // 		var myElement = new Teleporter({
-        // 			selector: '#' + section,
-        // 			dimensionsClass: 'normal'
-        // 		});
-        // 		var normal = false;
-        // 		myElement.element.addEventListener("click",function(){
-        // 			myElement.element.classList.add('above')
-        // 			myElement
-        // 				.teleport(normal ? ['normal','thumbnail']: ['thumbnail','normal'])
-        // 				.then(function(){
-        // 					if (!normal) {
-        // 						myElement.element.classList.remove('above')
-        // 					}
-        // 				})
-        // 			normal = !normal;
-        // 		});
-        // 		console.log('over');
-        // 	});
+        var init = function() {
+            [
+                'introduction',
+                'installation',
+                'api',
+                'license'
+            ].forEach(function(section) {
+                var myElement = new Teleporter({
+                    selector: '#' + section,
+                    sizeClass: 'normal',
+                    animation: {
+                        duration: 400,
+                        easing: 'cubic-bezier(0,0,0.32,1)'
+                    }
+                });
+                var normal = false;
+                myElement.element.addEventListener("click", function() {
+                    myElement.element.classList.add('above')
+                    myElement
+                        .teleport(normal ? ['normal', 'thumbnail'] : ['thumbnail', 'normal'])
+                        .then(function() {
+                            if (!normal) {
+                                myElement.element.classList.remove('above')
+                            }
+                        })
+                    normal = !normal;
+                });
+            });
+        }
+        window.onload = init;
     </script>
 </body>
 
