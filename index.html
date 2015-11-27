@@ -80,7 +80,7 @@
                     <p>A version with a global object is also available.</p>
                     <pre><code class="lang-html">&lt;script src=&quot;teleporter-global.js&quot;&gt;&lt;/script&gt;
 </code></pre>
-                    <p>If you have to support all browsers, you need to install the <a href="https://github.com/jakearchibald/es6-promise">Promise</a>, <a href="https://github.com/web-animations/web-animations-js">Web Animations</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign">Object.assign()</a>                        polyfills. A version of teleporter bundles everything in one file.</p>
+                    <p>If you have to support all browsers, you need to install the <a href="https://github.com/jakearchibald/es6-promise">Promise</a>, <a href="https://github.com/web-animations/web-animations-js">Web Animations</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign">Object.assign</a>                        polyfills. A version of teleporter bundles everything in one file.</p>
                     <pre><code class="lang-html">&lt;script src=&quot;teleporter-global-polyfilled.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 
@@ -151,7 +151,7 @@ myElement.teleport(&#39;myclass&#39;);
   }
 }
 </code></pre>
-                    <p>The method returns a Promise object, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:</p>
+                    <p>The method returns a Promise, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:</p>
                     <pre><code class="lang-javascript">myElement.teleport(&#39;myclass&#39;).then(function(){
     var el = document.querySelector(&#39;#myid&#39;);
     el.innerHTML = &#39;Some other content&#39;;
