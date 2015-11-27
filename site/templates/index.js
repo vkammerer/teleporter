@@ -67,12 +67,12 @@ export default function template(introduction, installation, api, license) {
 								var normal = false;
 								myElement.element.addEventListener("click",function(){
 									myElement.element.parentElement.classList.add('selected');
-									myElement.element.classList.add('above')
+									myElement.element.classList.add('active')
 									myElement
 										.teleport(normal ? ['normal','thumbnail']: ['thumbnail','normal'])
 										.then(function(){
 											if (!normal) {
-												myElement.element.classList.remove('above')
+												myElement.element.classList.remove('active')
 												myElement.element.parentElement.classList.remove('selected');
 											}
 										})
