@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./table.css" />
     <link href='https://fonts.googleapis.com/css?family=Timmana' rel='stylesheet' type='text/css'>
     <script src="teleporter-global-polyfilled.js"></script>
+    <script src="public-site.js"></script>
 </head>
 
 <body>
@@ -28,6 +29,7 @@
         </header>
         <div class="content">
             <div class="section">
+                <div class="pagename">Introduction</div>
                 <div id="introduction" class="category">
                     <p>Hardware Accelerated Animations with boring CSS properties. </p>
                     <h2 id="what-">What?</h2>
@@ -62,6 +64,7 @@
             </div>
             <div class="section"></div>
             <div class="section">
+                <div class="pagename">Installation</div>
                 <div id="installation" class="category">
                     <h2 id="installation">Installation</h2>
                     <p>Get it from npm.</p>
@@ -85,6 +88,7 @@
             </div>
             <div class="section"></div>
             <div class="section">
+                <div class="pagename">API</div>
                 <div id="api" class="category">
                     <h2 id="api">API</h2>
                     <h3 id="basic">Basic</h3>
@@ -162,6 +166,7 @@ myElement.teleport(&#39;myclass&#39;);
             </div>
             <div class="section"></div>
             <div class="section">
+                <div class="pagename">License</div>
                 <div id="license" class="category">
                     <h2 id="license">License</h2>
                     <p>The MIT License (MIT)</p>
@@ -178,40 +183,6 @@ myElement.teleport(&#39;myclass&#39;);
             </div>
         </div>
     </div>
-    <script>
-        var init = function() {
-            [
-                'introduction',
-                'installation',
-                'api',
-                'license'
-            ].forEach(function(category) {
-                var myElement = new Teleporter({
-                    selector: '#' + category,
-                    sizeClass: 'normal',
-                    animation: {
-                        duration: 300,
-                        easing: 'cubic-bezier(0,0,0.32,1)'
-                    }
-                });
-                var normal = false;
-                myElement.element.addEventListener("click", function() {
-                    myElement.element.parentElement.classList.add('selected');
-                    myElement.element.classList.add('active')
-                    myElement
-                        .teleport(normal ? ['normal', 'thumbnail'] : ['thumbnail', 'normal'])
-                        .then(function() {
-                            if (!normal) {
-                                myElement.element.classList.remove('active')
-                                myElement.element.parentElement.classList.remove('selected');
-                            }
-                        })
-                    normal = !normal;
-                });
-            });
-        }
-        window.onload = init;
-    </script>
 </body>
 
 </html>
