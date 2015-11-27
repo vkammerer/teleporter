@@ -5,6 +5,7 @@ export default function template(introduction, installation, api, license) {
 	return `
 		<html>
 			<head>
+			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<link rel="stylesheet" href="./normalize.css"/>
 			<link rel="stylesheet" href="./main.css"/>

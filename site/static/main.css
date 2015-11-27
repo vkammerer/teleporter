@@ -1,19 +1,16 @@
 * {
 	box-sizing: border-box;
 }
-
 body {
 	line-height: 1.4em;
 	color: #222;
 	overflow-y: scroll;
 }
-
 .container {
 	max-width: 640px;
 	margin: 20px auto;
 	padding: 20px 30px;
 }
-
 h1 {
 	font-size: 3.5em;
 	margin-top: 0.5em;
@@ -24,7 +21,6 @@ h1 {
 h2 {
 	margin-top: 50px
 }
-
 pre {
 	background: #EEE;
 	padding: 20px;

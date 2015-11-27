@@ -9,7 +9,7 @@
 * of the original rasterized node 
 * @return {String} CSS 'transform' property to apply
 */
-export default function transforms(rect, dimensionsRect) {
+export function transforms(rect, dimensionsRect) {
 	let scX = rect.width / dimensionsRect.width;
 	let scY = rect.height / dimensionsRect.height;
 	let trX = rect.left - dimensionsRect.left + (rect.width - dimensionsRect.width) / 2;
@@ -20,4 +20,31 @@ export default function transforms(rect, dimensionsRect) {
 		scaleX(${scX})
 		scaleY(${scY})
 	`
+}
+
+export function normalizeRect(element) {
+	let rect = element.getBoundingClientRect();
+	return Object.assign({}, {
+		top: rect.top + window.scrollY,
+		left: rect.left + window.scrollX,
+		width: rect.width,
+		height: rect.height
+	})
+}
+
+export function normalizeGetComputedStyle(element) {
+	// Firefox wtf
+	if (window.getDefaultComputedStyle) {
+		let styles = window.getComputedStyle(element);
+		let backgroundStyle = '';
+		if (styles.backgroundColor) {
+			backgroundStyle += styles.backgroundColor;
+		}
+		return {
+			background: backgroundStyle
+		}
+	}
+	else {
+		return Object.assign({}, window.getComputedStyle(element));
+	}
 }

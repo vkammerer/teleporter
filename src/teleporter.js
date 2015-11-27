@@ -5,7 +5,7 @@
 */
 
 import { constructorArgument, teleportArgument } from './arguments';
-import transforms from './transforms';
+import { transforms, normalizeRect, normalizeGetComputedStyle } from './geometry';
 
 /**
 * Main class
@@ -73,11 +73,11 @@ export default class Teleporter {
 			(className.length > 0)
 		) {
 			this.element.classList.add(className);
-			rect = this.element.getBoundingClientRect();
+			rect = normalizeRect(this.element);
 			this.element.classList.remove(className);
 		}
 		else {
-			rect = this.element.getBoundingClientRect();
+			rect = normalizeRect(this.element);
 		}
 		return rect;
 	}
@@ -89,11 +89,11 @@ export default class Teleporter {
 			(className.length > 0)
 		) {
 			this.element.classList.add(className);
-			style = Object.assign({}, window.getComputedStyle(this.element));
+			style = normalizeGetComputedStyle(this.element)
 			this.element.classList.remove(className);
 		}
 		else {
-			style = Object.assign({}, window.getComputedStyle(this.element));
+			style = normalizeGetComputedStyle(this.element)
 		}
 		return style;
 	}
@@ -168,9 +168,6 @@ export default class Teleporter {
 			let heightArr = this.teleportation.steps.map((obj) => {
 				return obj.rect.height
 			})
-			this.teleportation.sizeRect = {
-
-			}
 			width = Math.max(...widthArr);
 			height = Math.max(...heightArr);
 		}
@@ -180,7 +177,8 @@ export default class Teleporter {
 			height: `${this.sizeRect.height || width}px`
 		});
 
-		this.teleportation.sizeRect = this.innerElement.getBoundingClientRect();
+		this.teleportation.sizeRect = normalizeRect(this.innerElement);
+
 	}
 
 	/**
@@ -191,7 +189,9 @@ export default class Teleporter {
 	*/
 	animate(index) {
 		let animation = Object.assign({}, this.animation, this.teleportation.steps[index + 1].animation);
-		this.innerElement.style.transform = transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect);
+		if (index == this.teleportation.steps.length - 2) {
+			this.innerElement.style.transform = transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect);
+		}
 		this.teleportation.player = this.innerElement.animate([
 		  { transform: transforms(this.teleportation.steps[index].rect, this.teleportation.sizeRect) },
 		  { transform: transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect) }
@@ -205,9 +205,10 @@ export default class Teleporter {
 				this.animate(index + 1);
 			}
 			else {
-				this.teleportation.resolve();
+				this.innerElement.style.transform = transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect);
 				this.element.classList.remove('teleporter-active');
 				this.element.classList.add('teleporter-idle');
+				this.teleportation.resolve();
 			}
 		});
 	}
@@ -228,7 +229,8 @@ export default class Teleporter {
 			return;
 		}
 
-		this.resetElement()
+		this.resetElement();
+		this.element.style.opacity = 0;
 
 		// Builds the teleportation attribute
 		this.teleportation = { steps: formattedArg };
@@ -240,6 +242,7 @@ export default class Teleporter {
 		this.element.classList.remove('teleporter-idle');
 		this.element.classList.add('teleporter-active');
 		this.setInnerStyles(this.teleportation.steps[0].rect, this.teleportation.sizeRect);
+		this.element.style.opacity = 1;
 		this.animate(0);
 
 		// Returns a promise that will resolve on teleportation end
