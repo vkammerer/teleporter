@@ -134,10 +134,11 @@ export default class Teleporter {
 	setSizeClass(className) {
 		this.sizeClass = className;
 		this.resetElement();
+		let currentRect = this.getRect();
 		this.sizeRect = this.getRect(this.sizeClass);
 		this.style = this.getStyles(this.sizeClass);
 		this.setInnerElement();
-		this.setInnerStyles(this.getRect(), this.sizeRect)
+		this.setInnerStyles(currentRect, this.sizeRect)
 	}
 
 	/**
@@ -230,7 +231,6 @@ export default class Teleporter {
 		}
 
 		this.resetElement();
-		this.element.style.opacity = 0;
 
 		// Builds the teleportation attribute
 		this.teleportation = { steps: formattedArg };
@@ -242,7 +242,6 @@ export default class Teleporter {
 		this.element.classList.remove('teleporter-idle');
 		this.element.classList.add('teleporter-active');
 		this.setInnerStyles(this.teleportation.steps[0].rect, this.teleportation.sizeRect);
-		this.element.style.opacity = 1;
 		this.animate(0);
 
 		// Returns a promise that will resolve on teleportation end

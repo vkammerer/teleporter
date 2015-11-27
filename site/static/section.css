@@ -26,7 +26,7 @@
 .section.selected .pagename {
 	color: #74D8EC;
 }
-.section:not(.selected):nth-child(2n + 1) {
+.section:nth-child(2n + 1) {
 	border: 2px solid #DDD;
 	-webkit-transition : border 200ms ease-in;
 	-moz-transition : border 200ms ease-in;

@@ -31,7 +31,7 @@ A version with a global object is also available.
 ```html
 <script src="teleporter-global.js"></script>
 ```
-If you have to support all browsers, you need to install the [Promise](https://github.com/jakearchibald/es6-promise), [Web Animations](https://github.com/web-animations/web-animations-js) and [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) polyfills. A version of teleporter bundles everything in one file.
+If you have to support all browsers, you need to install the [Promise](https://github.com/jakearchibald/es6-promise), [Web Animations](https://github.com/web-animations/web-animations-js) and [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) polyfills. A version of teleporter bundles everything in one file.
 ```html
 <script src="teleporter-global-polyfilled.js"></script>
 ```
@@ -111,7 +111,7 @@ The objects of the array have the following format:
   }
 }
 ```
-The method returns a Promise object, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:
+The method returns a Promise, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:
 ```javascript
 myElement.teleport('myclass').then(function(){
 	var el = document.querySelector('#myid');

@@ -12,7 +12,7 @@ var init = function(){
 			name: categoryName,
 			expanded: false,
 			options: {
-				selector: '#' + categoryName,
+				selector: '.category#' + categoryName,
 				sizeClass: 'expanded',
 				animation: {
 					duration: 300,
@@ -52,5 +52,9 @@ var init = function(){
 		});
 	});
 	openCategory(categories[0])
+
+	// Expose it, so that anyone can play with it
+	window.categories = categories
+
 }
 window.onload = init;

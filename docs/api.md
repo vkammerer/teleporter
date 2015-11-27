@@ -73,7 +73,7 @@ The objects of the array have the following format:
   }
 }
 ```
-The method returns a Promise object, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:
+The method returns a Promise, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:
 ```javascript
 myElement.teleport('myclass').then(function(){
 	var el = document.querySelector('#myid');
