@@ -9,7 +9,12 @@ body {
 .container {
 	max-width: 640px;
 	margin: 20px auto;
-	padding: 20px 30px;
+	padding: 20px 10px;
+}
+@media (min-width: 769px) {
+	.container {
+		padding: 20px 30px;
+	}
 }
 h1 {
 	font-size: 2em;
