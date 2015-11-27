@@ -9,7 +9,6 @@ export default function template(introduction, installation, api, license) {
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<link rel="stylesheet" href="./normalize.css"/>
 			<link rel="stylesheet" href="./main.css"/>
-			<link rel="stylesheet" href="./logo.css"/>
 			<link rel="stylesheet" href="./section.css"/>
 			<link rel="stylesheet" href="./table.css"/>
 			<link href='https://fonts.googleapis.com/css?family=Timmana' rel='stylesheet' type='text/css'>
@@ -24,20 +23,28 @@ export default function template(introduction, installation, api, license) {
 							Teleporter.js</h1>
 					</header>
 					<div class="content">
-						<div id="introduction" class="section">
-							${introduction}
+						<div class="section">
+							<div id="introduction" class="category">
+								${introduction}
+							</div>
 						</div>
 						<div class="section"></div>
-						<div id="installation" class="section">
-							${installation}
+						<div class="section">
+							<div id="installation" class="category">
+								${installation}
+							</div>
 						</div>
 						<div class="section"></div>
-						<div id="api" class="section">
-							${api}
+						<div class="section">
+							<div id="api" class="category">
+								${api}
+							</div>
 						</div>
 						<div class="section"></div>
-						<div id="license" class="section">
-							${license}
+						<div class="section">
+							<div id="license" class="category">
+								${license}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -48,23 +55,25 @@ export default function template(introduction, installation, api, license) {
 							'installation',
 							'api',
 							'license'
-						].forEach(function(section){
+						].forEach(function(category){
 								var myElement = new Teleporter({
-									selector: '#' + section,
+									selector: '#' + category,
 									sizeClass: 'normal',
 									animation: {
-										duration: 400,
+										duration: 300,
 										easing: 'cubic-bezier(0,0,0.32,1)'
 									}
 								});
 								var normal = false;
 								myElement.element.addEventListener("click",function(){
+									myElement.element.parentElement.classList.add('selected');
 									myElement.element.classList.add('above')
 									myElement
 										.teleport(normal ? ['normal','thumbnail']: ['thumbnail','normal'])
 										.then(function(){
 											if (!normal) {
 												myElement.element.classList.remove('above')
+												myElement.element.parentElement.classList.remove('selected');
 											}
 										})
 									normal = !normal;

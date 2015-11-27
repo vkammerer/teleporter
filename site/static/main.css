@@ -12,14 +12,36 @@ body {
 	padding: 20px 30px;
 }
 h1 {
-	font-size: 3.5em;
-	margin-top: 0.5em;
+	font-size: 2.5em;
+	margin-top: 0;
+	padding-top: 0.5em;
 	margin-bottom: 1em;
 	color: #83D8E9;
 	font-family: 'Timmana', sans-serif;
 }
+#logo {
+	display: inline-block;
+	width: 70px;
+	height: 70px;
+	background: url('logo.svg') center center no-repeat;
+	background-size: contain;
+	margin: 0 0 -0.6em 0;
+}
+@media (min-width: 769px) {
+	h1 {
+		font-size: 3.5em;
+	}
+	#logo {
+		width: 100px;
+		height: 100px;
+	}
+}
+p {
+	margin-top: 0;
+}
 h2 {
-	margin-top: 50px
+	margin-top: 0;
+	padding-top: 0px;
 }
 pre {
 	background: #EEE;
