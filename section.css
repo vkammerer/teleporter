@@ -39,27 +39,3 @@
 .category.above {
 	z-index: 10;
 }
-.section:nth-child(2n + 1) .category:not(.above):after {
-	display: block;
-	position: absolute;
-	color: #83D8E9;
-	top: 0;
-	left: 0;
-	right: 0;
-	text-align: center;
-	padding-top: 40px;
-	bottom: 0;
-	background: rgba(255,255,255,0.6);
-}
-.section:not(.selected) #introduction:not(.above):after {
-	content: 'Intro';
-}
-.section:not(.selected) #installation:not(.above):after {
-	content: 'Installation';
-}
-.section:not(.selected) #api:not(.above):after {
-	content: 'API';
-}
-.section:not(.selected) #license:not(.above):after {
-	content: 'License';
-}
