@@ -12,7 +12,7 @@ body {
 	padding: 20px 30px;
 }
 h1 {
-	font-size: 2.5em;
+	font-size: 2em;
 	margin-top: 0;
 	padding-top: 0.5em;
 	margin-bottom: 1em;
@@ -21,19 +21,23 @@ h1 {
 }
 #logo {
 	display: inline-block;
-	width: 70px;
-	height: 70px;
+	width: 50px;
+	height: 50px;
 	background: url('logo.svg') center center no-repeat;
 	background-size: contain;
-	margin: 0 0 -0.6em 0;
+	margin: 0 0 -0.5em 0;
 }
 @media (min-width: 769px) {
 	h1 {
 		font-size: 3.5em;
 	}
 	#logo {
-		width: 100px;
-		height: 100px;
+		display: inline-block;
+		width: 70px;
+		height: 70px;
+		background: url('logo.svg') center center no-repeat;
+		background-size: contain;
+		margin: 0 0 -0.3em 0;
 	}
 }
 p {
