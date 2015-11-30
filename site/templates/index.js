@@ -1,4 +1,4 @@
-import {logo} from './logo';
+import {schema} from './schema';
 import {ribon} from './ribon';
 
 export default function template(introduction, installation, api, license) {
@@ -10,8 +10,10 @@ export default function template(introduction, installation, api, license) {
 			<link rel="stylesheet" href="./normalize.css"/>
 			<link rel="stylesheet" href="./main.css"/>
 			<link rel="stylesheet" href="./section.css"/>
+			<link rel="stylesheet" href="./category.css"/>
+			<link rel="stylesheet" href="./schema.css"/>
 			<link rel="stylesheet" href="./table.css"/>
-			<link href='https://fonts.googleapis.com/css?family=Timmana' rel='stylesheet' type='text/css'>
+			<link href='https://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
 			<script src="teleporter-global-polyfilled.js"></script>
 			<script src="public-site.js"></script>
 			</head>
@@ -20,35 +22,41 @@ export default function template(introduction, installation, api, license) {
 				<div class="container">
 					<header>
 						<h1>
-							${logo}
-							Teleporter.js</h1>
+							<div id="logo"></div>Teleporter.js
+						</h1>
 					</header>
 					<div class="content">
-						<div class="section">
-							<div class="pagename">Introduction</div>
-							<div id="introduction" class="category">
-								${introduction}
+						<div class="section" id="introduction">
+							<div class="pagename">The Hack</div>
+							<div class="category">
+								<div class="category-content">
+									${schema}
+									${introduction}
+								</div>
 							</div>
 						</div>
-						<div class="section"></div>
-						<div class="section">
+						<div class="section" id="installation">
 							<div class="pagename">Installation</div>
-							<div id="installation" class="category">
-								${installation}
+							<div class="category">
+								<div class="category-content">
+									${installation}
+								</div>
 							</div>
 						</div>
-						<div class="section"></div>
-						<div class="section">
+						<div class="section" id="api">
 							<div class="pagename">API</div>
-							<div id="api" class="category">
-								${api}
+							<div class="category">
+								<div class="category-content">
+									${api}
+								</div>
 							</div>
 						</div>
-						<div class="section"></div>
-						<div class="section">
+						<div class="section" id="license">
 							<div class="pagename">License</div>
-							<div id="license" class="category">
-								${license}
+							<div class="category">
+								<div class="category-content">
+									${license}
+								</div>
 							</div>
 						</div>
 					</div>

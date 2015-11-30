@@ -20,6 +20,8 @@ export default function site() {
 		})
 
 		delete require.cache[require.resolve('../site/templates/index')]
+		delete require.cache[require.resolve('../site/templates/schema')]
+		delete require.cache[require.resolve('../site/templates/ribon')]
 		let indexTemplate = require('../site/templates/index').default;
 
 		fs.writeFileSync(

@@ -30,11 +30,12 @@ export default class Teleporter {
 			return;
 		};
 		this.innerHTML = this.element.innerHTML;
+		this.element.classList.add('teleporter-element','teleporter-idle');
 		this.setSizeClass(this.sizeClass);
-		this.element.classList.add('teleporter-idle');
 	}
 	setInnerElement(){
 		this.innerElement = document.createElement('div');
+		this.innerElement.className = 'teleporter-container';
 		this.innerElement.innerHTML = this.innerHTML;
 		this.element.innerHTML = '';
 		this.element.insertBefore(this.innerElement, null);
@@ -162,7 +163,7 @@ export default class Teleporter {
 	*/
 	setTeleportationRect() {
 		let width, height;
-		if (!this.sizeRect) {
+		if (!this.sizeClass) {
 			let widthArr = this.teleportation.steps.map((obj) => {
 				return obj.rect.width
 			})
@@ -174,8 +175,8 @@ export default class Teleporter {
 		}
 
 		Object.assign(this.innerElement.style, {
-			width: `${this.sizeRect.width || width}px`,
-			height: `${this.sizeRect.height || width}px`
+			width: `${width || this.sizeRect.width}px`,
+			height: `${height || this.sizeRect.height}px`
 		});
 
 		this.teleportation.sizeRect = normalizeRect(this.innerElement);
@@ -206,7 +207,6 @@ export default class Teleporter {
 				this.animate(index + 1);
 			}
 			else {
-				this.innerElement.style.transform = transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect);
 				this.element.classList.remove('teleporter-active');
 				this.element.classList.add('teleporter-idle');
 				this.teleportation.resolve();

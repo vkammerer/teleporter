@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="./normalize.css" />
     <link rel="stylesheet" href="./main.css" />
     <link rel="stylesheet" href="./section.css" />
+    <link rel="stylesheet" href="./category.css" />
+    <link rel="stylesheet" href="./schema.css" />
     <link rel="stylesheet" href="./table.css" />
-    <link href='https://fonts.googleapis.com/css?family=Timmana' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
     <script src="teleporter-global-polyfilled.js"></script>
     <script src="public-site.js"></script>
 </head>
@@ -22,82 +24,87 @@
     <div class="container">
         <header>
             <h1>
-							
-	<div id="logo"></div>
-
-							Teleporter.js</h1>
+							<div id="logo"></div>Teleporter.js
+						</h1>
         </header>
         <div class="content">
-            <div class="section">
-                <div class="pagename">Introduction</div>
-                <div id="introduction" class="category">
-                    <p>Hardware Accelerated Animations with boring CSS properties. </p>
-                    <h2 id="what-">What?</h2>
-                    <p>Teleporter is a small library that animates DOM elements with &#39;transform&#39;, while getting their size and position from usual CSS properties (properties that trigger the &#39;Layout&#39; or &#39;Paint&#39; phases of the <a href="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/">browser rendering pipeline</a>).</p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="text-align:left">Usual CSS properties</th>
-                                <th style="text-align:left">&#39;transform&#39; CSS property</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="text-align:left">example: {left: 200px}</td>
-                                <td style="text-align:left">example: {transform:&#39;translateX(200px)&#39;}</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:left">Easy to use for layout.</td>
-                                <td style="text-align:left">Hard to use for layout</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:left">Janky animations</td>
-                                <td style="text-align:left">Smooth animations</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p>Original inspiration comes from the hack explained by Paul Lewis: <a href="https://aerotwist.com/blog/flip-your-animations/">FLIP Your Animations</a>.</p>
-                    <h2 id="example">Example</h2>
-                    <p><a href="http://codepen.io/vkammerer/pen/ZbPdmN">Codepen demo</a></p>
+            <div class="section" id="introduction">
+                <div class="pagename">The Hack</div>
+                <div class="category">
+                    <div class="category-content">
 
+                        <div class="schema">
+                            <div class="schema-css1">
+                                <pre>
+#mydiv {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+</pre>
+                            </div>
+                            <div class="schema-transform">
+                                Animation
+                                <br />with "transform"
+                                <br />-------------->
+                            </div>
+                            <div class="schema-css2">
+                                <pre>
+#mydiv.fullscreen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+</pre>
+                            </div>
+                        </div>
+
+                        <p>Teleporter is a small library that animates DOM elements with &quot;transform&quot;, while getting their size and position from usual CSS properties (properties that trigger the &#39;Layout&#39; or &#39;Paint&#39; phases of the
+                            <a href="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/">browser rendering pipeline</a>).</p>
+                        <p>Original inspiration comes from the hack explained by Paul Lewis: <a href="https://aerotwist.com/blog/flip-your-animations/">FLIP Your Animations</a>.</p>
+                        <h2 id="example">Example</h2>
+                        <p><a href="http://codepen.io/vkammerer/pen/ZbPdmN">Codepen demo</a></p>
+
+                    </div>
                 </div>
             </div>
-            <div class="section"></div>
-            <div class="section">
+            <div class="section" id="installation">
                 <div class="pagename">Installation</div>
-                <div id="installation" class="category">
-                    <h2 id="installation">Installation</h2>
-                    <p>Get it from npm.</p>
-                    <pre><code class="lang-javascript">npm install teleporter --save
+                <div class="category">
+                    <div class="category-content">
+                        <h2 id="installation">Installation</h2>
+                        <p>Get it from npm.</p>
+                        <pre><code class="lang-javascript">npm install teleporter --save
 </code></pre>
-                    <h2 id="usage">Usage</h2>
-                    <p>Import it as ES2015 module.</p>
-                    <pre><code class="lang-javascript">import Teleporter from &#39;teleporter&#39;;
+                        <h2 id="usage">Usage</h2>
+                        <p>Import it as ES2015 module.</p>
+                        <pre><code class="lang-javascript">import Teleporter from &#39;teleporter&#39;;
 </code></pre>
-                    <p>Or as commonjs module.</p>
-                    <pre><code class="lang-javascript">var Teleporter = require(&#39;teleporter&#39;);
+                        <p>Or as commonjs module.</p>
+                        <pre><code class="lang-javascript">var Teleporter = require(&#39;teleporter&#39;);
 </code></pre>
-                    <p>A version with a global object is also available.</p>
-                    <pre><code class="lang-html">&lt;script src=&quot;teleporter-global.js&quot;&gt;&lt;/script&gt;
+                        <p>A version with a global object is also available.</p>
+                        <pre><code class="lang-html">&lt;script src=&quot;teleporter-global.js&quot;&gt;&lt;/script&gt;
 </code></pre>
-                    <p>If you have to support all browsers, you need to install the <a href="https://github.com/jakearchibald/es6-promise">Promise</a>, <a href="https://github.com/web-animations/web-animations-js">Web Animations</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign">Object.assign</a>                        polyfills. A version of teleporter bundles everything in one file.</p>
-                    <pre><code class="lang-html">&lt;script src=&quot;teleporter-global-polyfilled.js&quot;&gt;&lt;/script&gt;
+                        <p>If you have to support all browsers, you need to install the <a href="https://github.com/jakearchibald/es6-promise">Promise</a>, <a href="https://github.com/web-animations/web-animations-js">Web Animations</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign">Object.assign</a>                            polyfills. A version of teleporter bundles everything in one file.</p>
+                        <pre><code class="lang-html">&lt;script src=&quot;teleporter-global-polyfilled.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 
+                    </div>
                 </div>
             </div>
-            <div class="section"></div>
-            <div class="section">
+            <div class="section" id="api">
                 <div class="pagename">API</div>
-                <div id="api" class="category">
-                    <h2 id="api">API</h2>
-                    <h3 id="basic">Basic</h3>
-                    <pre><code class="lang-javascript">var myElement = new Teleporter(&#39;#myid&#39;);
-myElement.teleport(&#39;myclass&#39;);
+                <div class="category">
+                    <div class="category-content">
+                        <h2 id="api">API</h2>
+                        <h3 id="basic">Basic</h3>
+                        <pre><code class="lang-javascript">var myElement = new Teleporter(&#39;#myid&#39;);
+myElement.teleport(&#39;state1&#39;);
 </code></pre>
-                    <p>This will teleport your element from its current state to the state corresponding to the &#39;myclass&#39; class.</p>
-                    <h3 id="constructor">Constructor</h3>
-                    <pre><code class="lang-javascript">var myElement = new Teleporter({
+                        <p>This will animate your element from its current size and position to those of the &#39;state1&#39; class.</p>
+                        <h3 id="constructor">Constructor</h3>
+                        <pre><code class="lang-javascript">var myElement = new Teleporter({
   selector: &#39;#myid&#39;, // passed to document.querySelector
   sizeClass: &#39;maximalClass&#39;, // to compute size of element
   animation: {
@@ -106,79 +113,81 @@ myElement.teleport(&#39;myclass&#39;);
   }
 });
 </code></pre>
-                    <p><strong>&#39;sizeClass&#39;</strong>
-                        <br>By default, the library will calculate the maximal width and height that the element will have for all steps of the teleportation, and use it to create the rasterized image that will be displayed.
-                        <br>So for example, if you have set the following CSS rules</p>
-                    <pre><code class="lang-css">#example {
+                        <p><strong>&#39;sizeClass&#39;</strong>
+                            <br>By default, the library will calculate the maximal width and height that the element will have for all steps of the teleportation, and use it to create the rasterized image that will be displayed.
+                            <br>So for example, if you have the following CSS rules:</p>
+                        <pre><code class="lang-css">#example {
   width: 400px;
   height: 100px;
 }
-.myclass {
+.state1 {
   width: 200px;
   height: 300px;
 }
 </code></pre>
-                    <p>then your element will be given the following attributes</p>
-                    <pre><code class="lang-css">{
+                        <p>then your element will be given the following attributes:</p>
+                        <pre><code class="lang-css">{
   width: 400px;
   height: 300px;
 }
 </code></pre>
-                    <p>and then modified via &#39;transform&#39; to be given the size and position of the steps in your teleportation. </p>
-                    <p>The &#39;sizeClass&#39; attribute allows you to overwrite that behaviour, by applying the class to compute the size of the rasterized image.Note that the transformation is applied immediately, even if you do not teleport the element.
-                        </p>
-                    <p>The sizeClass property can be changed after initialization with the method &#39;setSizeClass&#39; (see under).</p>
-                    <p><strong>&#39;animation&#39;</strong>
-                        <br>The &#39;animation&#39; attribute will be used by default for all upcoming teleportations, and will ultimately be passed to <a href="http://w3c.github.io/web-animations/">Element.animate</a>.</p>
-                    <h3 id="methods">Methods</h3>
-                    <p><strong>&#39;teleport&#39;</strong>
-                        <br>The argument passed to the &#39;teleport&#39; method can be a String, an Object, or an Array. It will be normalized to an Array, so that:</p>
-                    <pre><code class="lang-javascript">myElement.teleport(&#39;myclass&#39;)
+                        <p>and then modified via &#39;transform&#39; to be given the size and position of the steps in your teleportation. </p>
+                        <p>The &#39;sizeClass&#39; attribute allows you to overwrite that behaviour, by applying a class to compute the size of the rasterized image. Note that the transformation is applied immediately, even if you do not teleport the element.
+                            </p>
+                        <p>The sizeClass property can be changed after initialization with the method &#39;setSizeClass&#39; (see under).</p>
+                        <p><strong>&#39;animation&#39;</strong>
+                            <br>The &#39;animation&#39; attribute will be used by default for all upcoming teleportations, and will ultimately be passed to <a href="http://w3c.github.io/web-animations/">Element.animate</a>.</p>
+                        <h3 id="methods">Methods</h3>
+                        <p><strong>&#39;teleport&#39;</strong>
+                            <br>The argument passed to the &#39;teleport&#39; method can be a String, an Object, or an Array. It will be normalized to an Array, so that:</p>
+                        <pre><code class="lang-javascript">myElement.teleport(&#39;state1&#39;)
 </code></pre>
-                    <p>is equivalent to:</p>
-                    <pre><code class="lang-javascript">myElement.teleport({class: &#39;myclass&#39;})
+                        <p>is equivalent to:</p>
+                        <pre><code class="lang-javascript">myElement.teleport({class: &#39;state1&#39;})
 </code></pre>
-                    <p>which is equivalent to:</p>
-                    <pre><code class="lang-javascript">myElement.teleport([{{class: &#39;&#39;}}, {class: &#39;myclass&#39;}]);
+                        <p>which is equivalent to:</p>
+                        <pre><code class="lang-javascript">myElement.teleport([{{class: &#39;&#39;}}, {class: &#39;state1&#39;}]);
 </code></pre>
-                    <p>Each object in the array represents a step of the teleportation. If only one String or Object is passed, it is assumed that the first step is the current state.
-                        <br>The objects of the array have the following format:</p>
-                    <pre><code class="lang-javascript">{
-  class: &#39;myclass&#39;, // class of the step
+                        <p>Each object in the array represents a step of the teleportation. If only one String or Object is passed, it is assumed that the first step is the current state.
+                            <br>The objects of the array have the following format:</p>
+                        <pre><code class="lang-javascript">{
+  class: &#39;state1&#39;, // class of the step
   animation: { // animation to perform to this step (see &#39;Constructor options&#39; &gt; &#39;animation&#39; above)
     duration: 800,
     easing: &#39;linear&#39;
   }
 }
 </code></pre>
-                    <p>The method returns a Promise, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:</p>
-                    <pre><code class="lang-javascript">myElement.teleport(&#39;myclass&#39;).then(function(){
+                        <p>The method returns a Promise, which will resolve once the animation has finished. You may use it to perform other DOM manipulation:</p>
+                        <pre><code class="lang-javascript">myElement.teleport(&#39;state1&#39;).then(function(){
     var el = document.querySelector(&#39;#myid&#39;);
     el.innerHTML = &#39;Some other content&#39;;
 })
 </code></pre>
-                    <p><strong>&#39;setSizeClass&#39;</strong> </p>
-                    <pre><code class="lang-javascript">myElement.setSizeClass(&#39;maximalClass&#39;);
+                        <p><strong>&#39;setSizeClass&#39;</strong> </p>
+                        <pre><code class="lang-javascript">myElement.setSizeClass(&#39;maximalClass&#39;);
 </code></pre>
-                    <p>Sets the &#39;sizeClass&#39; attribute (see &#39;Constructor options&#39; &gt; &#39;sizeClass&#39; above) and applies transformation to the element.</p>
+                        <p>Sets the &#39;sizeClass&#39; attribute (see &#39;Constructor options&#39; &gt; &#39;sizeClass&#39; above) and applies transformation to the element.</p>
 
+                    </div>
                 </div>
             </div>
-            <div class="section"></div>
-            <div class="section">
+            <div class="section" id="license">
                 <div class="pagename">License</div>
-                <div id="license" class="category">
-                    <h2 id="license">License</h2>
-                    <p>The MIT License (MIT)</p>
-                    <p>Copyright (c) 2015 Vincent Kammerer</p>
-                    <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation
-                        the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-                    <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-                    <p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-                        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-                        SOFTWARE.
-                    </p>
+                <div class="category">
+                    <div class="category-content">
+                        <h2 id="license">License</h2>
+                        <p>The MIT License (MIT)</p>
+                        <p>Copyright (c) 2015 Vincent Kammerer</p>
+                        <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation
+                            the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+                        <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+                        <p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+                            THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+                            IN THE SOFTWARE.
+                        </p>
 
+                    </div>
                 </div>
             </div>
         </div>

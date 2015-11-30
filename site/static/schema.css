@@ -1,0 +1,17 @@
+.schema {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	align-content: stretch;
+}
+.schema > div {
+	width: 33%;
+}
+.schema pre {
+	font-size: 0.8em;
+}
+.schema-transform {
+	text-align: center
+}
