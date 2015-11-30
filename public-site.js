@@ -12,7 +12,7 @@ var init = function(){
 			name: categoryName,
 			expanded: false,
 			options: {
-				selector: '.category#' + categoryName,
+				selector: '#' + categoryName + ' .category',
 				sizeClass: 'expanded',
 				animation: {
 					duration: 300,
@@ -46,7 +46,7 @@ var init = function(){
 
 	categories.forEach(function(category){
 		category.teleporter = new Teleporter(category.options);
-		category.teleporter.element.addEventListener("click", function(){
+		document.querySelector('#' + category.name).addEventListener("click", function(){
 			if (category.expanded) { return }
 			onCategoryClick(category);
 		});
