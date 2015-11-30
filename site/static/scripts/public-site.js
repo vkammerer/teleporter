@@ -7,6 +7,16 @@ var init = function(){
 		'license'
 	]
 
+	var animation = window.innerWidth < 769 ? {
+		// Mobile animations
+		duration: 500,
+		easing: 'cubic-bezier(0,0,0.45,1)'
+	} : {
+		// Desktop animations
+		duration: 320,
+		easing: 'cubic-bezier(0,0,0.32,1)'
+	}
+
 	categories = categorieNames.map(function(categoryName){
 		return {
 			name: categoryName,
@@ -14,10 +24,7 @@ var init = function(){
 			options: {
 				selector: '#' + categoryName + ' .category',
 				sizeClass: 'expanded',
-				animation: {
-					duration: window.innerWidth > 768 ? 350 : 500,
-					easing: 'cubic-bezier(0,0,0.32,1)'
-				}
+				animation: animation
 			}
 		}
 	})
