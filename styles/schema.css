@@ -6,11 +6,20 @@
 	align-items: center;
 	align-content: stretch;
 }
+.schema-css pre {
+	color: black;
+	font-size: 0.8em
+}
+.schema .selector {
+}
+.schema .property {
+	color: #1BB2C5;
+}
+.schema .value {
+	color: black;
+}
 .schema > div {
 	width: 33%;
-}
-.schema pre {
-	font-size: 0.8em;
 }
 .schema-transform {
 	text-align: center

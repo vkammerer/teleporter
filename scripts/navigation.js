@@ -1,10 +1,10 @@
-var init = function(){
+var initNavigation = function(){
 
 	var categorieNames = [
 		'introduction',
 		'installation',
 		'api',
-		'license'
+		'examples'
 	]
 
 	var animation = window.innerWidth < 769 ? {
@@ -44,7 +44,6 @@ var init = function(){
 
 	var onCategoryClick = function(selectedCategory){
 		var currentCategory = categories.filter(function(cat){
-			console.log(cat.expanded)
 			return cat.expanded
 		})[0]
 		closeCategory(currentCategory);
@@ -64,4 +63,3 @@ var init = function(){
 	window.categories = categories
 
 }
-window.onload = init;

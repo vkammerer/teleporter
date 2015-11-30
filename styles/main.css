@@ -18,21 +18,25 @@ body {
 h1 {
 	font-size: 2em;
 	margin: 0;
-	padding: 0.5em 0 1em;
+	padding: 0.4em 0 0.8em;
 	color: #707070;
 	font-family: 'Iceland', cursive;
 }
 #logo {
 	display: inline-block;
-	width: 1.8em;
-	height: 1.8em;
+	width: 1.6em;
+	height: 1.6em;
 	background: url('../images/logo.svg') center center no-repeat;
 	background-size: contain;
-	margin: 0 0.2em -0.62em 0;
+	margin: 0 0.3em -0.55em 0;
 }
 h2 {
 	margin-top: 1.5em;
 	padding-top: 0px;
+}
+pre, code {
+	font-family: "Lucida Console", "Monaco";
+	font-size: 0.9em;
 }
 pre {
 	display: block;
