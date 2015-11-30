@@ -5,7 +5,8 @@
 */
 
 import { constructorArgument, teleportArgument } from './arguments';
-import { transforms, normalizeRect, normalizeGetComputedStyle } from './geometry';
+import { transforms, normalizeRect } from './geometry';
+import { normalizeGetComputedStyle, normalizeApplyBackground } from './utils';
 
 /**
 * Main class
@@ -42,9 +43,7 @@ export default class Teleporter {
 		Object.assign(this.element.style, {
 			background: 'transparent'
 		});
-		Object.assign(this.innerElement.style, {
-			background: this.style.background
-		});
+		normalizeApplyBackground(this.innerElement, this.style);
 	}
 	resetElement(){
 		if (this.teleportation && this.teleportation.player) {
@@ -59,7 +58,6 @@ export default class Teleporter {
 		Object.assign(this.element.style, {
 			width: null,
 			height: null,
-			padding: null,
 			background: null
 		});
 	}

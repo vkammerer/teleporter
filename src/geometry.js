@@ -31,26 +31,3 @@ export function normalizeRect(element) {
 		height: rect.height
 	})
 }
-
-export function normalizeGetComputedStyle(element) {
-	// Firefox wtf
-	if (window.getDefaultComputedStyle) {
-		let styles = window.getComputedStyle(element);
-		let backgroundStyle = '';
-		if (styles.backgroundColor) {
-			backgroundStyle += styles.backgroundColor + ' ';
-		}
-		if (styles.backgroundImage) {
-			backgroundStyle += styles.backgroundImage + ' ';
-		}
-		if (styles.backgroundSize) {
-			backgroundStyle += styles.backgroundSize + ' ';
-		}
-		return {
-			background: backgroundStyle
-		}
-	}
-	else {
-		return Object.assign({}, window.getComputedStyle(element));
-	}
-}
