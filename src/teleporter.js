@@ -29,15 +29,15 @@ export default class Teleporter {
 			console.error(`Teleporter.js: No element found with the selector '${this.selector}'`);
 			return;
 		};
-		this.innerHTML = this.element.innerHTML;
 		this.element.classList.add('teleporter-element','teleporter-idle');
 		this.setSizeClass(this.sizeClass);
 	}
 	setInnerElement(){
 		this.innerElement = document.createElement('div');
 		this.innerElement.className = 'teleporter-container';
-		this.innerElement.innerHTML = this.innerHTML;
-		this.element.innerHTML = '';
+		while (this.element.childNodes.length > 0) {
+			this.innerElement.appendChild(this.element.childNodes[0]);
+		}
 		this.element.insertBefore(this.innerElement, null);
 		Object.assign(this.element.style, {
 			background: 'transparent'
@@ -50,7 +50,12 @@ export default class Teleporter {
 		if (this.teleportation && this.teleportation.player) {
 			this.teleportation.player.cancel();
 		}
-		this.element.innerHTML = this.innerHTML;
+		if (this.innerElement) {
+			while (this.innerElement.childNodes.length > 0) {
+				this.element.appendChild(this.innerElement.childNodes[0]);
+			}			
+			this.element.removeChild(this.innerElement);			
+		}
 		Object.assign(this.element.style, {
 			width: null,
 			height: null,

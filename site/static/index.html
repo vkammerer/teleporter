@@ -10,7 +10,12 @@
     <link rel="stylesheet" href="./styles/schema.css" />
     <link href='https://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
     <script src="./scripts/teleporter-global-polyfilled.js"></script>
-    <script src="./scripts/public-site.js"></script>
+    <script src="./scripts/navigation.js"></script>
+    <script>
+        window.onload = function() {
+            initNavigation();
+        };
+    </script>
 </head>
 
 <body>
@@ -31,28 +36,30 @@
                 <div class="pagename">The Hack</div>
                 <div class="category">
                     <div class="category-content">
+                        <h2>The Hack</h2>
 
                         <div class="schema">
-                            <div class="schema-css1">
+                            <div class="schema-css">
                                 <pre>
-#mydiv {
-  position: relative;
-  width: 200px;
-  height: 200px;
+<span class="selector">.thumbnail</span> {
+<span class="property">  position</span>: <span class="value">relative</span>;
+<span class="property">  width</span>: <span class="value">200px</span>;
+<span class="property">  height</span>: <span class="value">200px</span>;
 }
 </pre>
                             </div>
                             <div class="schema-transform">
-                                Animation
-                                <br />with "transform"
+                                Animation with
+                                <br />
+                                <span class="property">transform</span>
                                 <br />-------------->
                             </div>
-                            <div class="schema-css2">
+                            <div class="schema-css">
                                 <pre>
-#mydiv.fullscreen {
-  position: absolute;
-  top: 0;
-  bottom: 0;
+<span class="selector">.fullscreen</span> {
+<span class="property">  position</span>: <span class="value">absolute</span>;
+<span class="property">  top</span>: <span class="value">0</span>;
+<span class="property">  bottom</span>: <span class="value">0</span>;
 }
 </pre>
                             </div>
@@ -60,9 +67,7 @@
 
                         <p>Teleporter is a small library that animates DOM elements with &quot;transform&quot;, while getting their size and position from usual CSS properties (properties that trigger the &#39;Layout&#39; or &#39;Paint&#39; phases of the
                             <a href="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#The_main_flow">browser rendering pipeline</a>).</p>
-                        <p>Original inspiration comes from the hack explained by Paul Lewis: <a href="https://aerotwist.com/blog/flip-your-animations/">FLIP Your Animations</a>.</p>
-                        <h2 id="example">Example</h2>
-                        <p><a href="http://codepen.io/vkammerer/pen/ZbPdmN">Codepen demo</a></p>
+                        <p>Original inspiration comes from the hack explained by Paul Lewis: <a href="https://aerotwist.com/blog/flip-your-animations/">FLIP Your Animations</a>. </p>
 
                     </div>
                 </div>
@@ -171,21 +176,20 @@ myElement.teleport(&#39;state1&#39;);
                     </div>
                 </div>
             </div>
-            <div class="section" id="license">
-                <div class="pagename">License</div>
+            <div class="section" id="examples">
+                <div class="pagename">Examples</div>
                 <div class="category">
                     <div class="category-content">
-                        <h2 id="license">License</h2>
-                        <p>The MIT License (MIT)</p>
-                        <p>Copyright (c) 2015 Vincent Kammerer</p>
-                        <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation
-                            the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-                        <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-                        <p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-                            THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-                            IN THE SOFTWARE.
-                        </p>
+                        <h2 id="examples">Examples</h2>
+                        <h4 id="on-codepen">On Codepen</h4>
+                        <p>A few demos are hosted on Codepen.
+                            <br>Warning: <a href="http://codepen.io/collection/AvBoZo/">these demos have cats in them</a>. </p>
+                        <h4 id="other-demos">Other demos</h4>
+                        <p>If you made something with Teleporter you would like to share here, please submit a pull request to &#39;<a href="https://github.com/vkammerer/teleporter/blob/master/docs/examples.md">examples.md</a>&#39;. </p>
 
+                        <h4>On this site</h4>
+                        <p>The navigation of this site is animated with Teleporter.</p>
+                        <p>The thumbnail versions of the sections are layed out with Flexbox, and the expanded versions are absolutely positioned.</p>
                     </div>
                 </div>
             </div>

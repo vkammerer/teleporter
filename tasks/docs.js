@@ -8,6 +8,7 @@ export default function docs() {
 		concatFiles([
 		  path.join(__dirname, '..', 'docs', 'schema.md'),
 		  path.join(__dirname, '..', 'docs', 'introduction.md'),
+		  path.join(__dirname, '..', 'docs', 'examples.md'),
 		  path.join(__dirname, '..', 'docs', 'installation.md'),
 		  path.join(__dirname, '..', 'docs', 'api.md'),
 		  path.join(__dirname, '..', 'docs', 'license.md')

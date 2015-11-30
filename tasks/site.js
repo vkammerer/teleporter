@@ -13,7 +13,7 @@ export default function site() {
 			'introduction',
 			'installation',
 			'api',
-			'license'
+			'examples'
 		].map((p) => {
 			let markdownContent = fs.readFileSync(path.join(__dirname, '..', 'docs', p + '.md'), 'utf-8');
 			return marked(markdownContent)

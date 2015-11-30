@@ -1,11 +1,16 @@
-![Schema of Teleporter.js](http://vkammerer.github.io/teleporter/images/schema.png?v=2)  
+![Schema of Teleporter.js](http://vkammerer.github.io/teleporter/images/schema.png?v=3)  
 
 Teleporter is a small library that animates DOM elements with "transform", while getting their size and position from usual CSS properties (properties that trigger the 'Layout' or 'Paint' phases of the [browser rendering pipeline](http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#The_main_flow)).
 
-Original inspiration comes from the hack explained by Paul Lewis: [FLIP Your Animations](https://aerotwist.com/blog/flip-your-animations/).
+Original inspiration comes from the hack explained by Paul Lewis: [FLIP Your Animations](https://aerotwist.com/blog/flip-your-animations/).  
 
-## Example
-[Codepen demo](http://codepen.io/vkammerer/pen/ZbPdmN)
+## Examples
+#### On Codepen
+A few demos are hosted on Codepen.  
+Warning: [these demos have cats in them](http://codepen.io/collection/AvBoZo/).  
+
+#### Other demos
+If you made something with Teleporter you would like to share here, please submit a pull request to '[examples.md](https://github.com/vkammerer/teleporter/blob/master/docs/examples.md)'.  
 ## Installation
 Get it from npm.
 ```javascript

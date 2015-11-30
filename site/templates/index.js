@@ -1,7 +1,7 @@
 import {schema} from './schema';
 import {ribon} from './ribon';
 
-export default function template(introduction, installation, api, license) {
+export default function template(introductionDoc, installationDoc, apiDoc, examplesDoc) {
 	return `
 		<html>
 			<head>
@@ -14,7 +14,12 @@ export default function template(introduction, installation, api, license) {
 			<link rel="stylesheet" href="./styles/schema.css"/>
 			<link href='https://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
 			<script src="./scripts/teleporter-global-polyfilled.js"></script>
-			<script src="./scripts/public-site.js"></script>
+			<script src="./scripts/navigation.js"></script>
+			<script>
+				window.onload = function(){
+					initNavigation();
+				};
+			</script>
 			</head>
 			<body>
 				${ribon}
@@ -29,8 +34,9 @@ export default function template(introduction, installation, api, license) {
 							<div class="pagename">The Hack</div>
 							<div class="category">
 								<div class="category-content">
+									<h2>The Hack</h2>
 									${schema}
-									${introduction}
+									${introductionDoc}
 								</div>
 							</div>
 						</div>
@@ -38,7 +44,7 @@ export default function template(introduction, installation, api, license) {
 							<div class="pagename">Installation</div>
 							<div class="category">
 								<div class="category-content">
-									${installation}
+									${installationDoc}
 								</div>
 							</div>
 						</div>
@@ -46,15 +52,18 @@ export default function template(introduction, installation, api, license) {
 							<div class="pagename">API</div>
 							<div class="category">
 								<div class="category-content">
-									${api}
+									${apiDoc}
 								</div>
 							</div>
 						</div>
-						<div class="section" id="license">
-							<div class="pagename">License</div>
+						<div class="section" id="examples">
+							<div class="pagename">Examples</div>
 							<div class="category">
 								<div class="category-content">
-									${license}
+									${examplesDoc}
+									<h4>On this site</h4>
+									<p>The navigation of this site is animated with Teleporter.</p>
+									<p>The thumbnail versions of the sections are layed out with Flexbox, and the expanded versions are absolutely positioned.</p>
 								</div>
 							</div>
 						</div>
