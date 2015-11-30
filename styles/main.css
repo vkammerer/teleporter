@@ -7,6 +7,9 @@ body {
 	overflow-y: scroll;
 	background: #F5F5F5;
 }
+.ribon img {
+  max-width: 30%;	
+}
 .container {
 	max-width: 740px;
 	margin: 0 auto;
@@ -15,7 +18,7 @@ body {
 h1 {
 	font-size: 2em;
 	margin: 0;
-	padding: 1em 0 1.2em;
+	padding: 0.5em 0 1em;
 	color: #707070;
 	font-family: 'Iceland', cursive;
 }
@@ -45,6 +48,7 @@ pre {
 	}
 	h1 {
 		font-size: 3em;
+		padding: 1em 0 1.2em;
 	}
 	pre {
 		font-size: 0.9em;

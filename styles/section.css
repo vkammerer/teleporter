@@ -11,7 +11,7 @@
 .section {
 	background: white;
 	align-self: auto;
-	padding: 10px;
+	padding: 5px 10px;
 	box-shadow: 0 0px 1px 0 rgba(0,0,0,0.25);
 	cursor: pointer;
 	width: 48%;
@@ -44,6 +44,7 @@
 	.section {
 		width: 20%;
 		margin: 0;
+		padding: 10px;
 	}
 	.section .pagename {
 		padding: 0 0 10px 0;
