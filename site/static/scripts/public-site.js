@@ -15,7 +15,7 @@ var init = function(){
 				selector: '#' + categoryName + ' .category',
 				sizeClass: 'expanded',
 				animation: {
-					duration: 300,
+					duration: window.innerWidth > 768 ? 350 : 500,
 					easing: 'cubic-bezier(0,0,0.32,1)'
 				}
 			}
