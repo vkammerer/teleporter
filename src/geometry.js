@@ -38,7 +38,13 @@ export function normalizeGetComputedStyle(element) {
 		let styles = window.getComputedStyle(element);
 		let backgroundStyle = '';
 		if (styles.backgroundColor) {
-			backgroundStyle += styles.backgroundColor;
+			backgroundStyle += styles.backgroundColor + ' ';
+		}
+		if (styles.backgroundImage) {
+			backgroundStyle += styles.backgroundImage + ' ';
+		}
+		if (styles.backgroundSize) {
+			backgroundStyle += styles.backgroundSize + ' ';
 		}
 		return {
 			background: backgroundStyle
