@@ -23,7 +23,7 @@ h1 {
 	display: inline-block;
 	width: 1.8em;
 	height: 1.8em;
-	background: url('logo.svg') center center no-repeat;
+	background: url('../images/logo.svg') center center no-repeat;
 	background-size: contain;
 	margin: 0 0.2em -0.62em 0;
 }
