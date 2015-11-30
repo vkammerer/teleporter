@@ -4,13 +4,6 @@ Teleporter is a small library that animates DOM elements with "transform", while
 
 Original inspiration comes from the hack explained by Paul Lewis: [FLIP Your Animations](https://aerotwist.com/blog/flip-your-animations/).  
 
-## Examples
-#### On Codepen
-A few demos are hosted on Codepen.  
-Warning: [these demos have cats in them](http://codepen.io/collection/AvBoZo/).  
-
-#### Other demos
-If you made something with Teleporter you would like to share here, please submit a pull request to '[examples.md](https://github.com/vkammerer/teleporter/blob/master/docs/examples.md)'.  
 ## Installation
 Get it from npm.
 ```javascript
@@ -122,6 +115,13 @@ myElement.teleport('state1').then(function(){
 myElement.setSizeClass('maximalClass');
 ```
 Sets the 'sizeClass' attribute (see 'Constructor options' > 'sizeClass' above) and applies transformation to the element.
+## Examples
+#### On Codepen
+A few demos are hosted on Codepen.  
+Warning: [these demos have cats in them](http://codepen.io/collection/AvBoZo/).  
+
+#### Other demos
+If you made something with Teleporter you would like to share here, please submit a pull request to '[examples.md](https://github.com/vkammerer/teleporter/blob/master/docs/examples.md)'.  
 ## License
 The MIT License (MIT)
 
