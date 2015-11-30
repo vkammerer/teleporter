@@ -7,15 +7,14 @@ export default function template(introduction, installation, api, license) {
 			<head>
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-			<link rel="stylesheet" href="./normalize.css"/>
-			<link rel="stylesheet" href="./main.css"/>
-			<link rel="stylesheet" href="./section.css"/>
-			<link rel="stylesheet" href="./category.css"/>
-			<link rel="stylesheet" href="./schema.css"/>
-			<link rel="stylesheet" href="./table.css"/>
+			<link rel="stylesheet" href="./styles/normalize.css"/>
+			<link rel="stylesheet" href="./styles/main.css"/>
+			<link rel="stylesheet" href="./styles/section.css"/>
+			<link rel="stylesheet" href="./styles/category.css"/>
+			<link rel="stylesheet" href="./styles/schema.css"/>
 			<link href='https://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
-			<script src="teleporter-global-polyfilled.js"></script>
-			<script src="public-site.js"></script>
+			<script src="./scripts/teleporter-global-polyfilled.js"></script>
+			<script src="./scripts/public-site.js"></script>
 			</head>
 			<body>
 				${ribon}

@@ -31,12 +31,12 @@ export default function site() {
 
 		fs.copySync(
 			path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js'),
-			path.join(siteDirPath, 'static', 'teleporter-global-polyfilled.js')
+			path.join(siteDirPath, 'static', 'scripts', 'teleporter-global-polyfilled.js')
 		);
 
 		fs.copySync(
 			require.resolve('normalize.css'),
-			path.join(siteDirPath, 'static', 'normalize.css')
+			path.join(siteDirPath, 'static', 'styles', 'normalize.css')
 		);
 
 		console.log('Site task complete'.cyan)
