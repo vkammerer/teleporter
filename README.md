@@ -1,4 +1,4 @@
-![Schema of Teleporter.js](http://vkammerer.github.io/teleporter/images/schema.png)  
+![Schema of Teleporter.js](http://vkammerer.github.io/teleporter/images/schema.png?v=2)  
 
 Teleporter is a small library that animates DOM elements with "transform", while getting their size and position from usual CSS properties (properties that trigger the 'Layout' or 'Paint' phases of the [browser rendering pipeline](http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#The_main_flow)).
 
