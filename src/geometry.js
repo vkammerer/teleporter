@@ -22,6 +22,14 @@ export function transforms(rect, dimensionsRect) {
 	`
 }
 
+/**
+* Gets the 'rect' (rectangle) of a given element,
+* independently of the scroll position;
+*
+* @method normalizeRect
+* @param {Object} element Dom element to get the measures from
+* @return {Object} rectangle object
+*/
 export function normalizeRect(element) {
 	let rect = element.getBoundingClientRect();
 	return Object.assign({}, {

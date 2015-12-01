@@ -33,6 +33,13 @@ export default class Teleporter {
 		this.element.classList.add('teleporter-element','teleporter-idle');
 		this.setSizeClass(this.sizeClass);
 	}
+
+	/**
+	* Sets a div as direct child of the element,
+	* and wraps all other children nodes in it.
+	*
+	* @method setInnerElement
+	*/
 	setInnerElement(){
 		this.innerElement = document.createElement('div');
 		this.innerElement.className = 'teleporter-container';
@@ -45,6 +52,13 @@ export default class Teleporter {
 		});
 		normalizeApplyBackground(this.innerElement, this.style);
 	}
+
+	/**
+	* Resets the element to what it was originally,
+	* before all children nodes were wrapped in a container.
+	*
+	* @method resetElement
+	*/
 	resetElement(){
 		if (this.teleportation && this.teleportation.player) {
 			this.teleportation.player.cancel();
@@ -61,6 +75,7 @@ export default class Teleporter {
 			background: null
 		});
 	}
+
 	/**
 	* Gets size and position of the element when applied a certain class.
 	*
@@ -69,6 +84,7 @@ export default class Teleporter {
 	* to the element. Not required.
 	* @return {Object} Returns a 'rect' object as returned by Element.getBoundingClientRect()
 	* (https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
+	* except on Firefox because of inconsistencies with the method (see './utils.js').
 	*/
 	getRect(className) {
 		let rect;
@@ -86,6 +102,16 @@ export default class Teleporter {
 		return rect;
 	}
 
+	/**
+	* Gets computed styles of the element when applied a certain class.
+	*
+	* @method getStyles
+	* @param {String} className The name of the class to apply
+	* to the element. Not required.
+	* @return {Object} Returns a 'style' object as returned by window.getComputedStyle
+	* (https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle),
+	* except on Firefox because of inconsistencies with the method (see './utils.js').
+	*/
 	getStyles(className) {
 		let style;
 		if (

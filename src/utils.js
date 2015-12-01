@@ -1,3 +1,13 @@
+/**
+* Normalizes behavior of window.getComputedStyle
+* with regards to shorthand properties
+* (http://stackoverflow.com/questions/32295296/window-getcomputedstyle-not-working-in-other-browsers-except-chrome).
+*
+* @method normalizeGetComputedStyle
+* @param {Object} element DOM element to get the properties from
+* @return {Object} As returned by window.getComputedStyle,
+* except for Firefox where only the background attributes are returned  
+*/
 export function normalizeGetComputedStyle(element) {
 	// Firefox wtf
 	if (window.getDefaultComputedStyle) {
@@ -19,6 +29,14 @@ export function normalizeGetComputedStyle(element) {
 	}
 }
 
+/**
+* Getter, pendant to the setter normalizeGetComputedStyle
+* (see right above)
+*
+* @method normalizeApplyBackground
+* @param {Object} element DOM element to get the properties from
+* @param {Object} style CSS styles to apply
+*/
 export function normalizeApplyBackground(element, style) {
 	// Firefox wtf
 	if (window.getDefaultComputedStyle) {
