@@ -5,6 +5,10 @@
 .category-content {
 	background: white; 
 	padding: 30px 10px;
+	visibility: hidden;
+}
+body.navigation-ready .category-content {
+	visibility: visible;
 }
 @media (min-width: 769px) {
 	.category {

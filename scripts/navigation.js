@@ -57,6 +57,7 @@ var initNavigation = function(){
 			onCategoryClick(category);
 		});
 	});
+	document.body.classList.add('navigation-ready');
 	openCategory(categories[0])
 
 	// Expose it, so that anyone can play with it
