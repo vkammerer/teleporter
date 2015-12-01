@@ -7,16 +7,23 @@ import jsBeautify from 'js-beautify';
 let siteDirPath = path.join(__dirname, '..', 'site');
 
 export default function site() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolveSite, rejectSite) => {
 
-		let htmlSections = [
+		let htmlPromises = [
 			'introduction',
 			'installation',
 			'api',
 			'examples'
 		].map((p) => {
-			let markdownContent = fs.readFileSync(path.join(__dirname, '..', 'docs', p + '.md'), 'utf-8');
-			return marked(markdownContent)
+			return new Promise((resolve, reject) => {
+				fs.readFile(path.join(__dirname, '..', 'docs', p + '.md'), 'utf-8', (err, data) => {
+					if (err) {
+						reject();
+						return;
+					}
+					resolve(marked(data))
+				});
+			})
 		})
 
 		delete require.cache[require.resolve('../site/templates/index')]
@@ -24,23 +31,26 @@ export default function site() {
 		delete require.cache[require.resolve('../site/templates/ribon')]
 		let indexTemplate = require('../site/templates/index').default;
 
-		fs.writeFileSync(
-			path.join(siteDirPath, 'static', 'index.html'),
-			jsBeautify.html(indexTemplate(...htmlSections))
-		);
+		Promise.all(htmlPromises).then((htmlSections) => {
 
-		fs.copySync(
-			path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js'),
-			path.join(siteDirPath, 'static', 'scripts', 'teleporter-global-polyfilled.js')
-		);
+			fs.writeFileSync(
+				path.join(siteDirPath, 'static', 'index.html'),
+				jsBeautify.html(indexTemplate(...htmlSections))
+			);
 
-		fs.copySync(
-			require.resolve('normalize.css'),
-			path.join(siteDirPath, 'static', 'styles', 'normalize.css')
-		);
+			fs.copySync(
+				path.join(__dirname, '..', 'dist', 'teleporter-global-polyfilled.js'),
+				path.join(siteDirPath, 'static', 'scripts', 'teleporter-global-polyfilled.js')
+			);
 
-		console.log('Site task complete'.cyan)
-		resolve()
+			fs.copySync(
+				require.resolve('normalize.css'),
+				path.join(siteDirPath, 'static', 'styles', 'normalize.css')
+			);
 
+			console.log('Site task complete'.cyan)
+			resolveSite()
+
+		})
 	})
 }
