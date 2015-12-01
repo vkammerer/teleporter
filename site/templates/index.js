@@ -7,6 +7,8 @@ export default function template(introductionDoc, installationDoc, apiDoc, examp
 		<html>
 			<head>
 			<meta charset="utf-8">
+			<title>Teleporter.js</title>
+			<meta name="description" content="Hardware Accelerated Animations with boring CSS properties">
 			<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 			<link rel="stylesheet" href="./styles/normalize.css"/>
 			<link rel="stylesheet" href="./styles/main.css"/>
