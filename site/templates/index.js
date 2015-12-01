@@ -1,5 +1,6 @@
 import {schema} from './schema';
 import {ribon} from './ribon';
+import {analytics} from './analytics';
 
 export default function template(introductionDoc, installationDoc, apiDoc, examplesDoc) {
 	return `
@@ -69,6 +70,7 @@ export default function template(introductionDoc, installationDoc, apiDoc, examp
 						</div>
 					</div>
 				</div>
+				${analytics}
 			</body>
 		</html>
 	`
