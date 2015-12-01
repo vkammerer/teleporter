@@ -89,7 +89,7 @@ myElement.teleport({class: 'state1'})
 ```
 which is equivalent to:
 ```javascript
-myElement.teleport([{{class: ''}}, {class: 'state1'}]);
+myElement.teleport([{class: ''}, {class: 'state1'}]);
 ```  
 Each object in the array represents a step of the teleportation. If only one String or Object is passed, it is assumed that the first step is the current state.  
 The objects of the array have the following format:
