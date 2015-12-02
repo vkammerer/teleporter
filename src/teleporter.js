@@ -220,18 +220,25 @@ export default class Teleporter {
 	*/
 	animate(index) {
 		let animation = Object.assign({}, this.animation, this.teleportation.steps[index + 1].animation);
-		if (index == this.teleportation.steps.length - 2) {
-			this.innerElement.style.transform = transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect);
-		}
-		this.teleportation.player = this.innerElement.animate([
+		let theseSteps = [
 		  { transform: transforms(this.teleportation.steps[index].rect, this.teleportation.sizeRect) },
 		  { transform: transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect) }
-		], {
+		];
+		if (
+			(typeof this.teleportation.steps[index].opacity === 'number') && 
+			(typeof this.teleportation.steps[index + 1].opacity === 'number')
+		) {
+			theseSteps[0].opacity = this.teleportation.steps[index].opacity;
+			theseSteps[1].opacity = this.teleportation.steps[index + 1].opacity;
+		}
+		this.teleportation.player = this.innerElement.animate(theseSteps, {
 		  duration: animation.duration,
+		  delay: animation.delay,
 		  easing: animation.easing
 		});
 		this.teleportation.player.addEventListener('finish', () => {
 			this.teleportation.player.removeEventListener('finish');
+			this.innerElement.style.transform = transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect);
 			if (index < this.teleportation.steps.length - 2) {
 				this.animate(index + 1);
 			}

@@ -64,11 +64,29 @@
 
 			window.teleportMe = function(id){
 				console.log(id)
-			  window.myElements[id].teleport(['', 'fullscreen', '']);
+			  window.myElements[id].teleport([{
+			  	class: '',
+			  	opacity: 0
+			  }, {
+			  	class: 'fullscreen',
+			  	opacity: 1,
+			  	animation: {
+			  		easing: 'linear',
+			  		duration: 800,
+			  		delay: 2000
+			  	}
+			  }, '']);
 			}
 
 			window.myElements = {
-			  example1: new Teleporter('#example1'),
+			  example1: new Teleporter({
+			  	selector: '#example1',
+			  	animation: {
+			  		easing: 'linear',
+			  		duration: 800,
+			  		delay: 2000
+			  	}
+			  }),
 			  example2: new Teleporter('#example2'),
 			  example3: new Teleporter('#example3'),
 			  example4: new Teleporter('#example4')

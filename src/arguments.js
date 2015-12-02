@@ -22,6 +22,7 @@ export const constructorArgument = (arg) => {
 	let defaults = {
 		animation: {
 			duration: 800,
+			delay: 0,
 			easing: 'linear'
 		}
 	}
@@ -40,6 +41,9 @@ export const constructorArgument = (arg) => {
 			let animation = {}
 			if (typeof arg.animation.duration === 'number') {
 				animation.duration = arg.animation.duration
+			}
+			if (typeof arg.animation.delay === 'number') {
+				animation.delay = arg.animation.delay
 			}
 			if (typeof arg.animation.easing === 'string') {
 				animation.easing = arg.animation.easing
