@@ -4,9 +4,21 @@
 * @module Teleporter
 */
 
-import { constructorArgument, teleportArgument } from './arguments';
-import { transforms, normalizeRect } from './geometry';
-import { normalizeGetComputedStyle, normalizeApplyBackground } from './utils';
+import {
+	constructorArgument,
+	teleportArgument
+} from './arguments';
+
+import {
+	getRect,
+	getTransform
+} from './geometry';
+
+import {
+	setWrapper,
+	setWrapperStyles,
+	resetElement
+} from './dom-utils';
 
 /**
 * Main class
@@ -18,275 +30,180 @@ import { normalizeGetComputedStyle, normalizeApplyBackground } from './utils';
 * - Sets this.sizeClass
 */
 export default class Teleporter {
-	constructor(options) {
-		let formattedArg = constructorArgument(options)
-		if (!formattedArg) {
+	constructor(arg) {
+		let options = constructorArgument(arg)
+		if (!options) {
 			console.error(`Teleporter.js: No valid argument passed to the constructor 'Teleporter'`);
 			return;
 		}
-		Object.assign(this, formattedArg);
+		Object.assign(this, options);
 		this.element = document.querySelector(this.selector);
 		if (!this.element) {
 			console.error(`Teleporter.js: No element found with the selector '${this.selector}'`);
 			return;
 		};
-		this.element.classList.add('teleporter-element','teleporter-idle');
+		this.element.classList.add('teleporter-idle');
 		this.setSizeClass(this.sizeClass);
-	}
-
-	/**
-	* Sets a div as direct child of the element,
-	* and wraps all other children nodes in it.
-	*
-	* @method setInnerElement
-	*/
-	setInnerElement(){
-		this.innerElement = document.createElement('div');
-		this.innerElement.className = 'teleporter-container';
-		while (this.element.childNodes.length > 0) {
-			this.innerElement.appendChild(this.element.childNodes[0]);
-		}
-		this.element.insertBefore(this.innerElement, null);
-		Object.assign(this.element.style, {
-			background: 'transparent'
-		});
-		normalizeApplyBackground(this.innerElement, this.style);
-	}
-
-	/**
-	* Resets the element to what it was originally,
-	* before all children nodes were wrapped in a container.
-	*
-	* @method resetElement
-	*/
-	resetElement(){
-		if (this.teleportation && this.teleportation.player) {
-			this.teleportation.player.cancel();
-		}
-		if (this.innerElement) {
-			while (this.innerElement.childNodes.length > 0) {
-				this.element.appendChild(this.innerElement.childNodes[0]);
-			}			
-			this.element.removeChild(this.innerElement);			
-		}
-		Object.assign(this.element.style, {
-			width: null,
-			height: null,
-			background: null
-		});
-	}
-
-	/**
-	* Gets size and position of the element when applied a certain class.
-	*
-	* @method getRect
-	* @param {String} className The name of the class to apply
-	* to the element. Not required.
-	* @return {Object} Returns a 'rect' object as returned by Element.getBoundingClientRect()
-	* (https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
-	* except on Firefox because of inconsistencies with the method (see './utils.js').
-	*/
-	getRect(className) {
-		let rect;
-		if (
-			(typeof className === 'string') &&
-			(className.length > 0)
-		) {
-			this.element.classList.add(className);
-			rect = normalizeRect(this.element);
-			this.element.classList.remove(className);
-		}
-		else {
-			rect = normalizeRect(this.element);
-		}
-		return rect;
-	}
-
-	/**
-	* Gets computed styles of the element when applied a certain class.
-	*
-	* @method getStyles
-	* @param {String} className The name of the class to apply
-	* to the element. Not required.
-	* @return {Object} Returns a 'style' object as returned by window.getComputedStyle
-	* (https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle),
-	* except on Firefox because of inconsistencies with the method (see './utils.js').
-	*/
-	getStyles(className) {
-		let style;
-		if (
-			(typeof className === 'string') &&
-			(className.length > 0)
-		) {
-			this.element.classList.add(className);
-			style = normalizeGetComputedStyle(this.element)
-			this.element.classList.remove(className);
-		}
-		else {
-			style = normalizeGetComputedStyle(this.element)
-		}
-		return style;
-	}
-
-	/**
-	* Applies inline style attributes to modify the element
-	* from the state of the original rasterized node to the current state. 
-	*
-	* @method setInnerStyles
-	* @param {Object} rect Contains the size and position
-	* of the element as it should be displayed on the page.
-	* @param {Object} sizeRect Contains the size of the element
-	* that should be used to create the original rasterized node.
-	*/
-	setInnerStyles(rect, sizeRect) {
-
-		Object.assign(this.innerElement.style, {
-			width: `${sizeRect.width}px`,
-			height: `${sizeRect.height}px`
-		});
-
-		let innerElementRect = this.innerElement.getBoundingClientRect();
-
-		Object.assign(this.innerElement.style, {
-			transform: transforms(rect, innerElementRect)
-		});
-
 	}
 
 	/**
 	* Public API Method.
 	* Sets the class to be used for the original rasterized node,
-	* and applies the styles modification for the current state. 
+	* and applies the styles modification for the current state.
 	*
 	* @method set
 	* @param {String} className Name of the class to apply. Optional.
 	*/
 	setSizeClass(className) {
+		resetElement(this.element);
+		this.elementRect = getRect(this.element);
 		this.sizeClass = className;
-		this.resetElement();
-		let currentRect = this.getRect();
-		this.sizeRect = this.getRect(this.sizeClass);
-		this.style = this.getStyles(this.sizeClass);
-		this.setInnerElement();
-		this.setInnerStyles(currentRect, this.sizeRect)
+		this.sizeRect = getRect(this.element, this.sizeClass);
+		this.wrapper = setWrapper(this.element);
+		setWrapperStyles(this.wrapper, this.elementRect, this.sizeRect);
 	}
 
 	/**
-	* Measures the size and position for all steps of the teleportation. 
-	*
-	* @method setTeleportationStepsRects
-	*/
-	setTeleportationStepsRects() {
-		this.teleportation.steps.forEach((obj) => {
-			obj.rect = this.getRect(obj.class)
-		})
-	}
-
-	/**
-	* Measures the size of the original rasterized node for the teleportation:
-	* - if 'this.sizeClass' is defined, use its size. 
+	* Measure the size of the original rasterized node for the teleportation:
+	* - if 'this.sizeClass' is defined, use its size.
 	* - otherwise, create a node with the maximal width
-	* and height of all steps of the teleportation. 
+	* and height of all steps of the teleportation.
 	*
-	* @method setTeleportationRect
+	* @method getTeleportationSize
 	*/
-	setTeleportationRect() {
-		let width, height;
-		if (!this.sizeClass) {
-			let widthArr = this.teleportation.steps.map((obj) => {
+	getTeleportationSize(teleportation) {
+		if (this.sizeClass) {
+			return {
+				width: this.sizeRect.width,
+				height: this.sizeRect.height
+			}
+		}
+		else {
+			let widths = teleportation.steps.map((obj) => {
 				return obj.rect.width
 			})
-			let heightArr = this.teleportation.steps.map((obj) => {
+			let heights = teleportation.steps.map((obj) => {
 				return obj.rect.height
 			})
-			width = Math.max(...widthArr);
-			height = Math.max(...heightArr);
+			return {
+				width: Math.max(...widths),
+				height: Math.max(...heights)
+			}
 		}
+	}
 
-		Object.assign(this.innerElement.style, {
-			width: `${width || this.sizeRect.width}px`,
-			height: `${height || this.sizeRect.height}px`
-		});
-
-		this.teleportation.sizeRect = normalizeRect(this.innerElement);
-
+	handleEvent = () => {
+		this.teleportation.player.removeEventListener('finish', this, false);
+		if (this.teleportation.stepIndex < this.teleportation.steps.length - 1) {
+			this.teleportation.stepIndex++;
+			this.animate();
+		}
+		else {
+			let finalStepStyle = this.teleportation.steps[this.teleportation.stepIndex].webAnimation.stepStyles[1];
+			Object.assign(this.wrapper.style, finalStepStyle);
+			this.element.classList.remove('teleporter-active');
+			this.element.classList.add('teleporter-idle');
+			this.teleportation.resolve();
+		}
 	}
 
 	/**
-	* Animates the element from one step to the next until the teleportation end.
+	* Animate the element from one step to the next until the teleportation end.
 	*
 	* @method animate
-	* @param {Integer} index Index of the step from which to apply the animation.
 	*/
-	animate(index) {
-		let animation = Object.assign({}, this.animation, this.teleportation.steps[index + 1].animation);
-		let theseSteps = [
-		  { transform: transforms(this.teleportation.steps[index].rect, this.teleportation.sizeRect) },
-		  { transform: transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect) }
-		];
-		if (
-			(typeof this.teleportation.steps[index].opacity === 'number') && 
-			(typeof this.teleportation.steps[index + 1].opacity === 'number')
-		) {
-			theseSteps[0].opacity = this.teleportation.steps[index].opacity;
-			theseSteps[1].opacity = this.teleportation.steps[index + 1].opacity;
+	animate() {
+		let step = this.teleportation.steps[this.teleportation.stepIndex];
+		if (this.teleportation.stepIndex === 1) {
+			setWrapperStyles(this.wrapper, this.teleportation.steps[0].rect, this.teleportation.sizeRect);
 		}
-		this.teleportation.player = this.innerElement.animate(theseSteps, {
-		  duration: animation.duration,
-		  delay: animation.delay,
-		  easing: animation.easing
+		this.teleportation.player = this.wrapper.animate(step.webAnimation.stepStyles, {
+		  duration: step.webAnimation.animation.duration,
+		  delay: step.webAnimation.animation.delay,
+		  easing: step.webAnimation.animation.easing
 		});
-		this.teleportation.player.addEventListener('finish', () => {
-			this.teleportation.player.removeEventListener('finish');
-			this.innerElement.style.transform = transforms(this.teleportation.steps[index + 1].rect, this.teleportation.sizeRect);
-			if (index < this.teleportation.steps.length - 2) {
-				this.animate(index + 1);
-			}
-			else {
-				this.element.classList.remove('teleporter-active');
-				this.element.classList.add('teleporter-idle');
-				this.teleportation.resolve();
-			}
-		});
+		this.teleportation.player.addEventListener('finish', this, false);
 	}
 
-	/**
-	* Public API method.
-	* Initiates teleportation between each state.
-	*
-	* @method teleport
-	* @param {String|Object|Array} arg Steps of the teleportation to perform.
-	* Can be of various types (see 'teleportArgument' method in './arguments').
-	*/
-	teleport(arg) {
-		// Checks arguments format
-		let formattedArg = teleportArgument(arg);
-		if (!formattedArg) {
-			console.error(`Teleporter.js: No valid argument passed to method 'teleport'`);
+	setTeleportationWrapper(teleportation) {
+		this.wrapper = setWrapper(this.element);
+		Object.assign(this.wrapper.style, {
+			width: `${teleportation.size.width}px`,
+			height: `${teleportation.size.height}px`
+		});
+		teleportation.sizeRect = getRect(this.wrapper);
+		setWrapperStyles(this.wrapper, this.elementRect, this.sizeRect);
+	}
+
+	setTeleportationStepsStyles(teleportation) {
+		for (let index = 1; index < teleportation.steps.length; index++) {
+			let previousStep = teleportation.steps[index - 1];
+			let step = teleportation.steps[index];
+			step.webAnimation = {
+				animation: Object.assign({}, this.animation, step.animation),
+				stepStyles: [
+				  { transform: getTransform(previousStep.rect, teleportation.sizeRect) },
+				  { transform: getTransform(step.rect, teleportation.sizeRect) }
+				]
+			}
+			if (
+				(typeof previousStep.opacity === 'number') &&
+				(typeof step.opacity === 'number')
+			) {
+				step.webAnimation.stepStyles[0].opacity = previousStep.opacity;
+				step.webAnimation.stepStyles[1].opacity = step.opacity;
+			}
+		}
+	}
+
+	createTeleportation(arg) {
+
+		let steps = teleportArgument(arg);
+		if (!steps) {
+			console.error(`Teleporter.js: No valid argument passed to method 'createTeleportation'`);
 			return;
 		}
 
-		this.resetElement();
+		resetElement(this.element);
 
-		// Builds the teleportation attribute
-		this.teleportation = { steps: formattedArg };
-		this.setTeleportationStepsRects();
-		this.setInnerElement();
-		this.setTeleportationRect();
-
-		// Sets styles and launch animation
-		this.element.classList.remove('teleporter-idle');
-		this.element.classList.add('teleporter-active');
-		this.setInnerStyles(this.teleportation.steps[0].rect, this.teleportation.sizeRect);
-		this.animate(0);
-
-		// Returns a promise that will resolve on teleportation end
-		return new Promise((resolve, reject) => {
-			Object.assign(this.teleportation, {
-				resolve: resolve,
-				reject: reject
-			});
+		let teleportation = {};
+		teleportation.steps = steps.map((step) => {
+			return Object.assign(step, { rect: getRect(this.element, step.class) })
 		});
+		teleportation.size = this.getTeleportationSize(teleportation);
+		teleportation.run = run.bind(this, teleportation);
+
+		this.setTeleportationWrapper(teleportation);
+		this.setTeleportationStepsStyles(teleportation);
+
+		return teleportation;
 	}
 
+	teleport(arg) {
+		return this.createTeleportation(arg).run();
+	}
+
+}
+
+function run(teleportation){
+
+	if (this.teleportation && this.teleportation.player) {
+		this.teleportation.player.cancel();
+	}
+
+	this.teleportation = teleportation;
+	this.teleportation.stepIndex = 1;
+
+	// Set styles and launch animation
+	this.element.classList.remove('teleporter-idle');
+	this.element.classList.add('teleporter-active');
+	requestAnimationFrame(this.animate.bind(this));
+
+	// Return a promise that will resolve on teleportation end
+	return new Promise((resolve, reject) => {
+		Object.assign(this.teleportation, {
+			resolve: resolve,
+			reject: reject
+		});
+	});
 }

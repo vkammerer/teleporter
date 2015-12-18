@@ -4,6 +4,9 @@
   <meta charset="utf-8">
 	<title>Teleporter test</title>
 	<style type="text/css">
+		* {
+			box-sizing: border-box;
+		}
 		body {
 		  overflow-y: scroll;
 		  font-family: arial;
@@ -21,23 +24,27 @@
 		}
 		.example {
 		  float: left;
-		  width: 200px;
+		  width: 46%;
 		  height: 108px;
-		  margin: 10px;
+		  margin: 2%;
+		}
+		.example > div {
+			width: 100%;
+			height: 100%;
 		  background-position:  center center;
 		  background-size: cover;
 		}
-		#example1 {
-		  background-image: url('http://lorempixel.com/g/1920/1200/cats/?v=1');  
+		#example1 > div {
+		  background-image: url('http://lorempixel.com/g/1920/1200/cats/?v=1');
 		}
-		#example2 {
-		  background-image: url('http://lorempixel.com/g/1920/1200/cats/?v=2');  
+		#example2 > div {
+		  background-image: url('http://lorempixel.com/g/1920/1200/cats/?v=2');
 		}
-		#example3 {
-		  background-image: url('http://lorempixel.com/g/1920/1200/cats/?v=3');  
+		#example3 > div {
+		  background-image: url('http://lorempixel.com/g/1920/1200/cats/?v=3');
 		}
-		#example4 {
-		  background-image: url('http://lorempixel.com/g/1920/1200/cats/?v=4');  
+		#example4 > div {
+		  background-image: url('http://lorempixel.com/g/1920/1200/cats/?v=4');
 		}
 		.fullscreen {
 		  position: absolute;
@@ -47,24 +54,40 @@
 		  bottom: 10px;
 		  width: auto;
 		  height: auto;
+		  margin: 0;
+		}
+    .halfleftscreen {
+		  position: absolute;
+		  left: 10px;
+		  top: 10px;
+		  right: 50%;
+		  bottom: 10px;
+		  width: auto;
+		  height: auto;
+		  margin: 0;
+		}
+    .halfrightscreen {
+		  position: absolute;
+		  left: 50%;
+		  top: 10px;
+		  right: 10px;
+		  bottom: 10px;
+		  width: auto;
+		  height: auto;
+		  margin: 0;
 		}
 	</style>
-  <script src="./scripts/teleporter-global-polyfilled.js"></script>
-</head>
-<body>
-	<div class="container">
-	  <div onClick="window.teleportMe('example1')" class="example" id="example1"></div>
-	  <div onClick="window.teleportMe('example2')" class="example" id="example2"></div>
-	  <div onClick="window.teleportMe('example3')" class="example" id="example3"></div>
-	  <div onClick="window.teleportMe('example4')" class="example" id="example4"></div>
-	</div>
 	<script type="text/javascript">
 
-		document.body.onload = function(){
+		window.addEventListener('load', function(event) {
+			console.log('ok')
 
-			window.teleportMe = function(id){
-				console.log(id)
-			  window.myElements[id].teleport([{
+			var cats = [];
+			var elements = document.querySelectorAll('.example');
+
+			Array.prototype.forEach.call(elements, function( element ){
+				var teleporter = new Teleporter('#' + element.id);
+				var teleportation = teleporter.createTeleportation([{
 			  	class: '',
 			  	opacity: 0
 			  }, {
@@ -72,27 +95,66 @@
 			  	opacity: 1,
 			  	animation: {
 			  		easing: 'linear',
-			  		duration: 800,
-			  		delay: 2000
+			  		duration: 800
 			  	}
-			  }, '']);
-			}
-
-			window.myElements = {
-			  example1: new Teleporter({
-			  	selector: '#example1',
+			  },{
+			  	class: '',
+			  	opacity: 0
+        }, {
+			  	class: 'fullscreen',
+			  	opacity: 1,
 			  	animation: {
 			  		easing: 'linear',
-			  		duration: 800,
-			  		delay: 2000
+			  		duration: 800
 			  	}
-			  }),
-			  example2: new Teleporter('#example2'),
-			  example3: new Teleporter('#example3'),
-			  example4: new Teleporter('#example4')
-			};
-		}
-	</script>
+			  }, {
+			  	class: 'halfrightscreen',
+			  	opacity: 1,
+			  	animation: {
+			  		easing: 'linear',
+			  		duration: 800
+			  	}
+        }, {
+			  	class: 'halfleftscreen',
+			  	opacity: 1,
+			  	animation: {
+			  		easing: 'linear',
+			  		duration: 800
+			  	}
+			  },{
+			  	class: '',
+			  	opacity: 0
+			  }, {
+			  	class: 'fullscreen',
+			  	opacity: 1,
+			  	animation: {
+			  		easing: 'linear',
+			  		duration: 800
+			  	}
+			  }, '']);
+				element.addEventListener('click', function(ev){
+					teleportation.run();
+				})
+			});
 
+		});
+	</script>
+  <script src="./scripts/teleporter-global-polyfilled.js"></script>
+</head>
+<body>
+	<div class="container">
+	  <div class="example" id="example1">
+	  	<div></div>
+	  </div>
+	  <div class="example" id="example2">
+	  	<div></div>
+	  </div>
+	  <div class="example" id="example3">
+	  	<div></div>
+	  </div>
+	  <div class="example" id="example4">
+	  	<div></div>
+	  </div>
+	</div>
 </body>
 </html>
