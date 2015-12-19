@@ -8,7 +8,7 @@
 			box-sizing: border-box;
 		}
 		body {
-		  overflow-y: scroll;
+		  overflow-y: hidden;
 		  font-family: arial;
 		}
 		.container {
@@ -89,49 +89,21 @@
 				var teleporter = new Teleporter('#' + element.id);
 				var teleportation = teleporter.createTeleportation([{
 			  	class: '',
-			  	opacity: 0
+			  	opacity: 0,
+          rotation: '0deg',
 			  }, {
 			  	class: 'fullscreen',
 			  	opacity: 1,
+          rotation: '360deg',
 			  	animation: {
 			  		easing: 'linear',
 			  		duration: 800
 			  	}
 			  },{
 			  	class: '',
-			  	opacity: 0
-        }, {
-			  	class: 'fullscreen',
-			  	opacity: 1,
-			  	animation: {
-			  		easing: 'linear',
-			  		duration: 800
-			  	}
-			  }, {
-			  	class: 'halfrightscreen',
-			  	opacity: 1,
-			  	animation: {
-			  		easing: 'linear',
-			  		duration: 800
-			  	}
-        }, {
-			  	class: 'halfleftscreen',
-			  	opacity: 1,
-			  	animation: {
-			  		easing: 'linear',
-			  		duration: 800
-			  	}
-			  },{
-			  	class: '',
-			  	opacity: 0
-			  }, {
-			  	class: 'fullscreen',
-			  	opacity: 1,
-			  	animation: {
-			  		easing: 'linear',
-			  		duration: 800
-			  	}
-			  }, '']);
+			  	opacity: 0,
+          rotation: '720deg',
+			  }]);
 				element.addEventListener('click', function(ev){
 					teleportation.run();
 				})

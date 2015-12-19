@@ -6,7 +6,7 @@
 
 import {
 	constructorArgument,
-	teleportArgument
+	createTeleportationArgument
 } from './arguments';
 
 import {
@@ -31,12 +31,7 @@ import {
 */
 export default class Teleporter {
 	constructor(arg) {
-		let options = constructorArgument(arg)
-		if (!options) {
-			console.error(`Teleporter.js: No valid argument passed to the constructor 'Teleporter'`);
-			return;
-		}
-		Object.assign(this, options);
+		Object.assign(this, constructorArgument(arg));
 		this.element = document.querySelector(this.selector);
 		if (!this.element) {
 			console.error(`Teleporter.js: No element found with the selector '${this.selector}'`);
@@ -71,7 +66,7 @@ export default class Teleporter {
 	*
 	* @method getTeleportationSize
 	*/
-	getTeleportationSize(teleportation) {
+	getTeleportationSize(steps) {
 		if (this.sizeClass) {
 			return {
 				width: this.sizeRect.width,
@@ -79,10 +74,10 @@ export default class Teleporter {
 			}
 		}
 		else {
-			let widths = teleportation.steps.map((obj) => {
+			let widths = steps.map((obj) => {
 				return obj.rect.width
 			})
-			let heights = teleportation.steps.map((obj) => {
+			let heights = steps.map((obj) => {
 				return obj.rect.height
 			})
 			return {
@@ -92,18 +87,23 @@ export default class Teleporter {
 		}
 	}
 
-	handleEvent = () => {
-		this.teleportation.player.removeEventListener('finish', this, false);
-		if (this.teleportation.stepIndex < this.teleportation.steps.length - 1) {
-			this.teleportation.stepIndex++;
+	/**
+	* Handle the "finish" event of the animation player of the running teleportation
+	*
+	* @method handleEvent
+	*/
+	handleEvent() {
+		this.runningTeleportation.player.removeEventListener('finish', this, false);
+		if (this.runningTeleportation.stepIndex < this.runningTeleportation.steps.length - 1) {
+			this.runningTeleportation.stepIndex++;
 			this.animate();
 		}
 		else {
-			let finalStepStyle = this.teleportation.steps[this.teleportation.stepIndex].webAnimation.stepStyles[1];
-			Object.assign(this.wrapper.style, finalStepStyle);
+			let finalStep = this.runningTeleportation.steps[this.runningTeleportation.stepIndex];
+			Object.assign(this.wrapper.style, finalStep.webAnimation.stepStyles[1]);
 			this.element.classList.remove('teleporter-active');
 			this.element.classList.add('teleporter-idle');
-			this.teleportation.resolve();
+			this.runningTeleportation.resolve();
 		}
 	}
 
@@ -113,38 +113,54 @@ export default class Teleporter {
 	* @method animate
 	*/
 	animate() {
-		let step = this.teleportation.steps[this.teleportation.stepIndex];
-		if (this.teleportation.stepIndex === 1) {
-			setWrapperStyles(this.wrapper, this.teleportation.steps[0].rect, this.teleportation.sizeRect);
+		let step = this.runningTeleportation.steps[this.runningTeleportation.stepIndex];
+		if (this.runningTeleportation.stepIndex === 1) {
+			setWrapperStyles(this.wrapper, this.runningTeleportation.steps[0].rect, this.runningTeleportation.sizeRect);
 		}
-		this.teleportation.player = this.wrapper.animate(step.webAnimation.stepStyles, {
+		this.runningTeleportation.player = this.wrapper.animate(step.webAnimation.stepStyles, {
 		  duration: step.webAnimation.animation.duration,
 		  delay: step.webAnimation.animation.delay,
 		  easing: step.webAnimation.animation.easing
 		});
-		this.teleportation.player.addEventListener('finish', this, false);
+		this.runningTeleportation.player.addEventListener('finish', this, false);
 	}
 
-	setTeleportationWrapper(teleportation) {
+	/**
+	* Get the rect of the rasterized node to use for the teleportation
+	*
+	* @method animate
+	*/
+	getTeleportationSizeRect(size) {
 		this.wrapper = setWrapper(this.element);
 		Object.assign(this.wrapper.style, {
-			width: `${teleportation.size.width}px`,
-			height: `${teleportation.size.height}px`
+			width: `${size.width}px`,
+			height: `${size.height}px`
 		});
-		teleportation.sizeRect = getRect(this.wrapper);
+		let sizeRect = getRect(this.wrapper);
 		setWrapperStyles(this.wrapper, this.elementRect, this.sizeRect);
+		return sizeRect;
 	}
 
-	setTeleportationStepsStyles(teleportation) {
-		for (let index = 1; index < teleportation.steps.length; index++) {
-			let previousStep = teleportation.steps[index - 1];
-			let step = teleportation.steps[index];
+	/**
+	* Measure transform properties to apply for each step
+	* of the transition
+	*
+	* @method getTeleportationSteps
+	*/
+	getTeleportationSteps(steps, sizeRect) {
+		for (let index = 1; index < steps.length; index++) {
+			let previousStep = steps[index - 1];
+			let step = steps[index];
 			step.webAnimation = {
 				animation: Object.assign({}, this.animation, step.animation),
 				stepStyles: [
-				  { transform: getTransform(previousStep.rect, teleportation.sizeRect) },
-				  { transform: getTransform(step.rect, teleportation.sizeRect) }
+				  { transform: getTransform(previousStep.rect, sizeRect) },
+				  { transform: getTransform(step.rect, sizeRect) }
 				]
+			}
+			if (previousStep.rotate && step.rotate) {
+				step.webAnimation.stepStyles[0].transform += ` rotate(${previousStep.rotate})`;
+				step.webAnimation.stepStyles[1].transform += ` rotate(${step.rotate})`;
 			}
 			if (
 				(typeof previousStep.opacity === 'number') &&
@@ -154,28 +170,25 @@ export default class Teleporter {
 				step.webAnimation.stepStyles[1].opacity = step.opacity;
 			}
 		}
+		return steps;
 	}
 
+	/**
+	* Get a teleportable object
+	*
+	* @method createTeleportation
+	*/
 	createTeleportation(arg) {
-
-		let steps = teleportArgument(arg);
-		if (!steps) {
-			console.error(`Teleporter.js: No valid argument passed to method 'createTeleportation'`);
-			return;
-		}
-
+		let steps = createTeleportationArgument(arg);
 		resetElement(this.element);
-
-		let teleportation = {};
-		teleportation.steps = steps.map((step) => {
-			return Object.assign(step, { rect: getRect(this.element, step.class) })
+		steps.forEach((step) => {
+			Object.assign(step, { rect: getRect(this.element, step.class) })
 		});
-		teleportation.size = this.getTeleportationSize(teleportation);
+		let teleportation = {};
+		let size = this.getTeleportationSize(steps);
+		teleportation.sizeRect = this.getTeleportationSizeRect(size);
+		teleportation.steps = this.getTeleportationSteps(steps, teleportation.sizeRect);
 		teleportation.run = run.bind(this, teleportation);
-
-		this.setTeleportationWrapper(teleportation);
-		this.setTeleportationStepsStyles(teleportation);
-
 		return teleportation;
 	}
 
@@ -185,14 +198,14 @@ export default class Teleporter {
 
 }
 
-function run(teleportation){
+function run(teleportation) {
 
-	if (this.teleportation && this.teleportation.player) {
-		this.teleportation.player.cancel();
+	if (this.runningTeleportation && this.runningTeleportation.player) {
+		this.runningTeleportation.player.cancel();
 	}
 
-	this.teleportation = teleportation;
-	this.teleportation.stepIndex = 1;
+	this.runningTeleportation = teleportation;
+	this.runningTeleportation.stepIndex = 1;
 
 	// Set styles and launch animation
 	this.element.classList.remove('teleporter-idle');
@@ -201,7 +214,7 @@ function run(teleportation){
 
 	// Return a promise that will resolve on teleportation end
 	return new Promise((resolve, reject) => {
-		Object.assign(this.teleportation, {
+		Object.assign(this.runningTeleportation, {
 			resolve: resolve,
 			reject: reject
 		});

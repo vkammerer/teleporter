@@ -1,3 +1,17 @@
+function normalizeAnimation(arg){
+	let animation = {}
+	if (typeof arg.animation.duration === 'number') {
+		animation.duration = arg.animation.duration
+	}
+	if (typeof arg.animation.delay === 'number') {
+		animation.delay = arg.animation.delay
+	}
+	if (typeof arg.animation.easing === 'string') {
+		animation.easing = arg.animation.easing
+	}
+	return animation;
+}
+
 /**
 * Checks and normalizes the arguments passed to the constructor.
 *
@@ -33,28 +47,40 @@ export const constructorArgument = (arg) => {
 		(typeof arg === 'object') &&
 		(typeof arg.selector === 'string')
 	){
-		let plucked = { selector: arg.selector }
+		let plucked = { selector: arg.selector };
 		if (typeof arg.sizeClass === 'string') {
 			plucked.sizeClass = arg.sizeClass
 		}
 		if (typeof arg.animation === 'object') {
-			let animation = {}
-			if (typeof arg.animation.duration === 'number') {
-				animation.duration = arg.animation.duration
-			}
-			if (typeof arg.animation.delay === 'number') {
-				animation.delay = arg.animation.delay
-			}
-			if (typeof arg.animation.easing === 'string') {
-				animation.easing = arg.animation.easing
-			}
-			if (Object.keys(animation).length > 0) {
-				plucked.animation = animation
-			}
+			plucked.animation = normalizeAnimation(arg);
 		}
 		returnVal = Object.assign({}, defaults, plucked);
 	}
+	if (!returnVal) {
+		console.error(`Teleporter.js: No valid argument passed to the constructor`);
+		return;
+	}
 	return returnVal
+}
+
+function normalizeStep(step){
+	if (typeof step.class !== 'string') {
+		console.error(`Teleporter.js: No valid class passed to the teleportation step`);
+		return;
+	}
+	let plucked = {
+		class: step.class
+	};
+	if (typeof step.opacity === 'number') {
+		plucked.opacity = step.opacity;
+	}
+	if (typeof step.rotate === 'string') {
+		plucked.rotate = step.rotate;
+	}
+	if (typeof step.animation === 'object') {
+		plucked.animation = normalizeAnimation(step);
+	}
+	return plucked;
 }
 
 /**
@@ -76,29 +102,26 @@ export const constructorArgument = (arg) => {
 * 	}
 * }
 */
-export const teleportArgument = (arg) => {
+export const createTeleportationArgument = (arg) => {
 	let returnVal;
 	if (typeof arg === 'string') {
-		returnVal = [{ class: '' }, { class: arg } ]
+		returnVal = [{ class: '' }, { class: arg } ];
 	}
 	else if (typeof arg === 'object') {
-		if (typeof arg.class === 'string') {
-			returnVal = [{ class: '' }, arg ]
+		if (!Array.isArray(arg)) {
+			returnVal = [{ class: '' }, normalizeStep(arg) ];
 		}
-		else if (Array.isArray(arg)) {
+		else {
 			returnVal = [];
 			if (arg.length === 1) {
 				returnVal.push({ class: '' });
 			}
 			for (var i = 0; i < arg.length; i++) {
 				if (typeof arg[i] === 'string') {
-					returnVal.push({ class: arg[i] })
+					returnVal.push({ class: arg[i] });
 				}
-				else if (
-					(typeof arg[i] === 'object') &&
-					(typeof arg[i].class === 'string')
-				) {
-					returnVal.push(arg[i])
+				else if (typeof arg[i] === 'object') {
+					returnVal.push(normalizeStep(arg[i]));
 				}
 				else {
 					returnVal = undefined;
@@ -106,6 +129,10 @@ export const teleportArgument = (arg) => {
 				}
 			}
 		}
+	}
+	if (!returnVal) {
+		console.error(`Teleporter.js: No valid argument passed to method createTeleportation`);
+		return;
 	}
 	return returnVal
 }

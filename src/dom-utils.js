@@ -17,6 +17,7 @@ export function setWrapper(element) {
 	});
 	let wrapper = document.createElement('div');
 	wrapper.className = 'teleporter-wrapper';
+	wrapper.style.willChange = 'transform';
 	while (element.childNodes.length > 0) {
 		wrapper.appendChild(element.childNodes[0]);
 	}
@@ -29,6 +30,7 @@ export function setWrapper(element) {
 * from the state of the original rasterized node to the current state.
 *
 * @method setWrapperStyles
+* @param {Object} wrapper Wrapper element.
 * @param {Object} rect Contains the size and position
 * of the element as it should be displayed on the page.
 * @param {Object} sizeRect Contains the size of the element
