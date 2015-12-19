@@ -33,13 +33,13 @@ var initNavigation = function(){
 		category.teleporter.element.parentElement.classList.add('selected');
 		category.teleporter.element.classList.add('active');
 		category.expanded = true;
-		return category.teleporter.teleport(['', 'expanded'])
+		return category.openingTeleportation.run();
 	}
 	var closeCategory = function(category){
 		category.teleporter.element.parentElement.classList.remove('selected');
 		category.teleporter.element.classList.remove('active');
 		category.expanded = false;
-		return category.teleporter.teleport(['expanded',''])
+		return category.closingTeleportation.run();
 	}
 
 	var onCategoryClick = function(selectedCategory){
@@ -52,6 +52,8 @@ var initNavigation = function(){
 
 	categories.forEach(function(category){
 		category.teleporter = new Teleporter(category.options);
+		category.openingTeleportation = category.teleporter.createTeleportation(['', 'expanded']);
+		category.closingTeleportation = category.teleporter.createTeleportation(['expanded', '']);
 		document.querySelector('#' + category.name).addEventListener("click", function(){
 			if (category.expanded) { return }
 			onCategoryClick(category);

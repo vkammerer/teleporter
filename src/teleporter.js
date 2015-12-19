@@ -210,7 +210,7 @@ function run(teleportation) {
 	// Set styles and launch animation
 	this.element.classList.remove('teleporter-idle');
 	this.element.classList.add('teleporter-active');
-	requestAnimationFrame(this.animate.bind(this));
+	this.animate();
 
 	// Return a promise that will resolve on teleportation end
 	return new Promise((resolve, reject) => {
