@@ -90,11 +90,11 @@
 				var teleportation = teleporter.createTeleportation([{
 			  	class: '',
 			  	opacity: 0,
-          rotation: '0deg',
+          rotate: '0deg',
 			  }, {
 			  	class: 'fullscreen',
 			  	opacity: 1,
-          rotation: '360deg',
+          rotate: '360deg',
 			  	animation: {
 			  		easing: 'linear',
 			  		duration: 800
@@ -102,7 +102,7 @@
 			  },{
 			  	class: '',
 			  	opacity: 0,
-          rotation: '720deg',
+          rotate: '720deg',
 			  }]);
 				element.addEventListener('click', function(ev){
 					teleportation.run();
