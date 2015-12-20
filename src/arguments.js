@@ -32,7 +32,6 @@ function normalizeAnimation(arg){
 * }
 */
 export const constructorArgument = (arg) => {
-	let returnVal;
 	let defaults = {
 		animation: {
 			duration: 800,
@@ -41,7 +40,7 @@ export const constructorArgument = (arg) => {
 		}
 	}
 	if (typeof arg === 'string') {
-		returnVal = Object.assign({}, defaults, { selector: arg });
+		return Object.assign({}, defaults, { selector: arg });
 	}
 	else if (
 		(typeof arg === 'object') &&
@@ -51,16 +50,15 @@ export const constructorArgument = (arg) => {
 		if (typeof arg.sizeClass === 'string') {
 			plucked.sizeClass = arg.sizeClass
 		}
+		if (typeof arg.ratioSide === 'string') {
+			plucked.ratioSide = arg.ratioSide
+		}
 		if (typeof arg.animation === 'object') {
 			plucked.animation = normalizeAnimation(arg);
 		}
-		returnVal = Object.assign({}, defaults, plucked);
+		return Object.assign({}, defaults, plucked);
 	}
-	if (!returnVal) {
-		console.error(`Teleporter.js: No valid argument passed to the constructor`);
-		return;
-	}
-	return returnVal
+	console.error(`Teleporter.js: No valid argument passed to the constructor`);
 }
 
 function normalizeStep(step){
@@ -76,6 +74,9 @@ function normalizeStep(step){
 	}
 	if (typeof step.rotate === 'string') {
 		plucked.rotate = step.rotate;
+	}
+	if (typeof step.ratioSide !== 'undefined') {
+		plucked.ratioSide = step.ratioSide;
 	}
 	if (typeof step.animation === 'object') {
 		plucked.animation = normalizeAnimation(step);

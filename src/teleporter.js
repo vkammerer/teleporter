@@ -13,14 +13,16 @@ import {
 } from './arguments';
 
 import {
-	getRect,
+	normalizeRect,
 	getTransform
 } from './geometry';
 
 import {
+	setElementSize,
+	resetElementSize,
 	setWrapper,
-	setWrapperStyles,
-	resetElement
+	resetWrapper,
+	setWrapperSize
 } from './dom-utils';
 
 /**
@@ -42,7 +44,36 @@ export default class Teleporter {
 		};
 		this.element.classList.add('teleporter-idle');
 		this.setSizeClass(this.sizeClass);
-		window.addEventListener('resize', debounce(this.setSizeClass.bind(this), 50));
+		window.addEventListener('resize', debounce(this.setSizeClass.bind(this, this.sizeClass), 100));
+	}
+
+	/**
+	* Gets size and position of the element when applied a certain class.
+	*
+	* @method getRect
+	* @param {String} className The name of the class to apply
+	* to the element. Optional.
+	* @param {String} ratioSide The side that should have its length updated
+	* to keep the node proportional to that of sizeRect. Optional.
+	* @return {Object} Returns a 'rect' object as returned by Element.getBoundingClientRect()
+	* (https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
+	*/
+	getElementRect(className, ratioSide) {
+		let rect;
+		let applyClass = (
+			(typeof className === 'string') &&
+			(className.length > 0)
+		)
+		let applyRatio = (
+			(this.sizeClass && this.sizeRect && ratioSide) &&
+			(className !== this.sizeClass)
+		)
+		if (applyClass) { this.element.classList.add(className); }
+		if (applyRatio) { setElementSize(this.element, this.sizeRect, ratioSide); }
+		rect = normalizeRect(this.element);
+		if (applyRatio) { resetElementSize(this.element); }
+		if (applyClass) { this.element.classList.remove(className); }
+		return rect;
 	}
 
 	/**
@@ -54,12 +85,15 @@ export default class Teleporter {
 	* @param {String} className Name of the class to apply. Optional.
 	*/
 	setSizeClass(className) {
-		resetElement(this.element);
-		this.elementRect = getRect(this.element);
+		resetWrapper(this.element);
+		resetElementSize(this.element);
 		this.sizeClass = className;
-		this.sizeRect = getRect(this.element, this.sizeClass);
+		this.sizeRect = this.getElementRect(this.sizeClass);
+		this.elementRect = this.getElementRect(null, this.ratioSide);
+		setElementSize(this.element, this.sizeRect, this.ratioSide);
 		this.wrapper = setWrapper(this.element);
-		setWrapperStyles(this.wrapper, this.elementRect, this.sizeRect);
+		setWrapperSize(this.wrapper, this.elementRect, this.sizeRect);
+		this.initTime = Date.now();
 	}
 
 	/**
@@ -118,9 +152,6 @@ export default class Teleporter {
 	*/
 	animate() {
 		let step = this.runningTeleportation.steps[this.runningTeleportation.stepIndex];
-		if (this.runningTeleportation.stepIndex === 1) {
-			setWrapperStyles(this.wrapper, this.runningTeleportation.steps[0].rect, this.runningTeleportation.sizeRect);
-		}
 		this.runningTeleportation.player = this.wrapper.animate(step.webAnimation.stepStyles, {
 		  duration: step.webAnimation.animation.duration,
 		  delay: step.webAnimation.animation.delay,
@@ -140,8 +171,8 @@ export default class Teleporter {
 			width: `${size.width}px`,
 			height: `${size.height}px`
 		});
-		let sizeRect = getRect(this.wrapper);
-		setWrapperStyles(this.wrapper, this.elementRect, this.sizeRect);
+		let sizeRect = normalizeRect(this.wrapper);
+		setWrapperSize(this.wrapper, this.elementRect, this.sizeRect);
 		return sizeRect;
 	}
 
@@ -184,15 +215,19 @@ export default class Teleporter {
 	*/
 	createTeleportation(arg) {
 		let steps = createTeleportationArgument(arg);
-		resetElement(this.element);
+		resetWrapper(this.element);
+		resetElementSize(this.element);
 		steps.forEach((step) => {
-			Object.assign(step, { rect: getRect(this.element, step.class) })
+			let ratioSide = (typeof step.ratioSide !== 'undefined') ? step.ratioSide : this.ratioSide;
+			Object.assign(step, { rect: this.getElementRect(step.class, ratioSide) })
 		});
+		setElementSize(this.element, this.sizeRect, this.ratioSide);
 		let teleportation = {};
 		let size = this.getTeleportationSize(steps);
 		teleportation.sizeRect = this.getTeleportationSizeRect(size);
 		teleportation.steps = this.getTeleportationSteps(steps, teleportation.sizeRect);
 		teleportation.run = run.bind(this, teleportation);
+		teleportation.initTime = this.initTime;
 		return teleportation;
 	}
 
@@ -208,12 +243,17 @@ function run(teleportation) {
 		this.runningTeleportation.player.cancel();
 	}
 
+	if (teleportation.initTime !== this.initTime) {
+		Object.assign(teleportation, this.createTeleportation(teleportation.steps))
+	}
+
 	this.runningTeleportation = teleportation;
 	this.runningTeleportation.stepIndex = 1;
 
 	// Set styles and launch animation
 	this.element.classList.remove('teleporter-idle');
 	this.element.classList.add('teleporter-active');
+	setWrapperSize(this.wrapper, this.runningTeleportation.steps[0].rect, this.runningTeleportation.sizeRect);
 	this.animate();
 
 	// Return a promise that will resolve on teleportation end
