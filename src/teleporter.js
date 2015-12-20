@@ -3,6 +3,9 @@
 *
 * @module Teleporter
 */
+import {
+	debounce
+} from './debounce';
 
 import {
 	constructorArgument,
@@ -39,6 +42,7 @@ export default class Teleporter {
 		};
 		this.element.classList.add('teleporter-idle');
 		this.setSizeClass(this.sizeClass);
+		window.addEventListener('resize', debounce(this.setSizeClass.bind(this), 50));
 	}
 
 	/**
