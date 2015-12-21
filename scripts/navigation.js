@@ -55,7 +55,7 @@ var initNavigation = function(){
 		category.teleporter = new Teleporter(category.options);
 		category.openingTeleportation = category.teleporter.createTeleportation(['', 'expanded']);
 		category.closingTeleportation = category.teleporter.createTeleportation(['expanded', '']);
-		document.querySelector('#' + category.name).addEventListener("click", function(){
+		document.querySelector('#' + category.name).addEventListener('click', function(){
 			if (category.expanded) { return }
 			onCategoryClick(category);
 		});
