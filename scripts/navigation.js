@@ -4,6 +4,7 @@ var initNavigation = function(){
 		'introduction',
 		'installation',
 		'api',
+		'gotchas',
 		'examples'
 	]
 
@@ -34,13 +35,13 @@ var initNavigation = function(){
 		category.teleporter.element.parentElement.classList.add('selected');
 		category.teleporter.element.classList.add('active');
 		category.expanded = true;
-		return category.openingTeleportation.run();
+		return category.teleporter.teleport(['', 'expanded']);
 	}
 	var closeCategory = function(category){
 		category.teleporter.element.parentElement.classList.remove('selected');
 		category.teleporter.element.classList.remove('active');
 		category.expanded = false;
-		return category.closingTeleportation.run();
+		return category.teleporter.teleport(['expanded', '']);
 	}
 
 	var onCategoryClick = function(selectedCategory){
@@ -53,8 +54,6 @@ var initNavigation = function(){
 
 	categories.forEach(function(category){
 		category.teleporter = new Teleporter(category.options);
-		category.openingTeleportation = category.teleporter.createTeleportation(['', 'expanded']);
-		category.closingTeleportation = category.teleporter.createTeleportation(['expanded', '']);
 		document.querySelector('#' + category.name).addEventListener('click', function(){
 			if (category.expanded) { return }
 			onCategoryClick(category);
