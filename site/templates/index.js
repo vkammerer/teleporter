@@ -2,7 +2,7 @@ import {schema} from './schema';
 import {ribon} from './ribon';
 import {analytics} from './analytics';
 
-export default function template(introductionDoc, installationDoc, apiDoc, examplesDoc) {
+export default function template(introductionDoc, installationDoc, apiDoc, gotchasDoc, examplesDoc) {
 	return `
 		<html>
 			<head>
@@ -49,6 +49,14 @@ export default function template(introductionDoc, installationDoc, apiDoc, examp
 							<div class="category">
 								<div class="category-content">
 									${apiDoc}
+								</div>
+							</div>
+						</div>
+						<div class="section" id="gotchas">
+							<div class="pagename">Gotchas</div>
+							<div class="category">
+								<div class="category-content">
+									${gotchasDoc}
 								</div>
 							</div>
 						</div>

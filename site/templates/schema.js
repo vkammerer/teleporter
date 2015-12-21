@@ -18,8 +18,8 @@ export const schema = `
 <pre>
 <span class="selector">.fullscreen</span> {
 <span class="property">  position</span>: <span class="value">absolute</span>;
-<span class="property">  top</span>: <span class="value">0</span>;
-<span class="property">  bottom</span>: <span class="value">0</span>;
+<span class="property">  left</span>: <span class="value">5%</span>;
+<span class="property">  width</span>: <span class="value">90%</span>;
 }
 </pre>
 		</div>

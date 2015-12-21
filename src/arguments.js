@@ -103,7 +103,7 @@ function normalizeStep(step){
 * 	}
 * }
 */
-export const createTeleportationArgument = (arg) => {
+export const stepsArgument = (arg) => {
 	let returnVal;
 	if (typeof arg === 'string') {
 		returnVal = [{ class: '' }, { class: arg } ];

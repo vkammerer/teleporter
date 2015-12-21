@@ -48,7 +48,7 @@ export function setWrapper(element) {
 *
 * @function resetElement
 */
-export function resetWrapper(element) {
+export function unsetWrapper(element) {
 	let wrapper = element.children[0];
 	if (wrapper && wrapper.classList.contains('teleporter-wrapper')) {
 		while (wrapper.childNodes.length > 0) {
@@ -79,4 +79,5 @@ export function setWrapperSize(wrapper, rect, sizeRect) {
 	Object.assign(wrapper.style, {
 		transform: getTransform(rect, wrapperRect)
 	});
+	return wrapperRect;
 }

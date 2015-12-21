@@ -13,6 +13,7 @@ export default function site() {
 			'introduction',
 			'installation',
 			'api',
+			'gotchas',
 			'examples'
 		].map((p) => {
 			return new Promise((resolve, reject) => {
@@ -55,7 +56,7 @@ export default function site() {
 
 		Promise.all(sitePromises).then((siteValues) => {
 
-			let htmlSections = siteValues.slice(0, 4);
+			let htmlSections = siteValues.slice(0, 5);
 
 			fs.writeFileSync(
 				path.join(siteDirPath, 'static', 'index.html'),

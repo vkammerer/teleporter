@@ -53,8 +53,8 @@
                                 <pre>
 <span class="selector">.fullscreen</span> {
 <span class="property">  position</span>: <span class="value">absolute</span>;
-<span class="property">  top</span>: <span class="value">0</span>;
-<span class="property">  bottom</span>: <span class="value">0</span>;
+<span class="property">  left</span>: <span class="value">5%</span>;
+<span class="property">  width</span>: <span class="value">90%</span>;
 }
 </pre>
                             </div>
@@ -105,38 +105,36 @@ myElement.teleport(&#39;state1&#39;);
                         <h3 id="constructor">Constructor</h3>
                         <pre><code class="lang-javascript">var myElement = new Teleporter({
   selector: &#39;#myid&#39;, // passed to document.querySelector
-  sizeClass: &#39;maximalClass&#39;, // to compute size of element
+  sizeClass: &#39;maximal-class&#39;, // to compute size of element
+  ratioSide: &#39;width&#39;, // to keep the aspect ratio of sizeClass
   animation: {
     duration: 800, // default animation time
+    delay: 0, // default delay time
     easing: &#39;linear&#39; // default animation easing
   }
 });
 </code></pre>
+                        <p><strong>&#39;selector&#39;</strong>
+                            <br>The &#39;selector&#39; attribute is passed to document.querySelector. </p>
                         <p><strong>&#39;sizeClass&#39;</strong>
-                            <br>By default, the library will calculate the maximal width and height that the element will have for all steps of the teleportation, and use it to create the rasterized image that will be displayed.
-                            <br>So for example, if you have the following CSS rules:</p>
-                        <pre><code class="lang-css">#example {
-  width: 400px;
-  height: 100px;
-}
-.state1 {
-  width: 200px;
-  height: 300px;
-}
-</code></pre>
-                        <p>then your element will be given the following attributes:</p>
-                        <pre><code class="lang-css">{
-  width: 400px;
-  height: 300px;
-}
-</code></pre>
-                        <p>and then modified via &#39;transform&#39; to be given the size and position of the steps in your teleportation. </p>
-                        <p>The &#39;sizeClass&#39; attribute allows you to overwrite that behaviour, by applying a class to compute the size of the rasterized image. Note that the transformation is applied immediately, even if you do not teleport the element.
-                            </p>
-                        <p>The sizeClass property can be changed after initialization with the method &#39;setSizeClass&#39; (see under).</p>
+                            <br>The &#39;sizeClass&#39; attribute is the class applied to compute the size of the rasterized image. </p>
+                        <p><strong>&#39;ratioSide&#39;</strong>
+                            <br>If you want the element to keep the aspect ratio of the sizeClass dimensions, you can define which side (either &#39;width&#39; or &#39;height&#39;) should be adjusted. </p>
                         <p><strong>&#39;animation&#39;</strong>
-                            <br>The &#39;animation&#39; attribute will be used by default for all upcoming teleportations, and will ultimately be passed to <a href="http://w3c.github.io/web-animations/">Element.animate</a>.</p>
+                            <br>The &#39;animation&#39; attribute will be used by default for all upcoming teleportations, and will ultimately be passed to <a href="http://w3c.github.io/web-animations/">Element.animate</a>. </p>
                         <h3 id="methods">Methods</h3>
+                        <p><strong>&#39;update&#39;</strong>
+                            <br>The method will reinitialize the element.</p>
+                        <pre><code class="lang-javascript">myElement.update();
+</code></pre>
+                        <p>You may use it if you perform DOM manipulation on the original node (such as adding a class).</p>
+                        <pre><code class="lang-javascript">document.querySelector(&#39;#myid&#39;).classList.add(&#39;my-favourite-class&#39;);
+myElement.update();
+</code></pre>
+                        <p>You may also change the &#39;sizeClass&#39; attribute dynamically after initialization:</p>
+                        <pre><code class="lang-javascript">myElement.sizeClass = &#39;new-class&#39;;
+myElement.update();
+</code></pre>
                         <p><strong>&#39;teleport&#39;</strong>
                             <br>The argument passed to the &#39;teleport&#39; method can be a String, an Object, or an Array. It will be normalized to an Array, so that:</p>
                         <pre><code class="lang-javascript">myElement.teleport(&#39;state1&#39;)
@@ -151,8 +149,11 @@ myElement.teleport(&#39;state1&#39;);
                             <br>The objects of the array have the following format:</p>
                         <pre><code class="lang-javascript">{
   class: &#39;state1&#39;, // class of the step
+  opacity: &#39;1&#39;, // opacity to and from this step
+  rotate: &#39;0deg&#39;, // rotation angle to and from this step
   animation: { // animation to perform to this step (see &#39;Constructor options&#39; &gt; &#39;animation&#39; above)
     duration: 800,
+    delay: 0,
     easing: &#39;linear&#39;
   }
 }
@@ -163,10 +164,48 @@ myElement.teleport(&#39;state1&#39;);
     el.innerHTML = &#39;Some other content&#39;;
 })
 </code></pre>
-                        <p><strong>&#39;setSizeClass&#39;</strong> </p>
-                        <pre><code class="lang-javascript">myElement.setSizeClass(&#39;maximalClass&#39;);
+                        <p><strong>&#39;saveSteps&#39;</strong>
+                            <br>When the &#39;teleport&#39; method is called, it performs a set of synchronous DOM operations to measure the size and position of each step. The measurements are saved in the &#39;store&#39; attribute, so that future teleport
+                            calls can skip these manipulations.
+                            <br>If you wish to perform these expensive operations in advance, you can use the &#39;saveSteps&#39; method: </p>
+                        <pre><code class="lang-javascript">myElement.saveSteps([&#39;state2&#39;, {sizeClass: &#39;state3&#39;, ratioSide: &#39;width&#39;}]);
+document.querySelector(&#39;#myid&#39;).addEventListener(&#39;click&#39;, function(){
+  // No synchronous DOM operation here, so the animation will be supa smooth!
+  myElement.teleport(&#39;state2&#39;, {sizeClass: &#39;state3&#39;, ratioSide: &#39;width&#39;});
+})
 </code></pre>
-                        <p>Sets the &#39;sizeClass&#39; attribute (see &#39;Constructor options&#39; &gt; &#39;sizeClass&#39; above) and applies transformation to the element.</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="section" id="gotchas">
+                <div class="pagename">Gotchas</div>
+                <div class="category">
+                    <div class="category-content">
+                        <h2 id="gotchas">Gotchas</h2>
+                        <h3 id="dom-structure">DOM structure</h3>
+                        <p>Upon initialization, the DOM structure of a teleporter element is modified from the state:</p>
+                        <pre><code class="lang-html">&lt;div id=&quot;myid&quot;&gt;
+  &lt;div class=&quot;content&quot;&gt;Blah&lt;/content&gt;
+&lt;/div&gt;
+</code></pre>
+                        <p>to the state:</p>
+                        <pre><code class="lang-html">&lt;div id=&quot;myid&quot; class=&quot;teleporter-idle&quot;&gt;
+  &lt;div class=&quot;teleporter-wrapper&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;Blah&lt;/content&gt;
+  &lt;/content&gt;
+&lt;/div&gt;
+</code></pre>
+                        <p>The wrapper div (&#39;.teleporter-wrapper&#39;) will be animated via &#39;transform&#39;, while the original teleporter element (&#39;#myid&#39;) will remain unchanged. This means that is it is good practice to encapsulate your
+                            content within a child div, as in the previous example, so that:</p>
+                        <ul>
+                            <li>the teleporter element is used to define the position and size.</li>
+                            <li>the inner element is used to define the design properties (such as backgrounds or borders) and include the content. </li>
+                        </ul>
+                        <h3 id="browser-support">Browser support</h3>
+                        <p>Teleporter animates elements via <a href="http://w3c.github.io/web-animations/">Element.animate</a>, which <a href="http://caniuse.com/#feat=web-animation">only Chrome</a> currently supports natively.
+                            <br>While a <a href="https://github.com/web-animations/web-animations-js">polyfill</a> is available, its performance is often far from acceptable for sites that need to support all browsers. Safari is terrible, but <a href="http://nolanlawson.com/2015/06/30/safari-is-the-new-ie/">what can we do really</a>?
+                            <br>The good news is that most mobile browsers are chromium based, and that <a href="http://gs.statcounter.com/#browser-ww-monthly-201411-201511">Chrome now represent over 50% of browser usage</a> worldwide.</p>
 
                     </div>
                 </div>
