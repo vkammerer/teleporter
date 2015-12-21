@@ -30,8 +30,8 @@ export function normalizeRect(element) {
 export function getTransform(rect, sizeRect) {
 	let scX = rect.width / sizeRect.width;
 	let scY = rect.height / sizeRect.height;
-	let trX = rect.left - sizeRect.left + (rect.width - sizeRect.width) / 2;
-	let trY = rect.top - sizeRect.top + (rect.height - sizeRect.height) / 2;
+	let trX = Math.round(rect.left - sizeRect.left + (rect.width - sizeRect.width) / 2);
+	let trY = Math.round(rect.top - sizeRect.top + (rect.height - sizeRect.height) / 2);
 	return `
 		translateX(${trX}px)
 		translateY(${trY}px)
