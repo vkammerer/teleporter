@@ -24,6 +24,7 @@ var initNavigation = function(){
 			options: {
 				selector: '#' + categoryName + ' .category',
 				sizeClass: 'expanded',
+				ratioSide: 'width',
 				animation: animation
 			}
 		}

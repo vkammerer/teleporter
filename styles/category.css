@@ -1,9 +1,10 @@
 .category {
 	position: relative;
 	height: 0;
+	margin: 0 auto;
 }
 .category-content {
-	background: white; 
+	background: white;
 	padding: 30px 10px;
 	visibility: hidden;
 }
@@ -12,7 +13,7 @@ body.navigation-ready .category-content {
 }
 @media (min-width: 769px) {
 	.category {
-		height: 100px;
+		height: 60px;
 	}
 	.category-content {
 		padding: 30px;
@@ -55,7 +56,7 @@ body.navigation-ready .category-content {
 @media (min-width: 769px) {
 	.category.expanded {
 		position: absolute;
-		top: 180px;
+		top: 140px;
 		bottom: auto;
 	}
 	.category:not(.active):after {
