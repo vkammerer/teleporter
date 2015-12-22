@@ -30,9 +30,8 @@ import {
 *
 * @class Teleporter
 * @constructor:
-* - Normalizes arguments
-* - Sets this.element
-* - Sets this.sizeClass
+* - Normalize argument
+* - Bootstrap
 */
 export default class Teleporter {
 	constructor(arg) {
@@ -49,7 +48,7 @@ export default class Teleporter {
 	}
 
 	/**
-	* Gets size and position of the element when applied a certain class.
+	* Get size and position of the element when applied a certain class.
 	*
 	* @method getRect
 	* @param {String} className The name of the class to apply
@@ -79,7 +78,7 @@ export default class Teleporter {
 
 	/**
 	* Public API Method.
-	* Sets the class to be used for the original rasterized node,
+	* Set the class to be used for the original rasterized node,
 	* and applies the styles modification for the current state.
 	*
 	* @method set
@@ -94,6 +93,19 @@ export default class Teleporter {
 		this.wrapper = setWrapper(this.element);
 		this.wrapperRect = setWrapperSize(this.wrapper, this.elementRect, this.sizeRect);
 		this.updateStore();
+	}
+
+	/**
+	* Update previously saved steps measures.
+	*
+	* @method updateStore
+	*/
+	updateStore(){
+		let storeSteps = Object.keys(this.store).map((key) => {
+			return JSON.parse(key);
+		});
+		this.store = {};
+		this.saveSteps(storeSteps);
 	}
 
 	/**
@@ -131,8 +143,38 @@ export default class Teleporter {
 	}
 
 	/**
+	* Save measure of each step in the store.
+	*
+	* @method saveSteps
+	*/
+	saveSteps(arg) {
+		let steps = stepsArgument(arg);
+		let superSteps = steps.map((step) => {
+			return { key: JSON.stringify(step), step: step };
+		})
+		let unknownSteps = superSteps.filter((superStep) => {
+			return (typeof this.store[superStep.key] === 'undefined');
+		})
+		if (unknownSteps.length === 0) return superSteps.map((superStep) => {
+			return this.store[superStep.key];
+		});;
+		unsetWrapper(this.element);
+		resetElementSize(this.element);
+		unknownSteps.forEach((superStep) => {
+			let ratioSide = (typeof superStep.step.ratioSide !== 'undefined') ? superStep.step.ratioSide : this.ratioSide;
+			this.store[superStep.key] = Object.assign(superStep.step, { rect: this.getElementRect(superStep.step.class, ratioSide) })
+		});
+		setElementSize(this.element, this.sizeRect, this.ratioSide);
+		this.wrapper = setWrapper(this.element);
+		this.wrapperRect = setWrapperSize(this.wrapper, this.elementRect, this.sizeRect);
+		return superSteps.map((superStep) => {
+			return this.store[superStep.key];
+		});
+	}
+
+	/**
 	* Measure transform properties to apply for each step
-	* of the transition
+	* of the teleportation
 	*
 	* @method getTeleportationSteps
 	*/
@@ -162,47 +204,17 @@ export default class Teleporter {
 		return steps;
 	}
 
-	updateStore(){
-		let storeSteps = Object.keys(this.store).map((key) => {
-			return JSON.parse(key);
-		});
-		this.store = {};
-		this.saveSteps(storeSteps);
-	}
-
 	/**
-	* Get a teleportable object
+	* Public API Method.
+	* Animate element through all steps passed as arguments.
 	*
-	* @method createTeleportation
+	* @method teleport
 	*/
-	saveSteps(arg) {
-		let steps = stepsArgument(arg);
-		let superSteps = steps.map((step) => {
-			return { key: JSON.stringify(step), step: step };
-		})
-		let unknownSteps = superSteps.filter((superStep) => {
-			return (typeof this.store[superStep.key] === 'undefined');
-		})
-		if (unknownSteps.length === 0) return superSteps;
-		unsetWrapper(this.element);
-		resetElementSize(this.element);
-		unknownSteps.forEach((superStep) => {
-			let ratioSide = (typeof superStep.step.ratioSide !== 'undefined') ? superStep.step.ratioSide : this.ratioSide;
-			this.store[superStep.key] = Object.assign(superStep.step, { rect: this.getElementRect(superStep.step.class, ratioSide) })
-		});
-		setElementSize(this.element, this.sizeRect, this.ratioSide);
-		this.wrapper = setWrapper(this.element);
-		this.wrapperRect = setWrapperSize(this.wrapper, this.elementRect, this.sizeRect);
-		return superSteps;
-	}
-
 	teleport(arg) {
 		if (this.runningTeleportation && this.runningTeleportation.player) {
 			this.runningTeleportation.player.cancel();
 		}
-		let steps = this.saveSteps(arg).map((superStep) => {
-			return this.store[superStep.key];
-		})
+		let steps = this.saveSteps(arg);
 		this.runningTeleportation = { steps: this.getTeleportationSteps(steps) };
 		this.runningTeleportation.stepIndex = 1;
 		// Set styles and launch animation

@@ -14,14 +14,17 @@ body {
 }
 .baby {
 	width: 20%;
-	height: 10%;
+	height: 5vh;
 	line-height: 140%;
 }
 #ball .content {
+	position: relative;
 	width: 3vh;
 	height: 3vh;
 	border-radius: 100%;
 	background: green;
+	top: 1vh;
+	bottom: 1vh;
 	margin: 0 auto;
 }
 .baby:nth-child(0) {

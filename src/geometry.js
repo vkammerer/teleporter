@@ -1,5 +1,5 @@
 /**
-* Gets the 'rect' (rectangle) of a given element,
+* Get the 'rect' (rectangle) of a given element,
 * independently of the scroll position;
 *
 * @method normalizeRect
@@ -17,7 +17,7 @@ export function normalizeRect(element) {
 }
 
 /**
-* Measures the value of the CSS 'transform' property to apply
+* Measure the value of the CSS 'transform' property to apply
 * to a node to give it the size and the position of another node.
 *
 * @method getTransform

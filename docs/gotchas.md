@@ -27,4 +27,4 @@ Teleporter animates elements via [Element.animate](http://w3c.github.io/web-anim
 While a [polyfill](https://github.com/web-animations/web-animations-js) is available,
 its performance is often far from acceptable for sites that need to support all browsers.
 Safari is terrible, but [what can we do really](http://nolanlawson.com/2015/06/30/safari-is-the-new-ie/)?  
-The good news is that most mobile browsers are chromium based, and that [Chrome now represent over 50% of browser usage](http://gs.statcounter.com/#browser-ww-monthly-201411-201511) worldwide.
+The good news is that most mobile browsers are chromium based, and that [Chrome now represents over 50% of browser usage](http://gs.statcounter.com) worldwide.

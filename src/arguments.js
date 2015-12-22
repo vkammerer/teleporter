@@ -104,36 +104,32 @@ function normalizeStep(step){
 * }
 */
 export const stepsArgument = (arg) => {
-	let returnVal;
 	if (typeof arg === 'string') {
-		returnVal = [{ class: '' }, { class: arg } ];
+		return [{ class: '' }, { class: arg } ];
 	}
 	else if (typeof arg === 'object') {
 		if (!Array.isArray(arg)) {
-			returnVal = [{ class: '' }, normalizeStep(arg) ];
+			return [{ class: '' }, normalizeStep(arg) ];
 		}
 		else {
-			returnVal = [];
+			let steps = [];
 			if (arg.length === 1) {
-				returnVal.push({ class: '' });
+				steps.push({ class: '' });
 			}
 			for (var i = 0; i < arg.length; i++) {
 				if (typeof arg[i] === 'string') {
-					returnVal.push({ class: arg[i] });
+					steps.push({ class: arg[i] });
 				}
 				else if (typeof arg[i] === 'object') {
-					returnVal.push(normalizeStep(arg[i]));
+					steps.push(normalizeStep(arg[i]));
 				}
 				else {
-					returnVal = undefined;
+					steps = undefined;
 					break;
 				}
 			}
+			if (steps) return steps;
 		}
 	}
-	if (!returnVal) {
-		console.error(`Teleporter.js: No valid argument passed to method createTeleportation`);
-		return;
-	}
-	return returnVal
+	console.error(`Teleporter.js: No valid argument passed to method stepsArgument`);
 }
