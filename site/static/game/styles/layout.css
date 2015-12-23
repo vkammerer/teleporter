@@ -1,0 +1,27 @@
+* {
+	box-sizing: border-box;
+}
+body {
+	background: #FFF;
+	padding: 5%;
+}
+#root {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-content: space-between;
+	flex-wrap: wrap;
+}
+#scores {
+	width: 100%;
+	height: 10%;
+	background: #EEE;
+	border: 1px solid #DDD;
+	line-height: 4em;
+	text-align: center;
+}
+#game {
+	width: 100%;
+	height: 85%;
+}

@@ -27,11 +27,15 @@ export function normalizeRect(element) {
 * of the original rasterized node
 * @return {String} CSS 'transform' property to apply
 */
-export function getTransform(rect, sizeRect) {
+export function getTransform(rect, sizeRect, pixelRounding) {
 	let scX = rect.width / sizeRect.width;
 	let scY = rect.height / sizeRect.height;
-	let trX = Math.round(rect.left - sizeRect.left + (rect.width - sizeRect.width) / 2);
-	let trY = Math.round(rect.top - sizeRect.top + (rect.height - sizeRect.height) / 2);
+	let trX = rect.left - sizeRect.left + (rect.width - sizeRect.width) / 2;
+	let trY = rect.top - sizeRect.top + (rect.height - sizeRect.height) / 2;
+	if (pixelRounding) {
+		trX = Math.round(trX);
+		trY = Math.round(trY);
+	}
 	return `
 		translateX(${trX}px)
 		translateY(${trY}px)

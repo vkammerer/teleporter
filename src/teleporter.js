@@ -91,7 +91,7 @@ export default class Teleporter {
 		this.elementRect = this.getElementRect(null, this.ratioSide);
 		setElementSize(this.element, this.sizeRect, this.ratioSide);
 		this.wrapper = setWrapper(this.element);
-		this.wrapperRect = setWrapperSize(this.wrapper, this.elementRect, this.sizeRect);
+		this.wrapperRect = setWrapperSize(this.wrapper, this.elementRect, this.sizeRect, this.pixelRounding);
 		this.updateStore();
 	}
 
@@ -166,7 +166,7 @@ export default class Teleporter {
 		});
 		setElementSize(this.element, this.sizeRect, this.ratioSide);
 		this.wrapper = setWrapper(this.element);
-		this.wrapperRect = setWrapperSize(this.wrapper, this.elementRect, this.sizeRect);
+		this.wrapperRect = setWrapperSize(this.wrapper, this.elementRect, this.sizeRect, this.pixelRounding);
 		return superSteps.map((superStep) => {
 			return this.store[superStep.key];
 		});
@@ -185,8 +185,8 @@ export default class Teleporter {
 			step.webAnimation = {
 				animation: Object.assign({}, this.animation, step.animation),
 				stepStyles: [
-				  { transform: getTransform(previousStep.rect, this.wrapperRect) },
-				  { transform: getTransform(step.rect, this.wrapperRect) }
+				  { transform: getTransform(previousStep.rect, this.wrapperRect, this.pixelRounding) },
+				  { transform: getTransform(step.rect, this.wrapperRect, this.pixelRounding) }
 				]
 			}
 			if (previousStep.rotate && step.rotate) {

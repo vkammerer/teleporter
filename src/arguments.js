@@ -33,6 +33,7 @@ function normalizeAnimation(arg){
 */
 export const constructorArgument = (arg) => {
 	let defaults = {
+		pixelRounding: true,
 		animation: {
 			duration: 800,
 			delay: 0,
@@ -52,6 +53,9 @@ export const constructorArgument = (arg) => {
 		}
 		if (typeof arg.ratioSide === 'string') {
 			plucked.ratioSide = arg.ratioSide
+		}
+		if (typeof arg.pixelRounding === 'boolean') {
+			plucked.pixelRounding = arg.pixelRounding
 		}
 		if (typeof arg.animation === 'object') {
 			plucked.animation = normalizeAnimation(arg);

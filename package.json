@@ -2,6 +2,10 @@
   "name": "teleporter",
   "version": "0.0.10",
   "description": "Hardware Accelerated Animations with boring CSS properties",
+  "files": [
+    "dist",
+    "src"
+  ],
   "main": "./dist/teleporter.js",
   "scripts": {
     "dev": "node ./tasks/dev.es5",

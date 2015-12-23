@@ -69,7 +69,7 @@ export function unsetWrapper(element) {
 * @param {Object} sizeRect Contains the size of the element
 * that should be used to create the original rasterized node.
 */
-export function setWrapperSize(wrapper, rect, sizeRect) {
+export function setWrapperSize(wrapper, rect, sizeRect, pixelRounding) {
 	Object.assign(wrapper.style, {
 		width: `${sizeRect.width}px`,
 		height: `${sizeRect.height}px`,
@@ -77,7 +77,7 @@ export function setWrapperSize(wrapper, rect, sizeRect) {
 	});
 	let wrapperRect = wrapper.getBoundingClientRect();
 	Object.assign(wrapper.style, {
-		transform: getTransform(rect, wrapperRect)
+		transform: getTransform(rect, wrapperRect, pixelRounding)
 	});
 	return wrapperRect;
 }
