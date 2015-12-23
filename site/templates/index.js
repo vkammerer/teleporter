@@ -10,11 +10,11 @@ export default function template(introductionDoc, installationDoc, apiDoc, gotch
 			<title>Teleporter.js</title>
 			<meta name="description" content="Hardware Accelerated Animations with boring CSS properties">
 			<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-			<link rel="stylesheet" href="./styles/normalize.css"/>
-			<link rel="stylesheet" href="./styles/main.css"/>
-			<link rel="stylesheet" href="./styles/section.css"/>
-			<link rel="stylesheet" href="./styles/category.css"/>
-			<link rel="stylesheet" href="./styles/schema.css"/>
+			<link rel="stylesheet" href="./common/styles/normalize.css"/>
+			<link rel="stylesheet" href="./public/styles/main.css"/>
+			<link rel="stylesheet" href="./public/styles/section.css"/>
+			<link rel="stylesheet" href="./public/styles/category.css"/>
+			<link rel="stylesheet" href="./public/styles/schema.css"/>
 			<link href='https://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
 			</head>
 			<body>
@@ -73,8 +73,8 @@ export default function template(introductionDoc, installationDoc, apiDoc, gotch
 						</div>
 					</div>
 				</div>
-				<script src="./scripts/teleporter-global-polyfilled.js"></script>
-				<script src="./scripts/navigation.js"></script>
+				<script src="./common/scripts/teleporter-global-polyfilled.js"></script>
+				<script src="./public/scripts/navigation.js"></script>
 				<script>
 					window.onload = function(){
 						initNavigation();
