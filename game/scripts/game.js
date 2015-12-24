@@ -52,6 +52,7 @@ window.init = function(columnNum, lineNum){
 			(selection[0] === tile.index)
 		) {
 			tile.element.classList.remove('selected');
+			selection = [];
 			return;
 		}
 		tile.element.classList.add('selected');
