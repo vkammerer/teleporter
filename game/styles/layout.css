@@ -18,8 +18,10 @@ body {
 	height: 10%;
 	background: #EEE;
 	border: 1px solid #DDD;
-	line-height: 4em;
+	line-height: 2em;
+	font-size: 2em;
 	text-align: center;
+	font-weight: bold;
 }
 #game {
 	width: 100%;

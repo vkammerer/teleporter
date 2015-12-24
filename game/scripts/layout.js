@@ -1,18 +1,36 @@
-window.initLayout = function(columnNum, lineNum){
+function initImage(styleSheet, gameSize, bgSize){
+	styleSheet.insertRule(
+		'.tile .content {'
+		+ 'background-image: url(http://lorempixel.com/'
+		+ (gameSize.width)
+		+ '/'
+		+ (gameSize.height)
+		+ '/animals/?v='
+		+ Date.now()
+		+ '); '
+		+ 'background-size: '
+		+ (bgSize.width)
+		+ '% '
+		+ (bgSize.height)
+		+ '%;}'
+	, styleSheet.cssRules.length);
+}
+
+window.initStyles = function(columnNum, lineNum){
 
 	var styleSheet = document.head.appendChild(document.createElement('style')).sheet;
 
 	var gameOriginalRect = document.querySelector('#game').getBoundingClientRect();
-	var gameRect = {
+	var gameSize = {
 		width: gameOriginalRect.width - (gameOriginalRect.width % columnNum),
 		height: gameOriginalRect.height - (gameOriginalRect.height % lineNum)
 	}
 
 	styleSheet.insertRule(
 		'#game {width: '
-		+ gameRect.width
+		+ gameSize.width
 		+ 'px; height: '
-		+ gameRect.height
+		+ gameSize.height
 		+ 'px;}'
 	, styleSheet.cssRules.length);
 
@@ -23,10 +41,12 @@ window.initLayout = function(columnNum, lineNum){
 	var gameVh = 80;
 	var itemWidth = 100 / columnNum;
 	var itemHeight = 100 / lineNum;
-	var backgroundWidth = 100 * columnNum;
-	var backgroundHeight = 100 * lineNum;
-	var widthBgOffset = gameRect.width / columnNum / columnNum;
-	var heightBgOffset = gameRect.height / lineNum / lineNum;
+	var bgSize = {
+		width: 100 * columnNum,
+		height: 100 * lineNum
+	}
+	var widthBgOffset = gameSize.width / columnNum / columnNum;
+	var heightBgOffset = gameSize.height / lineNum / lineNum;
 
 	styleSheet.insertRule(
 		'#game > div {width: '
@@ -35,19 +55,7 @@ window.initLayout = function(columnNum, lineNum){
 		+ (itemHeight)
 		+ '%;}'
 	, styleSheet.cssRules.length);
-	styleSheet.insertRule(
-		'.tile .content {'
-		+ 'background-image: url(http://lorempixel.com/'
-		+ (gameRect.width)
-		+ '/'
-		+ (gameRect.height)
-		+ '/animals); '
-		+ 'background-size: '
-		+ (backgroundWidth)
-		+ '% '
-		+ (backgroundHeight)
-		+ '%;}'
-	, styleSheet.cssRules.length);
+	initImage(styleSheet, gameSize, bgSize);
 
 	indexes.forEach(function(index) {
 		var columnIndex = index % columnNum;
@@ -66,6 +74,14 @@ window.initLayout = function(columnNum, lineNum){
 		styleSheet.insertRule('.pos_' + (index) + ' {order: ' + (index) + ';}', styleSheet.cssRules.length);
 	})
 
+	return initImage.bind(this, styleSheet, gameSize, bgSize);
+
+}
+
+window.getPosFragment = function(itemsNum){
+
+	var indexes = Array.from(Array(itemsNum).keys());
+
 	var positionsFragment = document.createDocumentFragment();
 	indexes.forEach(function(index){
 		var position = document.createElement('div')
@@ -74,5 +90,6 @@ window.initLayout = function(columnNum, lineNum){
 	})
 
 	return positionsFragment;
+
 
 }

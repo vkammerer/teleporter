@@ -1,4 +1,4 @@
-window.initTiles = function(itemsNum){
+window.getTilesFragment = function(itemsNum){
 
 	var indexes = Array.from(Array(itemsNum).keys());
 	var tilesFragment = document.createDocumentFragment();
@@ -17,7 +17,7 @@ window.initTiles = function(itemsNum){
 
 }
 
-window.teleportTiles = function(itemsNum){
+window.getTeleporterElements = function(itemsNum){
 
 	var indexes = Array.from(Array(itemsNum).keys());
 	var shuffledIndexes = shuffle(Array.from(Array(itemsNum).keys()));
