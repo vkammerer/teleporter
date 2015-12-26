@@ -1,1 +1,1 @@
-![Schema of Teleporter.js](http://vkammerer.github.io/teleporter/images/schema.png?v=4)  
+![Schema of Teleporter.js](http://vkammerer.github.io/teleporter/public/images/schema.png?v=4)  
