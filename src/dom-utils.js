@@ -4,8 +4,8 @@ import {
 } from './geometry';
 
 export function setElementSize(element, sizeRect, ratioSide) {
-	let elementRect = normalizeRect(element);
-	let dimensions = {
+	const elementRect = normalizeRect(element);
+	const dimensions = {
 		width: `${elementRect.width}px`,
 		height: `${elementRect.height}px`
 	};
@@ -32,7 +32,7 @@ export function resetElementSize(element) {
 * @function setWrapper
 */
 export function setWrapper(element) {
-	let wrapper = document.createElement('div');
+	const wrapper = document.createElement('div');
 	wrapper.className = 'teleporter-wrapper';
 	wrapper.style.willChange = 'transform';
 	while (element.childNodes.length > 0) {
@@ -49,7 +49,7 @@ export function setWrapper(element) {
 * @function resetElement
 */
 export function unsetWrapper(element) {
-	let wrapper = element.children[0];
+	const wrapper = element.children[0];
 	if (wrapper && wrapper.classList.contains('teleporter-wrapper')) {
 		while (wrapper.childNodes.length > 0) {
 			element.appendChild(wrapper.childNodes[0]);
@@ -75,7 +75,7 @@ export function setWrapperSize(wrapper, rect, sizeRect, pixelRounding) {
 		height: `${sizeRect.height}px`,
 		transform: null
 	});
-	let wrapperRect = wrapper.getBoundingClientRect();
+	const wrapperRect = wrapper.getBoundingClientRect();
 	Object.assign(wrapper.style, {
 		transform: getTransform(rect, wrapperRect, pixelRounding)
 	});

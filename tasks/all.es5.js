@@ -1,2 +1,2 @@
-require("babel-register");
-module.exports = require("./all.js");
+require('babel-register');
+module.exports = require('./all.js');

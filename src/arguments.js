@@ -1,13 +1,13 @@
-function normalizeAnimation(arg){
-	let animation = {}
+function normalizeAnimation(arg) {
+	const animation = {};
 	if (typeof arg.animation.duration === 'number') {
-		animation.duration = arg.animation.duration
+		animation.duration = arg.animation.duration;
 	}
 	if (typeof arg.animation.delay === 'number') {
-		animation.delay = arg.animation.delay
+		animation.delay = arg.animation.delay;
 	}
 	if (typeof arg.animation.easing === 'string') {
-		animation.easing = arg.animation.easing
+		animation.easing = arg.animation.easing;
 	}
 	return animation;
 }
@@ -32,30 +32,30 @@ function normalizeAnimation(arg){
 * }
 */
 export const constructorArgument = (arg) => {
-	let defaults = {
+	const defaults = {
 		pixelRounding: true,
 		animation: {
 			duration: 800,
 			delay: 0,
 			easing: 'linear'
 		}
-	}
+	};
 	if (typeof arg === 'string') {
 		return Object.assign({}, defaults, { selector: arg });
 	}
 	else if (
 		(typeof arg === 'object') &&
 		(typeof arg.selector === 'string')
-	){
-		let plucked = { selector: arg.selector };
+	) {
+		const plucked = { selector: arg.selector };
 		if (typeof arg.sizeClass === 'string') {
-			plucked.sizeClass = arg.sizeClass
+			plucked.sizeClass = arg.sizeClass;
 		}
 		if (typeof arg.ratioSide === 'string') {
-			plucked.ratioSide = arg.ratioSide
+			plucked.ratioSide = arg.ratioSide;
 		}
 		if (typeof arg.pixelRounding === 'boolean') {
-			plucked.pixelRounding = arg.pixelRounding
+			plucked.pixelRounding = arg.pixelRounding;
 		}
 		if (typeof arg.animation === 'object') {
 			plucked.animation = normalizeAnimation(arg);
@@ -63,14 +63,14 @@ export const constructorArgument = (arg) => {
 		return Object.assign({}, defaults, plucked);
 	}
 	console.error(`Teleporter.js: No valid argument passed to the constructor`);
-}
+};
 
-function normalizeStep(step){
+function normalizeStep(step) {
 	if (typeof step.class !== 'string') {
 		console.error(`Teleporter.js: No valid class passed to the teleportation step`);
-		return;
+		return undefined;
 	}
-	let plucked = {
+	const plucked = {
 		class: step.class
 	};
 	if (typeof step.opacity === 'number') {
@@ -109,31 +109,29 @@ function normalizeStep(step){
 */
 export const stepsArgument = (arg) => {
 	if (typeof arg === 'string') {
-		return [{ class: '' }, { class: arg } ];
+		return [{ class: '' }, { class: arg }];
 	}
 	else if (typeof arg === 'object') {
 		if (!Array.isArray(arg)) {
-			return [{ class: '' }, normalizeStep(arg) ];
+			return [{ class: '' }, normalizeStep(arg)];
 		}
-		else {
-			let steps = [];
-			if (arg.length === 1) {
-				steps.push({ class: '' });
-			}
-			for (var i = 0; i < arg.length; i++) {
-				if (typeof arg[i] === 'string') {
-					steps.push({ class: arg[i] });
-				}
-				else if (typeof arg[i] === 'object') {
-					steps.push(normalizeStep(arg[i]));
-				}
-				else {
-					steps = undefined;
-					break;
-				}
-			}
-			if (steps) return steps;
+		let steps = [];
+		if (arg.length === 1) {
+			steps.push({ class: '' });
 		}
+		for (let i = 0; i < arg.length; i++) {
+			if (typeof arg[i] === 'string') {
+				steps.push({ class: arg[i] });
+			}
+			else if (typeof arg[i] === 'object') {
+				steps.push(normalizeStep(arg[i]));
+			}
+			else {
+				steps = undefined;
+				break;
+			}
+		}
+		if (steps) return steps;
 	}
 	console.error(`Teleporter.js: No valid argument passed to method stepsArgument`);
-}
+};

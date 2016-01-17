@@ -2,12 +2,16 @@ import path from 'path';
 import webpack from 'webpack';
 import objectAssignDeep from 'object-assign-deep';
 
-let commonConfig = {
+const commonConfig = {
+	devtool: 'source-map',
 	entry: [
-		path.join(__dirname, '..', 'src', 'common.js')
+		path.join(__dirname, '..', 'src', 'teleporter.js')
 	],
 	output: {
 		path: path.join(__dirname, '..', 'dist'),
+		library: 'Teleporter',
+		libraryTarget: 'umd',
+		umdNamedDefine: true,
 		publicPath: '/dist/'
 	},
 	plugins: [
@@ -21,38 +25,29 @@ let commonConfig = {
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 				query: {
-					presets: ['es2015', 'stage-0']
+					presets: ['es2015', 'stage-0'],
+					plugins: ['babel-plugin-add-module-exports']
 				},
 			},
 		]
 	}
-}
+};
 
-let umdConfig = objectAssignDeep({}, commonConfig, {
+const umdConfig = objectAssignDeep({}, commonConfig, {
 	output: {
 		filename: 'teleporter.js',
-		libraryTarget: 'umd'
 	}
-})
+});
 
-let globalConfig = objectAssignDeep({}, commonConfig, {
-	output: {
-		filename: 'teleporter-global.js',
-    library: 'Teleporter',
-		libraryTarget: 'var'
-	}
-})
-
-let globalPolyfilledConfig = objectAssignDeep({}, globalConfig, {
+const globalPolyfilledConfig = objectAssignDeep({}, commonConfig, {
 	output: {
 		filename: 'teleporter-global-polyfilled.js'
 	}
-})
+});
 
-globalPolyfilledConfig.module.loaders[0].query.plugins = ['transform-object-assign'];
+globalPolyfilledConfig.module.loaders[0].query.plugins.push('transform-object-assign');
 
 module.exports = {
 	umd: umdConfig,
-	global: globalConfig,
 	globalPolyfilled: globalPolyfilledConfig
-}
+};

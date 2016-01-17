@@ -24,4 +24,4 @@ export const schema = `
 </pre>
 		</div>
 	</div>
-`
+`;

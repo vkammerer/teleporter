@@ -9,4 +9,4 @@ export const analytics = `
 	  ga('send', 'pageview');
 
 	</script>
-`
+`;

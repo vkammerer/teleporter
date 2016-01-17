@@ -3,8 +3,7 @@ import colors from 'colors';
 import concatFiles from 'concat-files';
 
 export default function docs() {
-	return new Promise((resolve, reject) => {
-
+	return new Promise((resolve) => {
 		concatFiles([
 			path.join(__dirname, '..', 'docs', 'schema.md'),
 			path.join(__dirname, '..', 'docs', 'introduction.md'),
@@ -16,8 +15,8 @@ export default function docs() {
 		],
 			path.join(__dirname, '..', 'README.md')
 		, () => {
-			console.log('Docs task complete'.cyan)
-			resolve()
+			console.log('Docs task complete'.cyan);
+			resolve();
 		});
-	})
+	});
 }

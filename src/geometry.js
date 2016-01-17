@@ -7,13 +7,13 @@
 * @return {Object} rectangle object
 */
 export function normalizeRect(element) {
-	let rect = element.getBoundingClientRect();
+	const rect = element.getBoundingClientRect();
 	return Object.assign({}, {
 		top: rect.top + window.scrollY,
 		left: rect.left + window.scrollX,
 		width: rect.width,
 		height: rect.height
-	})
+	});
 }
 
 /**
@@ -28,8 +28,8 @@ export function normalizeRect(element) {
 * @return {String} CSS 'transform' property to apply
 */
 export function getTransform(rect, sizeRect, pixelRounding) {
-	let scX = rect.width / sizeRect.width;
-	let scY = rect.height / sizeRect.height;
+	const scX = rect.width / sizeRect.width;
+	const scY = rect.height / sizeRect.height;
 	let trX = rect.left - sizeRect.left + (rect.width - sizeRect.width) / 2;
 	let trY = rect.top - sizeRect.top + (rect.height - sizeRect.height) / 2;
 	if (pixelRounding) {
@@ -41,5 +41,5 @@ export function getTransform(rect, sizeRect, pixelRounding) {
 		translateY(${trY}px)
 		scaleX(${scX})
 		scaleY(${scY})
-	`
+	`;
 }

@@ -1,0 +1,10 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "no-unused-vars": [2, { "varsIgnorePattern": "colors" }],
+    "no-console": 0,
+    "indent": [2, "tab", { "SwitchCase": 1 }],
+    "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+    "comma-dangle": 0
+  }
+}

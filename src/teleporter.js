@@ -40,7 +40,7 @@ export default class Teleporter {
 		if (!this.element) {
 			console.error(`Teleporter.js: No element found with the selector '${this.selector}'`);
 			return;
-		};
+		}
 		this.store = {};
 		this.element.classList.add('teleporter-idle');
 		window.addEventListener('resize', debounce(this.update.bind(this), 100));
@@ -60,14 +60,14 @@ export default class Teleporter {
 	*/
 	getElementRect(className, ratioSide) {
 		let rect;
-		let applyClass = (
+		const applyClass = (
 			(typeof className === 'string') &&
 			(className.length > 0)
-		)
-		let applyRatio = (
+		);
+		const applyRatio = (
 			(this.sizeClass && ratioSide) &&
 			(this.sizeClass !== className)
-		)
+		);
 		if (applyClass) { this.element.classList.add(className); }
 		if (applyRatio) { setElementSize(this.element, this.sizeRect, ratioSide); }
 		rect = normalizeRect(this.element);
@@ -91,7 +91,9 @@ export default class Teleporter {
 		this.elementRect = this.getElementRect(null, this.ratioSide);
 		setElementSize(this.element, this.sizeRect, this.ratioSide);
 		this.wrapper = setWrapper(this.element);
-		this.wrapperRect = setWrapperSize(this.wrapper, this.elementRect, this.sizeRect, this.pixelRounding);
+		this.wrapperRect = setWrapperSize(
+			this.wrapper, this.elementRect, this.sizeRect, this.pixelRounding
+		);
 		this.updateStore();
 	}
 
@@ -100,8 +102,8 @@ export default class Teleporter {
 	*
 	* @method updateStore
 	*/
-	updateStore(){
-		let storeSteps = Object.keys(this.store).map((key) => {
+	updateStore() {
+		const storeSteps = Object.keys(this.store).map((key) => {
 			return JSON.parse(key);
 		});
 		this.store = {};
@@ -114,14 +116,16 @@ export default class Teleporter {
 	* @method animate
 	*/
 	animate() {
-		let step = this.runningTeleportation.steps[this.runningTeleportation.stepIndex];
+		const step = this.runningTeleportation.steps[this.runningTeleportation.stepIndex];
 		Object.assign(this.wrapper.style, step.webAnimation.stepStyles[1]);
 		this.runningTeleportation.player = this.wrapper.animate(step.webAnimation.stepStyles, {
-		  duration: step.webAnimation.animation.duration,
-		  delay: step.webAnimation.animation.delay,
-		  easing: step.webAnimation.animation.easing
+			duration: step.webAnimation.animation.duration,
+			delay: step.webAnimation.animation.delay,
+			easing: step.webAnimation.animation.easing
 		});
-		this.runningTeleportation.player.addEventListener('finish', this.onAnimateEnd.bind(this), false);
+		this.runningTeleportation.player.addEventListener(
+			'finish', this.onAnimateEnd.bind(this), false
+		);
 	}
 
 	/**
@@ -130,7 +134,9 @@ export default class Teleporter {
 	* @method onAnimateEnd
 	*/
 	onAnimateEnd() {
-		this.runningTeleportation.player.removeEventListener('finish', this.onAnimateEnd.bind(this), false);
+		this.runningTeleportation.player.removeEventListener(
+			'finish', this.onAnimateEnd.bind(this), false
+		);
 		if (this.runningTeleportation.stepIndex < this.runningTeleportation.steps.length - 1) {
 			this.runningTeleportation.stepIndex++;
 			this.animate();
@@ -148,25 +154,32 @@ export default class Teleporter {
 	* @method saveSteps
 	*/
 	saveSteps(arg) {
-		let steps = stepsArgument(arg);
-		let superSteps = steps.map((step) => {
-			return { key: JSON.stringify(step), step: step };
-		})
-		let unknownSteps = superSteps.filter((superStep) => {
+		const steps = stepsArgument(arg);
+		const superSteps = steps.map((step) => {
+			return { key: JSON.stringify(step), step };
+		});
+		const unknownSteps = superSteps.filter((superStep) => {
 			return (typeof this.store[superStep.key] === 'undefined');
-		})
-		if (unknownSteps.length === 0) return superSteps.map((superStep) => {
-			return this.store[superStep.key];
-		});;
+		});
+		if (unknownSteps.length === 0) {
+			return superSteps.map((superStep) => {
+				return this.store[superStep.key];
+			});
+		}
 		unsetWrapper(this.element);
 		resetElementSize(this.element);
 		unknownSteps.forEach((superStep) => {
-			let ratioSide = (typeof superStep.step.ratioSide !== 'undefined') ? superStep.step.ratioSide : this.ratioSide;
-			this.store[superStep.key] = Object.assign(superStep.step, { rect: this.getElementRect(superStep.step.class, ratioSide) })
+			const ratioSide = (typeof superStep.step.ratioSide !== 'undefined') ?
+				superStep.step.ratioSide : this.ratioSide;
+			this.store[superStep.key] = Object.assign(
+				superStep.step, { rect: this.getElementRect(superStep.step.class, ratioSide) }
+			);
 		});
 		setElementSize(this.element, this.sizeRect, this.ratioSide);
 		this.wrapper = setWrapper(this.element);
-		this.wrapperRect = setWrapperSize(this.wrapper, this.elementRect, this.sizeRect, this.pixelRounding);
+		this.wrapperRect = setWrapperSize(
+			this.wrapper, this.elementRect, this.sizeRect, this.pixelRounding
+		);
 		return superSteps.map((superStep) => {
 			return this.store[superStep.key];
 		});
@@ -180,15 +193,15 @@ export default class Teleporter {
 	*/
 	getTeleportationSteps(steps) {
 		for (let index = 1; index < steps.length; index++) {
-			let previousStep = steps[index - 1];
-			let step = steps[index];
+			const previousStep = steps[index - 1];
+			const step = steps[index];
 			step.webAnimation = {
 				animation: Object.assign({}, this.animation, step.animation),
 				stepStyles: [
-				  { transform: getTransform(previousStep.rect, this.wrapperRect, this.pixelRounding) },
-				  { transform: getTransform(step.rect, this.wrapperRect, this.pixelRounding) }
+					{ transform: getTransform(previousStep.rect, this.wrapperRect, this.pixelRounding) },
+					{ transform: getTransform(step.rect, this.wrapperRect, this.pixelRounding) }
 				]
-			}
+			};
 			if (previousStep.rotate && step.rotate) {
 				step.webAnimation.stepStyles[0].transform += ` rotate(${previousStep.rotate})`;
 				step.webAnimation.stepStyles[1].transform += ` rotate(${step.rotate})`;
@@ -214,7 +227,7 @@ export default class Teleporter {
 		if (this.runningTeleportation && this.runningTeleportation.player) {
 			this.runningTeleportation.player.cancel();
 		}
-		let steps = this.saveSteps(arg);
+		const steps = this.saveSteps(arg);
 		this.runningTeleportation = { steps: this.getTeleportationSteps(steps) };
 		this.runningTeleportation.stepIndex = 1;
 		// Set styles and launch animation
@@ -223,10 +236,7 @@ export default class Teleporter {
 		this.animate();
 		// Return a promise that will resolve on teleportation end
 		return new Promise((resolve, reject) => {
-			Object.assign(this.runningTeleportation, {
-				resolve: resolve,
-				reject: reject
-			});
+			Object.assign(this.runningTeleportation, { resolve, reject });
 		});
 	}
 

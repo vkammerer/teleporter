@@ -1,8 +1,10 @@
-import {schema} from './schema';
-import {ribon} from './ribon';
-import {analytics} from './analytics';
+import { schema } from './schema';
+import { ribon } from './ribon';
+import { analytics } from './analytics';
 
-export default function template(introductionDoc, installationDoc, apiDoc, gotchasDoc, examplesDoc) {
+export default function template(
+	introductionDoc, installationDoc, apiDoc, gotchasDoc, examplesDoc
+) {
 	return `
 		<html>
 			<head>
@@ -67,7 +69,8 @@ export default function template(introductionDoc, installationDoc, apiDoc, gotch
 									${examplesDoc}
 									<h4>On this site</h4>
 									<p>The navigation of this site is animated with Teleporter.</p>
-									<p>The thumbnail versions of the sections are layed out with Flexbox, and the expanded versions are absolutely positioned.</p>
+									<p>The thumbnail versions of the sections are layed out with Flexbox,
+									and the expanded versions are absolutely positioned.</p>
 								</div>
 							</div>
 						</div>
@@ -83,5 +86,5 @@ export default function template(introductionDoc, installationDoc, apiDoc, gotch
 				${analytics}
 			</body>
 		</html>
-	`
+	`;
 }
