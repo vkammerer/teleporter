@@ -81,8 +81,7 @@ export default class Teleporter {
 	* Set the class to be used for the original rasterized node,
 	* and applies the styles modification for the current state.
 	*
-	* @method set
-	* @param {String} className Name of the class to apply. Optional.
+	* @method update
 	*/
 	update() {
 		unsetWrapper(this.element);
